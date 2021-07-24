@@ -9,7 +9,7 @@ import UserLoadingIcon from 'components/icons/UserLoading-Icon'
 import CloseIcon from 'components/icons/Close-Icon'
 import CarIcon from 'components/icons/Car-Icon'
 import UserIcon from 'components/icons/User-Icon'
-import koiBagBig from 'public/images/logos/Koi-bag-big.png'
+import koiBagBig from '../../../public/images/logos/Koi-bag-big.png'
 
 import styles from './Style-Navbar'
 
