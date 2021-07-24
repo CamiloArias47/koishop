@@ -1,0 +1,27 @@
+{
+    "name": "Koi Shop",
+    "short_name": "Koi",
+    "description": "Koi tienda de maquillaje",
+    "display": "standalone",
+    "start_url": "/",
+    "theme_color": "#fff",
+    "background_color": "#000000",
+    "orientation": "portrait",
+    "icons": [
+      {
+        "src": "/favicon.png",
+        "type": "image/png",
+        "sizes": "30x32"
+      },
+      {
+        "src": "/images/logos/koi192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/images/logos/koi512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ]
+  }
