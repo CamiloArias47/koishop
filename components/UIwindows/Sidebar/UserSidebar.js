@@ -17,11 +17,9 @@ export const UserSidebar = () => {
         })
     }
 
-    const handlerClick = event => {
-        event.preventDefault()
-        let {href} = event.target
+    const handlerClick = route => {
         closeSidebar()
-        router.push(href)
+        router.push(route)
     }
 
     return(
@@ -31,7 +29,7 @@ export const UserSidebar = () => {
                     <a onClick={singOut}>Cerrar sesión</a>
                 </li>
                 <li>
-                    <a href="/user/password" onClick={handlerClick}>Cambiar contraseña</a>
+                    <a onClick={()=>{handlerClick('/user/password')} }>Cambiar contraseña</a>
                 </li>
             </ul>
         </div>
