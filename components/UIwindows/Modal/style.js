@@ -16,8 +16,8 @@ export default css`
 
 .modal{
     position:absolute;
-    width:80%;
-    top:20%;
+    width:90%;
+    top:10%;
     background:#fff;
     border-radius:15px;
     padding:1rem;

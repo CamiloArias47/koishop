@@ -65,3 +65,13 @@ export const updatePass = newPass =>{
     return user.updatePassword(newPass)
 }
 
+
+export const loginGoogle = ()=>{
+    let provider = new firebase.auth.GoogleAuthProvider();
+    return firebase.auth().signInWithPopup(provider)
+}
+
+export const loginFacebook = () =>{
+    let provider = new firebase.auth.FacebookAuthProvider();
+    return firebase.auth().signInWithPopup(provider)
+}

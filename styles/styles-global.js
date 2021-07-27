@@ -35,6 +35,10 @@ export const globalStyles = css.global`
     font-weight: 500;
 }
 
+.btn{
+    font-size:1rem;
+}
+
 .btn,
 .input{
     width: 100%;
