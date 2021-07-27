@@ -5,5 +5,6 @@ export const traslates = {
     "auth/wrong-password" : "Esa no es tu contraseña 🙁",
     "auth/diff-two-password" : "Las contraseñas no son iguales 🙄",
     "auth/user-not-found" : "No tenemos registrada ninguna cuenta con este correo",
-    "auth/too-many-requests" : "Demasiados intentos, la cuenta ha sido deshabilitada temporalmente. Puedes acceder inmediatamente restableciendo tu contraseña"
+    "auth/too-many-requests" : "Demasiados intentos, la cuenta ha sido deshabilitada temporalmente. Puedes acceder inmediatamente restableciendo tu contraseña",
+    "auth/account-exists-with-different-credential" : "Ya existe una cuenta con este correo"
 }

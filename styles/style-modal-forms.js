@@ -1,5 +1,5 @@
 import css from 'styled-jsx/css'
-import { colors, fontColor } from 'styles/theme'
+import { fontColor } from 'styles/theme'
 
 export default css`
 .login-container,
@@ -36,18 +36,18 @@ export default css`
     text-decoration: underline;
 }
 
-.login-with{
+:global(.login-with){
     display:flex;
     flex-wrap:wrap;
     padding:2rem 0;
 }
 
-.login-with h3{
+:global(.login-with h3){
     margin:0 0 .5rem 0;
     width:100%;
 }
 
-.login-with .btn{
+:global(.login-with .btn){
     width:50%;
 }
 
