@@ -72,6 +72,7 @@ export const Register = () =>{
 
     return(
         <div className="register-container">
+            <h1>Registro</h1>
             <form onSubmit={handleSubmit}>
                 <input className="input input-primary" type="text" name="mail" value={mail} placeholder="💌 Correo" onChange={handlerChange} required/>
                 <input className="input input-primary" type="password" name="password" value={password} placeholder="🤫 Contraseña" onChange={handlerChange} required/>
