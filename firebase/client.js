@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
-import "firebase/auth";
+import "firebase/auth"
+import "firebase/firestore"
 
 //const firebaseConfig = JSON.parse(process.env.NEXT_PUBLIC_FIREBASE_CONFIG)
 const firebaseConfig = {
@@ -14,6 +15,7 @@ const firebaseConfig = {
 
 if(firebase.apps.length === 0) firebase.initializeApp(firebaseConfig)
 
+export const db = firebase.firestore();
 
 export const authChanged = (onChange) => {
     firebase.auth().onAuthStateChanged((user) => {
@@ -75,3 +77,4 @@ export const loginFacebook = () =>{
     let provider = new firebase.auth.FacebookAuthProvider();
     return firebase.auth().signInWithPopup(provider)
 }
+

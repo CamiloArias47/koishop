@@ -1,3 +1,4 @@
+import { ManagedCommerceContext } from 'components/CommerceContext'
 
 import Image from 'next/image'
 import styleHome from 'styles/style-home'
@@ -22,7 +23,9 @@ export default function Home() {
     <div>
       <main className="main">
         
-        <CategorySlider/>
+        <ManagedCommerceContext>
+          <CategorySlider/>
+        </ManagedCommerceContext>
 
         <section className="welcome-page">
           <Image 

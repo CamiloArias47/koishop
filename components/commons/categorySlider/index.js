@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react'
+import { useCommerce } from 'components/CommerceContext'
+import { getCategories } from 'firebase/firestoreDB/categories'
+
 import style from './style'
 import Image from 'next/image'
 import RowIcon from 'components/icons/Row-Icon'
@@ -7,6 +10,8 @@ const BTN = {
     left:'l',
     right:'r'
 }
+
+const SLIDER_SIZE = 82 //size in px of each slider
 
 function CategorySlide({img,name, moveX}){
 
@@ -37,6 +42,12 @@ function CategorySlide({img,name, moveX}){
 
 export default function CategorySlider(){
     const [move, setMove] = useState(0)
+    const { setCategories,
+            categories} = useCommerce()
+
+    useEffect( ()=>{
+        getCategories( categories => {setCategories(categories)} )
+    }, [])
 
     const handlerClick = event =>{
         const btn = event.target.dataset.move
@@ -44,38 +55,25 @@ export default function CategorySlider(){
         setMove(mov)
     }
 
+    const sliders = categories.map( cat =>
+        <CategorySlide img={cat.photo} name={cat.name} key={cat.id} moveX={move}/>
+    )
+
+    const totalCategories = categories.length
+
     return(
-        <div className="slider">
-            <button data-move={BTN.left} onClick={handlerClick} className={move >= 0 ? 'hide' : ''}>
-                <RowIcon width="32" height="32" data-move={BTN.left}/>
-            </button>
-            <div className="container-category-slider">
-                <CategorySlide img="/images/cat7.jpg" name="Ojos" moveX={move}/>
-                <CategorySlide img="/images/cat6.jpg" name="Labios" moveX={move}/>
-                <CategorySlide img="/images/cat5.jpg" name="Base" moveX={move}/>
-                <CategorySlide img="/images/cat4.jpg" name="Brochas" moveX={move}/>
-                <CategorySlide img="/images/cat3.jpg" name="Rostro" moveX={move}/>
-                <CategorySlide img="/images/cat2.jpg" name="Cuidado Personal" moveX={move} />
-                <CategorySlide img="/images/cat1.jpg" name="Cabello" moveX={move}/>
-                <CategorySlide img="/images/cat7.jpg" name="Uñas" moveX={move}/>
-                <CategorySlide img="/images/cat6.jpg" name="Accesorios" moveX={move}/>
+            <div className="slider">
+                <button data-move={BTN.left} onClick={handlerClick} className={move >= 0 ? 'hide' : ''}>
+                    <RowIcon width="32" height="32" data-move={BTN.left}/>
+                </button>
+                <div className="container-category-slider">
+                    {sliders}
+                </div>
+                <button data-move={BTN.right} onClick={handlerClick} className={totalCategories*SLIDER_SIZE-(move*-1) <= 578 ? 'hide': ''}>
+                    <RowIcon width="32" height="32" className="to-right" data-move={BTN.right}/>
+                </button>
 
-                <CategorySlide img="/images/cat7.jpg" name="Ojos" moveX={move}/>
-                <CategorySlide img="/images/cat6.jpg" name="Labios" moveX={move}/>
-                <CategorySlide img="/images/cat5.jpg" name="Base" moveX={move}/>
-                <CategorySlide img="/images/cat4.jpg" name="Brochas" moveX={move}/>
-                <CategorySlide img="/images/cat3.jpg" name="Rostro" moveX={move}/>
-                <CategorySlide img="/images/cat2.jpg" name="Cuidado Personal" moveX={move} />
-                <CategorySlide img="/images/cat1.jpg" name="Cabello" moveX={move}/>
-                <CategorySlide img="/images/cat7.jpg" name="Uñas" moveX={move}/>
-                <CategorySlide img="/images/cat6.jpg" name="Ultima" moveX={move}/>
+                <style jsx>{style}</style>
             </div>
-            <button data-move={BTN.right} onClick={handlerClick} className={18*82-(move*-1) <= 578 ? 'hide': ''}>
-                <RowIcon width="32" height="32" className="to-right" data-move={BTN.right}/>
-            </button>
-
-            <style jsx>{style}</style>
-        </div>
-
     )
 }

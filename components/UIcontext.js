@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo } from 'react'
-import { USER_STATES } from 'hooks/useUser'
 import userAvatarLoading from 'public/images/loaders/UserAvatarLoader.svg'
 import userLogo from 'public/images/user.svg'
 
