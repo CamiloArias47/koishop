@@ -18,7 +18,7 @@ function commerceReducer(state, action){
     }
 }
 
-export const CommerceProvider = props =>{
+export const CommerceProvider = ({...props}) =>{
     const [ state, dispatch ] = React.useReducer(commerceReducer, initialState)
 
     const setCategories = useCallback( 

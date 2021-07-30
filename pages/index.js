@@ -1,11 +1,10 @@
-import { ManagedCommerceContext } from 'components/CommerceContext'
-
 import Image from 'next/image'
 import styleHome from 'styles/style-home'
 import CategorySlider from 'components/commons/categorySlider'
 import ProductCard from 'components/commons/ProductCard'
-
+import { useCommerce } from 'components/CommerceContext'
 import welcomeImage from 'public/images/welcomeImage.jpg'
+import { useEffect } from 'react'
 
 import pic1 from 'public/images/pic.jpg'
 import pic2 from 'public/images/pic2.jpg'
@@ -17,15 +16,21 @@ import producto9 from 'public/images/producto9.jpg'
 import producto10 from 'public/images/producto10.jpg'
 import producto11 from 'public/images/producto11.jpg'
 
-export default function Home() {
+export default function Home({categories}) {
+
+  const { setCategories } = useCommerce()
+
+  useEffect( ()=>{
+    setCategories(categories)
+  },[])
   
   return (
     <div>
       <main className="main">
         
-        <ManagedCommerceContext>
-          <CategorySlider/>
-        </ManagedCommerceContext>
+
+        <CategorySlider/>
+        
 
         <section className="welcome-page">
           <Image 
@@ -98,4 +103,16 @@ export default function Home() {
       <style jsx>{styleHome}</style>
     </div>
   )
+}
+
+
+
+export async function getServerSideProps(context) {
+  const { req, res } = context
+
+  const apiResponse = await fetch(`${process.env.URL}/api/categories`)
+  if(apiResponse.ok){
+    const categories = await apiResponse.json()
+    return { props: { categories } }
+  }
 }
