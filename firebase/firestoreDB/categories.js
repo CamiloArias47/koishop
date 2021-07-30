@@ -5,8 +5,7 @@ export const getCategories = callBack =>{
              .get()
              .then( ({ docs }) => {
                  const categories = docs.map( doc => {
-                    let category = doc.data()
-                     return {...category, id:doc.id}
+                     return {...doc.data(), id:doc.id}
                  } )
                  callBack(categories)
              })

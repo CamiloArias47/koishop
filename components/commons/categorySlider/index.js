@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useCommerce } from 'components/CommerceContext'
-import { getCategories } from 'firebase/firestoreDB/categories'
 
 import style from './style'
 import Image from 'next/image'
@@ -42,19 +41,13 @@ function CategorySlide({img,name, moveX}){
 
 export default function CategorySlider(){
     const [move, setMove] = useState(0)
-    const { setCategories,
-            categories} = useCommerce()
-
-    useEffect( ()=>{
-        getCategories( categories => {setCategories(categories)} )
-    }, [])
+    const {categories} = useCommerce()
 
     const handlerClick = event =>{
         const btn = event.target.dataset.move
         let mov = btn === BTN.left ? move+246 : move-246
         setMove(mov)
     }
-
     const sliders = categories.map( cat =>
         <CategorySlide img={cat.photo} name={cat.name} key={cat.id} moveX={move}/>
     )

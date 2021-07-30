@@ -31,9 +31,9 @@ const Navbar = ()=>{
             email,
             setSidebarView } = useUI()
 
-    useEffect( () => {
-        authChanged(setUser)
-    },[])
+     useEffect( () => {
+         authChanged(setUser)
+     },[])
 
     const openRightSidebar = (cb = function(){} ) => {
         if(displaySidebarRight){
