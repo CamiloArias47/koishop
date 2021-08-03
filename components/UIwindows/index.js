@@ -14,7 +14,7 @@ const SideBarView = ()=>{
             { sidebarView === SIDEBAR_VIEWS.USER && <UserSidebar/>}
             { sidebarView === SIDEBAR_VIEWS.CART_VIEW && <CarSidebar/>}
             { sidebarView === SIDEBAR_VIEWS.HAMBURGER && <HamburgerViewSidebar/>}
-            { sidebarView !== SIDEBAR_VIEWS.USER && "Sidebar" }
+            { sidebarView !== SIDEBAR_VIEWS.USER && "" }
         </Sidebar>
     ) : null
 }

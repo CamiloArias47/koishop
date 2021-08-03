@@ -16,13 +16,15 @@ import producto9 from 'public/images/producto9.jpg'
 import producto10 from 'public/images/producto10.jpg'
 import producto11 from 'public/images/producto11.jpg'
 
-export default function Home({categories}) {
+export default function Home({categories, products}) {
 
   const { setCategories } = useCommerce()
 
   useEffect( ()=>{
     setCategories(categories)
   },[])
+
+  const highlights = products.map( prod => <ProductCard key={prod.id} name={prod.name} img={prod.photo} price={`$${prod.price}`}/> )
   
   return (
     <div>
@@ -63,6 +65,7 @@ export default function Home({categories}) {
           <div className="products-section">
             <h2>Destacados</h2>
             <div className="cards-grid">
+                { highlights }
                 <ProductCard name="Corrector De Alta Cobertura" img={producto1} price="$12.500"/>
                 <ProductCard name="Brochas Rosaly" img={producto7} price="$12.500"/>
                 <ProductCard name="Polvo Compacto Khol" img={producto8} price="$12.500"/>
@@ -110,9 +113,19 @@ export default function Home({categories}) {
 export async function getServerSideProps(context) {
   const { req, res } = context
 
-  const apiResponse = await fetch(`${process.env.URL}/api/categories`)
-  if(apiResponse.ok){
-    const categories = await apiResponse.json()
-    return { props: { categories } }
-  }
+  let categories = [],
+      products = []
+
+  const apiCategories = await fetch(`${process.env.URL}/api/categories`)
+  const apiProducts = await fetch(`${process.env.URL}/api/products`)
+
+  if(apiCategories.ok) categories = await apiCategories.json()
+
+  if(apiProducts.ok) products = await apiProducts.json()
+ 
+  return { props: { 
+              categories, 
+              products
+            } 
+          }
 }

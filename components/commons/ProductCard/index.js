@@ -10,6 +10,8 @@ const Cardcategory = ({name, img, price})=>{
                     <Image
                         className="product-card-img card-img" 
                         src={img}
+                        width="300"
+                        height="300"
                     />
                     <span className="product-price">{price}</span>
                 </div>
