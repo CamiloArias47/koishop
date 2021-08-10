@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 import style from './style'
 
@@ -16,7 +17,9 @@ const Cardcategory = ({name, img, price})=>{
                     <span className="product-price">{price}</span>
                 </div>
                 <div className="product-card-details">
-                    <span className="product-name">{name}</span> 
+                    <Link href={`/producto/${name.replace(/\s/g,'-')}`}>
+                     <a className="product-name"><span>{name}</span></a>
+                    </Link>
                 </div>
             </div>
 

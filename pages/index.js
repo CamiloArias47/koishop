@@ -122,6 +122,8 @@ export async function getServerSideProps(context) {
   if(apiCategories.ok) categories = await apiCategories.json()
 
   if(apiProducts.ok) products = await apiProducts.json()
+
+  categories = categories.map(cat => {return{name:cat.id.replace('-',' '), ...cat}})
  
   return { props: { 
               categories, 
