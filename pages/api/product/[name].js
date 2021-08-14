@@ -1,8 +1,5 @@
 import { firestore } from "firebase/admin"
-
-function replaceAll(string, search, replace) {
-    return string.split(search).join(replace);
-}
+import { replaceAll } from "utils"
 
 export default (request, response) => {
   const { query } = request

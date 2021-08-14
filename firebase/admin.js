@@ -13,10 +13,16 @@ const firebaseConfig = {
     "client_x509_cert_url": process.env.FIREBASE_client_x509_cert_url
 }
 
+
 try {
-  admin.initializeApp({
-    credential: admin.credential.cert(firebaseConfig)
-  })
-} catch (e) {}
+
+  if (admin.apps.length === 0) {
+    admin.initializeApp({ credential: admin.credential.cert(firebaseConfig)})
+  }
+  //console.log({adminAntes: admin.INTERNAL.apps_.lenght})
+  //console.log({adminDespues: admin.INTERNAL.apps_.lenght})
+} catch (e) {
+  console.log({e})
+}
 
 export const firestore = admin.firestore()
