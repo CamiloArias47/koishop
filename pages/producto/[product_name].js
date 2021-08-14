@@ -2,13 +2,30 @@ import { useRouter } from 'next/router'
 import { firestore } from "firebase/admin"
 import { replaceAll } from "utils"
 
+import NextHead from "next/head"
+import Image from 'next/image'
+
+import style from 'styles/styles-product'
+
 const ProductPage = (props) => {
   const router = useRouter()
   if(router.isFallback) return 'loading...'
   
-  return <div>
-            { props.product.name }
-         </div>
+  const { name, photo, description, price } = props.product
+  const formatedPrice = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0, minimumFractionDigits: 0, }).format(price)
+
+  return <section className="product-page-section">
+            <NextHead>
+              <title></title>
+            </NextHead>
+
+            <Image src={photo} alt={name} width='510' height='510' unoptimized/>
+            <h1>{ name }</h1>
+            <span className="product-price">{formatedPrice}</span>
+            <p className="product-description">{description}</p>
+
+            <style jsx>{style}</style>
+         </section>
 }
 
 export default ProductPage
