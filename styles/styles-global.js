@@ -37,6 +37,9 @@ export const globalStyles = css.global`
 
 .btn{
     font-size:1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn,
@@ -78,7 +81,14 @@ export const globalStyles = css.global`
     background: ${colors.dimGray};
 }
 
-.input-primary:focus{
+.input-basic{
+    border: 1px solid ${colors.primary};
+    margin: .3rem 0;
+    background: ${colors.white};
+}
+
+.input-primary:focus,
+.input-basic:focus{
     border: 1px solid ${colors.primaryDark};
 }
 `
