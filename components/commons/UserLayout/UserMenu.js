@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { logout } from 'firebase/client'
 import style from './style'
-import { route } from 'next/dist/next-server/server/router'
 
 export default function UserMenu(){
 

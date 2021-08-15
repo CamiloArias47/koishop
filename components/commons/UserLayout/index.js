@@ -2,7 +2,6 @@ import UserMenu from './UserMenu'
 import style from './style'
 
 export default function UserLayout({ children }){
-    console.log('hi!')
     return(
         <div className="user-layout">
             <div className="menu-left">
