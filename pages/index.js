@@ -38,21 +38,23 @@ export default function Home({categories, products}) {
           <Image 
             src={welcomeImage}
             alt="Welcome to Koi"
+            placeholder="blur"
+            priority
           />
 
           <div className="info-page">
             <div className="image-promo">
-              <Image src={salePic}/>
+              <Image src={salePic} alt="promo imagen" placeholder="blur"/>
             </div>
             <div className="info-page-card">
-              <Image src={pic1}/>
+              <Image src={pic1} alt="promo imagen" placeholder="blur"/>
               <div className="info-page-content">
                 <h3>Envíos 🇨🇴 </h3>
                 <p>Disponibles a toda Colombia</p>
               </div>
             </div>
             <div className="info-page-card">
-              <Image src={pic2}/>
+              <Image src={pic2} alt="promo imagen" placeholder="blur"/>
               <div className="info-page-content">
                 <h3>Calidad 💄</h3>
                 <p>Los mejores productos</p>

@@ -29,6 +29,8 @@ function CategorySlide({img,name, moveX}){
                         className="category-slide-image"
                         width="64"
                         height="64"
+                        alt={name} 
+                        unoptimized={process.env.ENVIRONMENT !== "PRODUCTION"}
                     />
                 </div>
                 <div className="category-title">{name}</div>

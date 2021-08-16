@@ -13,6 +13,8 @@ const Cardcategory = ({name, img, price})=>{
                         src={img}
                         width="300"
                         height="300"
+                        alt={name}
+                        unoptimized={process.env.ENVIRONMENT !== "PRODUCTION"}
                     />
                     <span className="product-price">{price}</span>
                 </div>

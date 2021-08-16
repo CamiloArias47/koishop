@@ -5,9 +5,9 @@ export default (request, response) => {
   const { query } = request
   const { name } = query
   name = replaceAll(name, '-', ' ')
-  
+  console.log({name})
   firestore
-    .collectionGroup("products")
+    .collection("products")
     .where('name','==',name)
     .get()
     .then((QuerySnapshot) => {
