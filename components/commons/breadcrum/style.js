@@ -8,6 +8,7 @@ export default css`
         flex-wrap: wrap;
         padding-left: 0;
         margin: 0 0 .5rem 0;
+        width:100%;
     }
 
     .breadcrum li{
