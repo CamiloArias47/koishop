@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import error404Phone from 'public/images/404.svg'
 import error404Tablet from 'public/images/404t.svg'
@@ -10,16 +11,21 @@ const SIZES = {
 }
 
 export default function Custom404() {
-    let _w = window !== undefined ? window.innerWidth : 1020
+    const [img, setImg] = useState('desktop')
 
-    let image = _w >= 1020 ? 'desktop' 
-                           : (_w <= 760) 
-                                ? 'mobile' 
-                                : 'tablet'
+    useEffect( ()=>{     
+        let _w = window !== undefined ? window.innerWidth : 1020
+    
+        let image = _w >= 1020 ? 'desktop' 
+                               : (_w <= 760) 
+                                    ? 'mobile' 
+                                    : 'tablet'
+        setImg(image)
+    },[])
 
 
     return <div className="page-404">
-            <Image src={SIZES[image]} alt="404 Not fount" placeholde="blur"/>
+            <Image src={SIZES[img]} alt="404 Not fount" placeholde="blur"/>
             <style>{
                 `.page-404{
                     text-align:center;
