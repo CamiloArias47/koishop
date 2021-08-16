@@ -10,7 +10,7 @@ const SIZES = {
 }
 
 export default function Custom404() {
-    let _w = window.innerWidth
+    let _w = window ? window.innerWidth : 1020
 
     let image = _w >= 1020 ? 'desktop' 
                            : (_w <= 760) 
