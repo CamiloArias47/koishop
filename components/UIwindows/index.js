@@ -1,6 +1,9 @@
-import { useUI, SIDEBAR_VIEWS } from 'components/UIcontext'
+import { useUI, 
+         SIDEBAR_VIEWS,
+         openToast } from 'components/UIcontext'
 import { Sidebar } from './Sidebar'
 import { Modal } from './Modal'
+import { Toast } from './Toast'
 import { Login } from 'components/commons/Login'
 import { Register } from 'components/commons/Register'
 import { UserSidebar } from './Sidebar/UserSidebar'
@@ -30,11 +33,20 @@ const ModalView = () => {
     ) : null
 }
 
+const ToastView = () => {
+    const { displayToast, toast } = useUI();
+     
+    if(!displayToast) return null;
+
+    return <Toast msg={toast.msg} title={toast.title}/>
+}
+
 export const UiWindows = ({children})=>{
     return(
         <>
             <SideBarView/>
             <ModalView/>
+            <ToastView />
             {children}
         </>
     )

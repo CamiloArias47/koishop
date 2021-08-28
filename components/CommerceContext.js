@@ -1,7 +1,8 @@
 import React, { useCallback, useMemo }  from 'react'
 
 const initialState = {
-    categories : []
+    categories : [],
+    cart:[]
 }
 
 export const CoomerceContext = React.createContext(initialState)
@@ -15,6 +16,23 @@ function commerceReducer(state, action){
                 categories : action.payload
             }
         }
+        case 'set-products-cart' : {
+            return {
+                ...state,
+                cart : action.payload
+            }
+        }
+        case 'set-product-cart' : {
+            let {id} = action.payload
+            let productsInCart = state.cart
+            let exist = state.cart.find( product => product.id === id)
+            if(exist) productsInCart = productsInCart.filter(product => product.id !== id)
+
+            return {
+                ...state,
+                cart : productsInCart.concat(action.payload)
+            }
+        }
     }
 }
 
@@ -26,10 +44,22 @@ export const CommerceProvider = ({...props}) =>{
         [dispatch]
     )
 
+    const setProductsCart = useCallback( 
+        payload => { dispatch({type:'set-products-cart', payload}) } ,
+        [dispatch]
+    ) 
+
+    const setProductCart = useCallback( 
+        payload => { dispatch({type:'set-product-cart', payload}) } ,
+        [dispatch]
+    )
+
     const value= useMemo(
         ()=>({
             ...state,
-            setCategories
+            setCategories,
+            setProductsCart,
+            setProductCart
         }),
         [state]
     )

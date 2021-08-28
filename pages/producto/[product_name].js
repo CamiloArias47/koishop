@@ -1,6 +1,9 @@
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { firestore } from "firebase/admin"
 import { replaceAll } from "utils"
+import { useCart } from 'hooks/useCart'
+import { useUI } from 'components/UIcontext'
 
 import { NextSeo } from 'next-seo'
 import Image from 'next/image'
@@ -12,12 +15,29 @@ import style from 'styles/styles-product'
 
 const ProductPage = (props) => {
   const router = useRouter()
-  if(router.isFallback) return 'loading...'
+  const [ buyAmount, setAmount ] = useState(1)
+  const { addProduct } = useCart()
+  const { openToast } = useUI()
   
-  const { name, photo, description, price, category, subcategory} = props.product
+  if(router.isFallback) return 'loading...'
+
+  const { id, name, photo, description, price, category, subcategory, amount} = props.product
   const formatedPrice = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0, minimumFractionDigits: 0, }).format(price)
 
-  return <section className="product-page-section">
+  const handlerAmount = (event) => {
+    let wantBuy = event.target.value
+    let totalToBuy = (wantBuy > amount) ? amount : wantBuy 
+    if(wantBuy > amount) openToast({msg:`En este momento solo tenemos disponibles ${amount}`})
+    setAmount(totalToBuy)
+  }
+
+  const handlerAddCart = (event) => {
+    event.preventDefault()
+    addProduct({id, name, price, buyAmount, photo})
+  }
+  
+
+return <section className="product-page-section">
             <NextSeo
               title={name+' | '+config.title}
               description={description}
@@ -39,16 +59,29 @@ const ProductPage = (props) => {
             <BreadCrum links={[category, subcategory]}/>
 
             <div className="product-image">
-              <Image src={photo} alt={name} width='510' height='510' unoptimized={process.env.ENVIRONMENT !== "PRODUCTION"}/>
+              <Image 
+                  src={photo} 
+                  alt={name} 
+                  width='510' 
+                  height='510' 
+                  unoptimized={process.env.ENVIRONMENT !== "PRODUCTION"}
+                  priority />
             </div>
             <div className="product-details">
               <h1>{ name }</h1>
               <span className="product-price">{formatedPrice}</span>
               <p className="product-description">{description}</p>
-              <form className="form-add">
+              <form className="form-add" onSubmit={handlerAddCart}>
                 <div className="form-group">
                   <label htmlFor="cantidad-buy">Cantidad</label>
-                  <input type="number" title="cantidad" id="cantidad-buy"  className="input input-basic" required/>
+                  <input 
+                    type="number" 
+                    title="cantidad" 
+                    id="cantidad-buy"  
+                    className="input input-basic" 
+                    value={buyAmount}
+                    onChange={handlerAmount}
+                    required/>
                 </div>
                 <button className="btn btn-primary">
                   agregar al carrito
