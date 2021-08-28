@@ -102,6 +102,13 @@ function uiReducer(state, action) {
           displayToast: true
         }
       }
+      case 'close-toast': {
+        return {
+          ...state,
+          toast:{title:'',msg:''},
+          displayToast: false
+        }
+      }
       case 'SET_MODAL_VIEW': {
         return {
           ...state,
@@ -205,6 +212,9 @@ export const UIProvider = (props) => {
     const openToast = useCallback(
       (data) => dispatch({ type: 'open-toast', data }),
       [dispatch]
+    ) 
+    const closeToast = useCallback(
+      () => dispatch({type:'close-toast'}), [dispatch]
     )
     const setUserAvatar = useCallback(
       (value) => dispatch({ type: 'SET_USER_AVATAR', value }),
@@ -240,6 +250,7 @@ export const UIProvider = (props) => {
         openModal,
         closeModal,
         openToast,
+        closeToast,
         setModalView,
         setSidebarView,
         setUserAvatar,

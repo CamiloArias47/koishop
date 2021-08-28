@@ -1,6 +1,5 @@
 import { useUI, 
-         SIDEBAR_VIEWS,
-         openToast } from 'components/UIcontext'
+         SIDEBAR_VIEWS } from 'components/UIcontext'
 import { Sidebar } from './Sidebar'
 import { Modal } from './Modal'
 import { Toast } from './Toast'

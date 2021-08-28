@@ -1,12 +1,11 @@
 import css from 'styled-jsx/css'
-import { colors, fontColor } from './theme'
+import { colors, fontColor, shadow } from './theme'
 
 export const globalStyles = css.global`
 .card{
     border-radius: 5px;
     background-color: #ffffff;
-    -webkit-box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.27); 
-    box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.27);
+    ${shadow.card}
 }
 
 .card .card-img{

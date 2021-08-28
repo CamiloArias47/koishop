@@ -20,3 +20,8 @@ export const fontColor = {
 export const glass = {
     toWrite:"backdrop-filter: blur( 4px ); -webkit-backdrop-filter: blur( 4px ); border: 1px solid rgba( 255, 255, 255, 0.18 ); border-radius:10px;"
 }
+
+export const shadow = {
+    card:`-webkit-box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.27); 
+          box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.27);`
+}

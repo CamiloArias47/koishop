@@ -15,7 +15,7 @@ import style from 'styles/styles-product'
 
 const ProductPage = (props) => {
   const router = useRouter()
-  const [ buyAmount, setAmount ] = useState(1)
+  const [ buyAmount, setBuyAmount ] = useState(1)
   const { addProduct } = useCart()
   const { openToast } = useUI()
   
@@ -27,8 +27,11 @@ const ProductPage = (props) => {
   const handlerAmount = (event) => {
     let wantBuy = event.target.value
     let totalToBuy = (wantBuy > amount) ? amount : wantBuy 
-    if(wantBuy > amount) openToast({msg:`En este momento solo tenemos disponibles ${amount}`})
-    setAmount(totalToBuy)
+    let gramatic = amount === 1 ? 'disponible' : 'disponibles'
+
+    if(wantBuy > amount) openToast({msg:`En este momento solo tenemos ${gramatic} ${amount} ${name}`})
+    
+    setBuyAmount(totalToBuy)
   }
 
   const handlerAddCart = (event) => {

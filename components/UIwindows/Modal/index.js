@@ -1,7 +1,7 @@
 import { useUI } from 'components/UIcontext'
 import style from './style'
 
-import CloseIcon from 'components/icons/Close-Icon'
+import {CloseIcon} from 'components/icons'
 
 export const Modal = ({ children })=>{
 
