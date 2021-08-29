@@ -1,28 +1,33 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { firestore } from "firebase/admin"
-import { replaceAll } from "utils"
+import { replaceAll, formatPrice } from "utils"
 import { useCart } from 'hooks/useCart'
-import { useUI } from 'components/UIcontext'
+import { useUI, SIDEBAR_VIEWS } from 'components/UIcontext'
 
 import { NextSeo } from 'next-seo'
 import Image from 'next/image'
 
 import BreadCrum from 'components/commons/breadcrum'
 import { config } from 'components/commons/Head'
-import { CarIcon } from 'components/icons'
+import { CarIcon, Spinner } from 'components/icons'
+import { colors } from 'styles/theme'
 import style from 'styles/styles-product'
 
 const ProductPage = (props) => {
   const router = useRouter()
   const [ buyAmount, setBuyAmount ] = useState(1)
+  const [ adding, setAdding ] = useState(false)
   const { addProduct } = useCart()
-  const { openToast } = useUI()
+  const { openToast, 
+          setSidebarView,
+          openSidebarFromRight
+         } = useUI()
   
   if(router.isFallback) return 'loading...'
 
   const { id, name, photo, description, price, category, subcategory, amount} = props.product
-  const formatedPrice = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0, minimumFractionDigits: 0, }).format(price)
+  const formatedPrice = formatPrice(price)
 
   const handlerAmount = (event) => {
     let wantBuy = event.target.value
@@ -36,8 +41,19 @@ const ProductPage = (props) => {
 
   const handlerAddCart = (event) => {
     event.preventDefault()
-    addProduct({id, name, price, buyAmount, photo})
+    setAdding(true)
+
+    setTimeout( ()=>{
+      addProduct({id, name, price, buyAmount, photo})
+      setSidebarView(SIDEBAR_VIEWS.CART_VIEW)
+      openSidebarFromRight()
+      setAdding(false)
+    },2000)
   }
+
+  const iconBtn = adding 
+                      ? <Spinner width="38" height="38" color={colors.primaryDark} /> 
+                      : <CarIcon width="32" height="32"/> 
   
 
 return <section className="product-page-section">
@@ -86,9 +102,9 @@ return <section className="product-page-section">
                     onChange={handlerAmount}
                     required/>
                 </div>
-                <button className="btn btn-primary">
+                <button className="btn btn-primary" disabled={adding}>
                   agregar al carrito
-                  <CarIcon width="32" height="32"/>
+                  {iconBtn}
                 </button>
               </form>
             </div>

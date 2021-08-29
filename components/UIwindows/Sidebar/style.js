@@ -20,6 +20,7 @@ export default css`
     top: 0;
     background-color: #fff;
     padding: 1rem;
+    overflow: scroll;
 }
 
 .sidebar :global(ul){
