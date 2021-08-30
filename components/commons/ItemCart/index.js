@@ -1,8 +1,11 @@
 import  Image  from 'next/image'
+import {CloseIcon} from 'components/icons'
 import { formatPrice } from "utils"
 import style from './style'
+import { useCart } from 'hooks/useCart'
 
-const ItemCart = ({photo, name, cantidad,price}) => {
+const ItemCart = ({id, photo, name, cantidad, price}) => {
+    const { quitProduct } = useCart()
     return (
         <li>
             <Image 
@@ -16,6 +19,11 @@ const ItemCart = ({photo, name, cantidad,price}) => {
                 <h3>{name}</h3>
                 <span><b>Cantidad:</b> {cantidad}</span> 
                 <span><b>Precio:</b> {formatPrice(price)}</span>
+            </div>
+            <div className="quit-product-container">
+                <button className="close-icon" onClick={()=>{quitProduct(id)}}>
+                    <CloseIcon width="25" height="25"/>
+                </button>
             </div>
             <style jsx>{style}</style>
         </li>

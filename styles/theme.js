@@ -1,4 +1,5 @@
 export const colors = {
+    primaryDim:'#d2aeae',
     primary: '#cf9696',
     primaryDark: '#9e7070',
     alert: '#ffdab0',

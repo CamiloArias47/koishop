@@ -1,5 +1,5 @@
 import {css} from 'styled-jsx/css'
-import { fontColor } from 'styles/theme'
+import { fontColor, colors } from 'styles/theme'
 
 export default css`
 li{
@@ -14,7 +14,7 @@ li{
 }
 
 .item-car-description{
-    width:70%;
+    width:60%;
     display: flex;
     flex-direction: column;
     padding-left:.2rem;
@@ -22,5 +22,19 @@ li{
 
 h3{
     margin:0;
+}
+
+.quit-product-container{
+    width:10%;
+}
+
+.close-icon{
+    position:relative;
+    right:0;
+    top:0;
+    width: 25px;
+    height: 25px;
+    background: ${colors.primaryDim};
+    color: #fff;
 }
 `

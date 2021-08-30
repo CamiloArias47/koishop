@@ -44,10 +44,24 @@ export function useCart(){
         //setProductsCart( getProductsCart() )
     }
 
+    const quitProduct = (id) => {
+        console.log("quitar este producto: "+id)
+        const miCart = window.localStorage;
+
+        let cartproducts = miCart.getItem('cart')
+        cartproducts = JSON.parse(cartproducts)
+
+        let newCartproducts = cartproducts.filter( p => p.id !== id)
+        newCartproducts = JSON.stringify(newCartproducts)
+
+        miCart.setItem('cart', newCartproducts)
+    }
+
     return {
         addProduct,
         getProductsCart,
         getProductsAtFrist,
+        quitProduct,
         cart
     }
 }

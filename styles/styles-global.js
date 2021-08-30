@@ -90,4 +90,25 @@ export const globalStyles = css.global`
 .input-basic:focus{
     border: 1px solid ${colors.primaryDark};
 }
+
+.close-icon{
+    position: absolute;
+    right: 1rem;
+    top: -.5rem;
+    padding: 0;
+    border: 0px;
+    background: #fff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    z-index: 11; 
+}
+
+.close-icon:hover{
+    cursor:pointer;
+    background:${colors.primary} !important;
+    color:#fff;
+    -webkit-box-shadow: -1px 3px 7px -1px rgba(0,0,0,0.62); 
+    box-shadow: -1px 3px 7px -1px rgba(0,0,0,0.62);
+}
 `

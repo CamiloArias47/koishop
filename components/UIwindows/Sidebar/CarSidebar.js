@@ -12,11 +12,15 @@ export const CarSidebar = () => {
     return (
         <div className="cart-container">
             <ul>
-                {cart.map( product => <ItemCart key={product.id} 
-                                            name={product.name}
-                                            photo={product.photo}
-                                            cantidad={product.buyAmount}
-                                            price={product.price}/> )}
+                {cart.map( product => <ItemCart 
+                                        key={product.id} 
+                                        id={product.id}
+                                        name={product.name}
+                                        photo={product.photo}
+                                        cantidad={product.buyAmount}
+                                        price={product.price}
+                                       /> 
+                )}
             </ul>
             <div className="pay-resume">
                 <div>

@@ -27,24 +27,12 @@ export default css`
 }
 
 .modal-container .modal .close-icon{
-    position:absolute;
     right: .2rem;
     top: .2rem;
-    padding: 0;
-    border: 0px;
-    background:#fff;
-    border-radius:50%;
     width:32px;
     height:32px;
 }
 
-.modal-container .modal .close-icon:hover{
-    cursor:pointer;
-    background:${colors.primary};
-    color:#fff;
-    -webkit-box-shadow: -1px 3px 7px -1px rgba(0,0,0,0.62); 
-    box-shadow: -1px 3px 7px -1px rgba(0,0,0,0.62);
-}
 
 @media (min-width: 760px){
     .modal{
