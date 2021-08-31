@@ -44,16 +44,18 @@ nav .logo-container :global(.logo){
 
 .counter-shoppingbag{ 
     position: absolute;
-    top: 0px;
-    right: -1px;
+    top: 12px;
+    right: 2px;
     width: 42px;
-    height: 42px;
+    height: 30px;
     text-align: center;
     display: flex;
+    -ms-flex-pack: center;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
     font-weight: 600;
-    font-size: 1.3rem;
+    font-size: 1rem;
+    color: ${colors.red};
 }
 
 `

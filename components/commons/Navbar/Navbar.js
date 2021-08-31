@@ -108,7 +108,7 @@ const Navbar = ()=>{
                         : <div>
                             <ShoppingBagIcon width="42" height="42"/> 
                             <span className="counter-shoppingbag">
-                                {totalProductsInCart}
+                                {totalProductsInCart === 0 ? '' : totalProductsInCart}
                             </span>
                           </div>
                     }
