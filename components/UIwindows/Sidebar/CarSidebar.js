@@ -1,14 +1,12 @@
 import { useCart } from "hooks/useCart"
 import { useCommerce } from "components/CommerceContext"
+import { formatPrice } from "utils"
 
 import ItemCart from 'components/commons/ItemCart'
 import style from './style-cart'
 
 export const CarSidebar = () => {
-    //const { getProductsAtFrist } = useCart()
-    const { cart } = useCommerce()
-
-    //getProductsAtFrist()
+    const { cart, subtotalToPay } = useCommerce()
 
     return (
         <div className="cart-container">
@@ -25,13 +23,13 @@ export const CarSidebar = () => {
             </ul>
             <div className="pay-resume">
                 <div>
-                    <span>Subtotal:</span><span>$ 250.300</span> 
+                    <span>Subtotal:</span><span>{ formatPrice(subtotalToPay) }</span> 
                 </div>
                 <div>
-                    <span>Envio:</span><span>$ 10.000</span>
+                    <span>Envio:</span><span>Por definir</span>
                 </div>
                 <div className="pay-resume-total">
-                    <span>Total:</span><span>$ 260.000</span>
+                    <span>Total:</span><span>{ formatPrice(subtotalToPay) }</span>
                 </div>
 
                 <button className="btn btn-primary">Finalizar compra</button>

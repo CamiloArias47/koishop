@@ -6,6 +6,14 @@ import { useCart } from 'hooks/useCart'
 
 const ItemCart = ({id, photo, name, cantidad, price}) => {
     const { quitProduct } = useCart()
+
+    const itemTotal = cantidad > 1 
+                        ? <span>
+                            <b>Total: </b> 
+                            {formatPrice(price*cantidad)} 
+                        </span>
+                        : ''
+
     return (
         <li>
             <Image 
@@ -17,8 +25,12 @@ const ItemCart = ({id, photo, name, cantidad, price}) => {
             />
             <div className="item-car-description">
                 <h3>{name}</h3>
-                <span><b>Cantidad:</b> {cantidad}</span> 
-                <span><b>Precio:</b> {formatPrice(price)}</span>
+                <span><b>Cantidad:</b> { cantidad }</span> 
+                <span>
+                    <b>Precio: </b> 
+                    {formatPrice(price)}
+                </span>
+                {itemTotal}
             </div>
             <div className="quit-product-container">
                 <button className="close-icon" onClick={()=>{quitProduct(id)}}>

@@ -3,7 +3,8 @@ import React, { useCallback, useMemo }  from 'react'
 const initialState = {
     categories : [],
     cart:[],
-    totalProductsInCart:0
+    totalProductsInCart:0,
+    subtotalToPay:0
 }
 
 export const CoomerceContext = React.createContext(initialState)
@@ -16,6 +17,10 @@ export const countProductsInCart = (products) => {
     return total
 }
 
+export const sumSubtotal = (products) => {
+    return products.reduce( (acc, actual) => acc+actual.price*actual.buyAmount, 0)
+}
+
 function commerceReducer(state, action){
     switch(action.type){
         case 'set-categories' : {
@@ -26,23 +31,31 @@ function commerceReducer(state, action){
         }
         case 'set-products-cart' : {
             let cart = action.payload
-            let total = countProductsInCart(cart)     
+            let total = countProductsInCart(cart)
+            let subtotal = cart.length > 0 ? sumSubtotal(cart) : 0     
             return {
                 ...state,
                 cart : action.payload,
-                totalProductsInCart: total
+                totalProductsInCart: total,
+                subtotalToPay : subtotal
             }
         }
         case 'set-product-cart' : {
             let {id, buyAmount} = action.payload
             buyAmount = parseInt(buyAmount)
-            let productsInCart = state.cart
+            let productsInCart = state.cart  
             let exist = state.cart.find( product => product.id === id)
+
             if(exist) productsInCart = productsInCart.filter(product => product.id !== id)
+            productsInCart = productsInCart.concat(action.payload)
+           
+            let subtotal = sumSubtotal(productsInCart) 
+
             return {
                 ...state,
-                cart : productsInCart.concat(action.payload),
-                totalProductsInCart :parseInt( state.totalProductsInCart)+  buyAmount
+                cart : productsInCart,
+                subtotalToPay : subtotal,
+                totalProductsInCart: countProductsInCart(productsInCart)
             }
         }
     }
