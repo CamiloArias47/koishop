@@ -42,4 +42,18 @@ nav .logo-container :global(.logo){
     min-height: 42px !important;
 }
 
+.counter-shoppingbag{ 
+    position: absolute;
+    top: 0px;
+    right: -1px;
+    width: 42px;
+    height: 42px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
 `

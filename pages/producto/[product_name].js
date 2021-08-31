@@ -48,7 +48,7 @@ const ProductPage = (props) => {
       setSidebarView(SIDEBAR_VIEWS.CART_VIEW)
       openSidebarFromRight()
       setAdding(false)
-    },2000)
+    },800)
   }
 
   const iconBtn = adding 

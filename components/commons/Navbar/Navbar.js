@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useUI, SIDEBAR_VIEWS } from "components/UIcontext"
+import { useCommerce } from "components/CommerceContext"
+import { useCart } from "hooks/useCart"
 import { authChanged } from 'firebase/client'
 import  Link  from 'next/link'
 
@@ -7,7 +9,7 @@ import Image from 'next/image'
 import Hamburger from "hamburger-react"
 import UserLoadingIcon from 'components/icons/UserLoading-Icon'
 import CloseIcon from 'components/icons/Close-Icon'
-import CarIcon from 'components/icons/Car-Icon'
+import {ShoppingBagIcon} from 'components/icons'
 import UserIcon from 'components/icons/User-Icon'
 import koiBagBig from 'public/images/logos/koi-bag-big.png'
 import styles from './Style-Navbar'
@@ -31,9 +33,14 @@ const Navbar = ()=>{
             email,
             setSidebarView } = useUI()
 
-     useEffect( () => {
-         authChanged(setUser)
-     },[])
+    const { totalProductsInCart } = useCommerce()
+    const { getProductsAtFrist } = useCart()
+
+    getProductsAtFrist()
+
+    useEffect( () => {
+        authChanged(setUser)
+    },[])
 
     const openRightSidebar = (cb = function(){} ) => {
         if(displaySidebarRight){
@@ -98,7 +105,12 @@ const Navbar = ()=>{
                     {
                         displaySidebarRight 
                         ? <CloseIcon width="42" height="42"/>
-                        : <CarIcon width="42" height="42"/> 
+                        : <div>
+                            <ShoppingBagIcon width="42" height="42"/> 
+                            <span className="counter-shoppingbag">
+                                {totalProductsInCart}
+                            </span>
+                          </div>
                     }
                 </div>
             </div>

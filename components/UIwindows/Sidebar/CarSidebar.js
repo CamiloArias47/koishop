@@ -1,13 +1,14 @@
 import { useCart } from "hooks/useCart"
-//import { useCommerce } from "components/CommerceContext"
+import { useCommerce } from "components/CommerceContext"
 
 import ItemCart from 'components/commons/ItemCart'
 import style from './style-cart'
 
 export const CarSidebar = () => {
-    const { getProductsAtFrist, cart } = useCart()
+    //const { getProductsAtFrist } = useCart()
+    const { cart } = useCommerce()
 
-    getProductsAtFrist()
+    //getProductsAtFrist()
 
     return (
         <div className="cart-container">

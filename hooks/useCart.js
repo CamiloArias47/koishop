@@ -4,9 +4,8 @@ import useLocalStorage from 'hooks/useLocalStorage'
 
 export function useCart(){
 
-    const { setProductCart, setProductsCart } = useCommerce()
+    const { setProductCart, setProductsCart, cart } = useCommerce()
     const { canIUseLocalStorage } = useLocalStorage()
-    const [ cart, setCart ] = useState([])
     
     const addProduct = ({id, name, price, buyAmount, photo}) => {
         const productToAdd = {id, name, price, buyAmount, photo}
@@ -38,30 +37,32 @@ export function useCart(){
 
     const getProductsAtFrist = () => {
         useEffect( () => {
-            setCart( getProductsCart() )
-        }, [])
-        
-        //setProductsCart( getProductsCart() )
+            let products = getProductsCart()
+            setProductsCart( products)
+        }, [])  
     }
 
     const quitProduct = (id) => {
-        console.log("quitar este producto: "+id)
         const miCart = window.localStorage;
 
         let cartproducts = miCart.getItem('cart')
         cartproducts = JSON.parse(cartproducts)
 
         let newCartproducts = cartproducts.filter( p => p.id !== id)
+        setProductsCart( newCartproducts)
+        
         newCartproducts = JSON.stringify(newCartproducts)
-
         miCart.setItem('cart', newCartproducts)
+    }
+
+    const getTotalProducts = () => {
+
     }
 
     return {
         addProduct,
         getProductsCart,
         getProductsAtFrist,
-        quitProduct,
-        cart
+        quitProduct
     }
 }

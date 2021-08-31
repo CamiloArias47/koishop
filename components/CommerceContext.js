@@ -2,11 +2,19 @@ import React, { useCallback, useMemo }  from 'react'
 
 const initialState = {
     categories : [],
-    cart:[]
+    cart:[],
+    totalProductsInCart:0
 }
 
 export const CoomerceContext = React.createContext(initialState)
 CoomerceContext.displayName = CoomerceContext
+
+export const countProductsInCart = (products) => {
+    let total = products.length > 0 
+                  ? products.reduce( (acumulador,current) => acumulador+current.buyAmount, 0)
+                  : 0  
+    return total
+}
 
 function commerceReducer(state, action){
     switch(action.type){
@@ -17,20 +25,24 @@ function commerceReducer(state, action){
             }
         }
         case 'set-products-cart' : {
+            let cart = action.payload
+            let total = countProductsInCart(cart)     
             return {
                 ...state,
-                cart : action.payload
+                cart : action.payload,
+                totalProductsInCart: total
             }
         }
         case 'set-product-cart' : {
-            let {id} = action.payload
+            let {id, buyAmount} = action.payload
+            buyAmount = parseInt(buyAmount)
             let productsInCart = state.cart
             let exist = state.cart.find( product => product.id === id)
             if(exist) productsInCart = productsInCart.filter(product => product.id !== id)
-
             return {
                 ...state,
-                cart : productsInCart.concat(action.payload)
+                cart : productsInCart.concat(action.payload),
+                totalProductsInCart :parseInt( state.totalProductsInCart)+  buyAmount
             }
         }
     }
