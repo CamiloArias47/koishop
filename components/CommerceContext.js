@@ -11,7 +11,7 @@ CoomerceContext.displayName = CoomerceContext
 
 export const countProductsInCart = (products) => {
     let total = products.length > 0 
-                  ? products.reduce( (acumulador,current) => acumulador+current.buyAmount, 0)
+                  ? products.reduce( (acumulador,current) => acumulador+parseInt(current.buyAmount), 0)
                   : 0  
     return total
 }
