@@ -1,4 +1,4 @@
-import { useCart } from "hooks/useCart"
+import Link from "next/link"
 import { useCommerce } from "components/CommerceContext"
 import { formatPrice } from "utils"
 
@@ -31,8 +31,10 @@ export const CarSidebar = () => {
                 <div className="pay-resume-total">
                     <span>Total:</span><span>{ formatPrice(subtotalToPay) }</span>
                 </div>
-
-                <button className="btn btn-primary">Finalizar compra</button>
+                
+                <Link href="/pagar">
+                    <a className="btn btn-primary">Finalizar compra</a>
+                </Link>
             </div>
 
             <style jsx>{style}</style>

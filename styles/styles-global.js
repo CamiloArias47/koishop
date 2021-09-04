@@ -2,6 +2,10 @@ import css from 'styled-jsx/css'
 import { colors, fontColor, shadow } from './theme'
 
 export const globalStyles = css.global`
+.wraper{
+    padding: 0 1rem;
+}
+
 .card{
     border-radius: 5px;
     background-color: #ffffff;

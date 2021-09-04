@@ -10,7 +10,7 @@ import Image from 'next/image'
 
 import BreadCrum from 'components/commons/breadcrum'
 import { config } from 'components/commons/Head'
-import { CarIcon, Spinner } from 'components/icons'
+import { ShoppingBagIcon, Spinner } from 'components/icons'
 import { colors } from 'styles/theme'
 import style from 'styles/styles-product'
 
@@ -53,10 +53,10 @@ const ProductPage = (props) => {
 
   const iconBtn = adding 
                       ? <Spinner width="38" height="38" color={colors.primaryDark} /> 
-                      : <CarIcon width="32" height="32"/> 
+                      : <ShoppingBagIcon width="32" height="32" color="#fff"/> 
   
 
-return <section className="product-page-section">
+return <section className="product-page-section wraper">
             <NextSeo
               title={name+' | '+config.title}
               description={description}
@@ -103,7 +103,7 @@ return <section className="product-page-section">
                     required/>
                 </div>
                 <button className="btn btn-primary" disabled={adding}>
-                  agregar al carrito
+                  agregar 
                   {iconBtn}
                 </button>
               </form>

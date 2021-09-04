@@ -3,7 +3,6 @@ import { colors, fontColor } from 'styles/theme'
 
 export default css`
 .product-page-section{
-    padding: 0 1rem;
     color: ${fontColor.general};
     display:flex;
     flex-direction:column;
@@ -39,6 +38,10 @@ h1{
 .form-group{
     width: 30%;
     padding-right: .5rem;
+}
+
+.form-add button svg{
+    padding-left:.5rem;
 }
 
 .form-group label{
