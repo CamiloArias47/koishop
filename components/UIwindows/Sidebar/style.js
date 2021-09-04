@@ -1,5 +1,5 @@
 import css from 'styled-jsx/css'
-//import {glass} from 'styles/theme'
+import {shadow} from 'styles/theme'
 
 export default css`
 .slidebar-container{
@@ -21,11 +21,37 @@ export default css`
     background-color: #fff;
     padding: 1rem;
     overflow: scroll;
+    overflow-x: hidden;
+    ${shadow.card}
 }
 
 .sidebar :global(ul){
     margin:0;
     padding:0;
     list-style-type: none;
+}
+
+@media (min-width: 760px){
+    .sidebar{
+        width: 50%;
+    }
+}
+
+@media (min-width: 1020px){
+    .sidebar{
+        width: 40%;
+    }
+    .sidebar::-webkit-scrollbar {
+        width: .4em;
+    }
+    
+    .sidebar::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+    }
+    
+    .sidebar::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        border-radius: 20px;
+    }
 }
 `

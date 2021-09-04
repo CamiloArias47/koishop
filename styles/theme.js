@@ -27,3 +27,32 @@ export const shadow = {
     card:`-webkit-box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.27); 
           box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.27);`
 }
+
+export const scroll = scrollClass => {
+    return `${scrollClass}::-webkit-scrollbar {
+        width: .5em;
+      }
+       
+      ${scrollClass}::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      }
+       
+      ${scrollClass}::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        border-radius: 20px;
+      }
+      `
+}
+
+export const scrollRules = {
+    scrollBar : `-webkit-scrollbar {
+        width: .5em;
+      }`,
+    scrollBarTrack: `-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      }`,
+    scrollBarThumb : `-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        border-radius: 20px;
+      }`
+}

@@ -1,5 +1,5 @@
 import css from 'styled-jsx/css'
-import { colors, fontColor } from 'styles/theme'
+import { colors, fontColor, scrollRules } from 'styles/theme'
 
 export default css`
 .cart-container{
@@ -7,11 +7,14 @@ export default css`
     flex-direction:column;
 }
 
-.cart-container ul{
+
+.cart-container .cart-list{
     height: 27rem;
     overflow: scroll;
+    overflow-x: hidden;
     border-bottom: 3px solid ${colors.primary}
 }
+
 .pay-resume{
     color:${fontColor.general};
     font-weight: 600;
@@ -27,5 +30,22 @@ export default css`
     font-size: 1.3rem;
     font-weight: 600;
     padding-top: .3rem;
+}
+
+
+
+@media (min-width: 1020px){
+    .cart-list::-webkit-scrollbar {
+        width: .4em;
+    }
+    
+    .cart-list::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+    }
+    
+    .cart-list::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        border-radius: 20px;
+    }
 }
 `

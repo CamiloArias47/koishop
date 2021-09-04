@@ -10,7 +10,7 @@ export const CarSidebar = () => {
 
     return (
         <div className="cart-container">
-            <ul>
+            <ul className="cart-list">
                 {cart.map( product => <ItemCart 
                                         key={product.id} 
                                         id={product.id}
