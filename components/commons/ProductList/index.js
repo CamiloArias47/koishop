@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { formatPrice } from "utils"
+import { CloseIcon } from "components/icons"
 
 import style from './style'
 
@@ -22,11 +23,20 @@ export default function ProductList(props){
             <td className="price-td">
                 {formatPrice(price)}
             </td>
-            <td>
-                {buyAmount}
+            <td className="amount-td">
+                <div className="controls-amount">
+                    <button>-</button>
+                    {buyAmount}
+                    <button>+</button>
+                </div>
             </td>
             <td>
                 {formatPrice(price*buyAmount)}
+            </td>
+            <td className="close-td">
+                <button className="close-icon">
+                    <CloseIcon/>
+                </button>
             </td>
 
             <style jsx>{style}</style>
