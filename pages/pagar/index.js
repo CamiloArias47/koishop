@@ -48,22 +48,25 @@ export default function PagarPage(){
 
             </div>
             
-            <div className="total-container">
-                <div className="detail-field">
-                    <div>Productos: </div>
-                    <div>{ formatPrice(subtotalToPay) }</div>
-                </div>
-                <div className="detail-field">
-                    <div>Envio: </div>
-                    <div>Por determinar</div>
-                </div>
-                <div className="detail-field total">
-                    <div>Total</div>
-                    <div>{ formatPrice(subtotalToPay) }</div>
+            <div className="sumary-cont">
+                <div className="anouncements"></div>
+                <div className="total-container">
+                    <div className="detail-field">
+                        <div>Productos: </div>
+                        <div>{ formatPrice(subtotalToPay) }</div>
+                    </div>
+                    <div className="detail-field">
+                        <div>Envio: </div>
+                        <div>Por determinar</div>
+                    </div>
+                    <div className="detail-field total">
+                        <div>Total</div>
+                        <div>{ formatPrice(subtotalToPay) }</div>
+                    </div>
+                    <button className="btn btn-primary btn-buy">Comprar</button>
                 </div>
             </div>
 
-            <button className="btn btn-primary btn-buy">Comprar</button>
             <style jsx>{style}</style>
         </div>
     )

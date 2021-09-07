@@ -3,6 +3,7 @@ import { colors, fontColor } from './theme'
 
 export default css`
 .wraper{
+    margin: 0 auto;
     color: ${fontColor.general}
 }
 
@@ -80,12 +81,29 @@ table thead th{
 }
 
 @media (min-width: 1020px){
-    table{
+    .wraper{
         width:70%;
+        padding:0;
+    }
+
+    table{
         max-width:none;
+        width: 100%;
     }
     .product-column{
-        width:300px;
+        width:auto;
+    }
+    table thead th{
+        padding: 1rem 2rem 1rem 0;
+    }
+    .sumary-cont{
+        display:flex;
+    }
+    .anouncements{
+        width:40%;
+    }
+    .total-container{
+        width:60%;
     }
 }
 `

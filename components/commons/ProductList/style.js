@@ -59,11 +59,15 @@ tr td{
     height: 25px;
     background: #d2aeae;
     color: #fff;
+    z-index:0;
 }
 
 @media (min-width: 1020px){
     .product-column{
-        width:300px;
+        width:auto;
+    }
+    .product-column .image-product{
+        width:20%;
     }
 }
 `

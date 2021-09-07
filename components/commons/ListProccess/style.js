@@ -5,6 +5,7 @@ export default css`
 .proccess-list{
     list-style: none;
     padding: 0;
+    margin 0 auto;
     margin-top: 2rem;
     display: flex;
     justify-content: space-around;
@@ -40,5 +41,18 @@ export default css`
 .proccess-list li .title-tab{
     position: relative;
     top: -.9rem;
+}
+
+@media (min-width: 760px){
+    .proccess-list{
+        width:60%;
+    }
+}
+
+@media (min-width: 1020px){
+    .proccess-list{
+        width:40%;
+        margin-top:2rem;
+    }
 }
 `
