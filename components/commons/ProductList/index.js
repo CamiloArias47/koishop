@@ -1,11 +1,23 @@
 import Image from "next/image"
 import { formatPrice } from "utils"
 import { CloseIcon } from "components/icons"
+import { useCart } from 'hooks/useCart'
 
 import style from './style'
 
 export default function ProductList(props){
     let {name, id, price, photo, buyAmount} = {...props}
+
+    const { quitProduct, addProduct } = useCart()
+
+    const addOneMore = () => {
+        addProduct({id, name, price, buyAmount:buyAmount+1, photo})
+    }
+
+    const quitOne = () => {
+        if(buyAmount-1 === 0) return
+        addProduct({id, name, price, buyAmount:buyAmount-1, photo})
+    }
 
     return(
         <tr>
@@ -18,23 +30,23 @@ export default function ProductList(props){
                     unoptimized={process.env.ENVIRONMENT !== "PRODUCTION"}
                 />
               </div>
-              <b>{props.name}</b>
+              <b>{name}</b>
             </td>
             <td className="price-td">
                 {formatPrice(price)}
             </td>
             <td className="amount-td">
                 <div className="controls-amount">
-                    <button>-</button>
+                    <button onClick={quitOne}>-</button>
                     {buyAmount}
-                    <button>+</button>
+                    <button onClick={addOneMore}>+</button>
                 </div>
             </td>
             <td>
                 {formatPrice(price*buyAmount)}
             </td>
             <td className="close-td">
-                <button className="close-icon">
+                <button className="close-icon" onClick={() => {quitProduct(id)}}>
                     <CloseIcon/>
                 </button>
             </td>

@@ -8,6 +8,12 @@ import style from './style-cart'
 export const CarSidebar = () => {
     const { cart, subtotalToPay } = useCommerce()
 
+    const btnCheckout = cart.length === 0 
+                            ? ''
+                            : <Link href="/pagar">
+                                <a className="btn btn-primary">Finalizar compra</a>
+                              </Link>
+
     return (
         <div className="cart-container">
             <ul className="cart-list">
@@ -32,9 +38,7 @@ export const CarSidebar = () => {
                     <span>Total:</span><span>{ formatPrice(subtotalToPay) }</span>
                 </div>
                 
-                <Link href="/pagar">
-                    <a className="btn btn-primary">Finalizar compra</a>
-                </Link>
+                {btnCheckout}
             </div>
 
             <style jsx>{style}</style>

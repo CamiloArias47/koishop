@@ -46,8 +46,14 @@ function commerceReducer(state, action){
             let productsInCart = state.cart  
             let exist = state.cart.find( product => product.id === id)
 
-            if(exist) productsInCart = productsInCart.filter(product => product.id !== id)
-            productsInCart = productsInCart.concat(action.payload)
+            if(exist){
+                let position = productsInCart.findIndex( p => p.id === id)
+                productsInCart[position] = action.payload
+            }
+            else{
+                productsInCart = productsInCart.concat(action.payload)
+            }
+
            
             let subtotal = sumSubtotal(productsInCart) 
 

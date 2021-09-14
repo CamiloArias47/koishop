@@ -31,6 +31,7 @@ const initialState = {
     sidebarView: SIDEBAR_VIEWS.CART_VIEW,
     userAvatar: userAvatarLoading,
     userName: '',
+    uid:'',
     email:'unknow'
 }
 
@@ -135,19 +136,22 @@ function uiReducer(state, action) {
       case 'SET_USER' :{
         let avtr = userLogo,
             uName = '',
-            email = ''
+            email = '',
+            uid = ''
 
         if(action.user){
            avtr = !action.user.photoURL ? 'https://picsum.photos/62/62' : action.user.photoURL
            uName = !action.user.displayName ? action.user.email : action.user.displayName,
            email = action.user.email
+           uid = action.user.uid
         } 
 
         return {
           ...state,
           userName: uName,
           userAvatar : avtr,
-          email : email
+          email : email,
+          uid : uid
         }
       }
     }

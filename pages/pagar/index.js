@@ -1,71 +1,96 @@
 import { useUI } from "components/UIcontext"
 import { useCommerce } from "components/CommerceContext"
-import { useEffect } from "react"
+
+import { useEffect, useState } from "react"
 import { NextSeo } from 'next-seo'
 import { config } from 'components/commons/Head'
 
-import ProductList from "components/commons/ProductList"
 import ListProcess from 'components/commons/ListProccess'
-import { formatPrice } from "utils"
+import RevisionTab from "components/commons/CheckoutTabs/RevisionTab"
 
 import style from 'styles/style-pago'
 
+export const CHECKOUT_STEP = {
+    revision : 1,
+    envio : 2,
+    pago: 3 
+}
+
 export default function PagarPage(){
 
-    const { closeSidebar } = useUI() 
-    const { cart, subtotalToPay } = useCommerce()
+    const [ checkoutStep, setCheckoutStep ] = useState(CHECKOUT_STEP.revision)
+    const [ mostStep, setMostStep ] = useState(CHECKOUT_STEP.revision)
+
+    const { closeSidebar, 
+            userName, 
+            openModal,
+            closeModal } = useUI() 
+    const { cart } = useCommerce()
 
     useEffect( () => {
         closeSidebar()
     },[])
+    
+    useEffect( () => {
+        if(userName === '') openModal()
+        else closeModal()
+    },[userName])
+
+    const handlerBuyButton = ()=>{
+        if(userName === ''){
+            openModal()
+        }
+        else{
+            setCheckoutStep( prev => {
+               return prev === CHECKOUT_STEP.pago 
+                                ? CHECKOUT_STEP.pago  
+                                : prev+1
+            })
+    
+            setMostStep( prev => {
+                return prev === CHECKOUT_STEP.pago
+                                ? CHECKOUT_STEP.pago  
+                                : checkoutStep < prev ? prev : prev+1
+            })
+        }
+    }
+
+    const moveFromTabs = (clicked) => {
+        let moveTo = checkoutStep
+
+        if(mostStep === CHECKOUT_STEP.revision) moveTo = CHECKOUT_STEP.revision
+        if(mostStep === CHECKOUT_STEP.envio) moveTo = clicked <= CHECKOUT_STEP.envio ? clicked : checkoutStep
+        if(mostStep === CHECKOUT_STEP.pago) moveTo = clicked
+
+        setCheckoutStep(moveTo)
+
+    }
+
+    let displayStep = <RevisionTab/>
+
+    if(checkoutStep === CHECKOUT_STEP.envio){
+        displayStep = <div>Formulario para datos de envio</div>
+    }
+    else if(checkoutStep === CHECKOUT_STEP.pago){
+        displayStep = <div>Formulario para pagar</div>
+    }
+
+    const butonNext = cart.length === 0 
+                        ? ''
+                        : <button 
+                            className="btn btn-primary btn-buy"
+                            onClick={handlerBuyButton}  >
+                                Hacer Compra 
+                          </button>
 
     return(
         <div className="wraper">
             <NextSeo title={'Realizar pago | '+config.title} />
-            <ListProcess/>
-            <div className="wraper-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th className="product-column">Producto</th>
-                            <th>precio</th>
-                            <th>cantidad</th>
-                            <th>Total</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        { cart.map(p => <ProductList 
-                                        key={p.id}
-                                        name={p.name}
-                                        id={p.id}
-                                        price={p.price}
-                                        photo={p.photo}
-                                        buyAmount={p.buyAmount}
-                                        />)}
-                    </tbody>
-                </table>
-
-            </div>
+            <ListProcess current={checkoutStep} move={moveFromTabs}/>
             
-            <div className="sumary-cont">
-                <div className="anouncements"></div>
-                <div className="total-container">
-                    <div className="detail-field">
-                        <div>Productos: </div>
-                        <div>{ formatPrice(subtotalToPay) }</div>
-                    </div>
-                    <div className="detail-field">
-                        <div>Envio: </div>
-                        <div>Por determinar</div>
-                    </div>
-                    <div className="detail-field total">
-                        <div>Total</div>
-                        <div>{ formatPrice(subtotalToPay) }</div>
-                    </div>
-                    <button className="btn btn-primary btn-buy">Comprar</button>
-                </div>
-            </div>
+            { displayStep }
+
+            { butonNext }
 
             <style jsx>{style}</style>
         </div>

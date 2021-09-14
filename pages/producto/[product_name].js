@@ -44,11 +44,11 @@ const ProductPage = (props) => {
     setAdding(true)
 
     setTimeout( ()=>{
-      addProduct({id, name, price, buyAmount, photo})
+      addProduct({id, name, price, buyAmount, photo, stock:amount})
       setSidebarView(SIDEBAR_VIEWS.CART_VIEW)
       openSidebarFromRight()
       setAdding(false)
-    },800)
+    },100)
   }
 
   const iconBtn = adding 
