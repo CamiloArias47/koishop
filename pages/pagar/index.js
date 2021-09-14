@@ -90,7 +90,9 @@ export default function PagarPage(){
             
             { displayStep }
 
-            { butonNext }
+            <div className="container-btn-buy">
+                { butonNext }
+            </div>
 
             <style jsx>{style}</style>
         </div>

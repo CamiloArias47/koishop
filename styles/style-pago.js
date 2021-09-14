@@ -105,5 +105,11 @@ table thead th{
     .total-container{
         width:60%;
     }
+    .container-btn-buy{
+        width: 60%;
+        right: -40%;
+        position: relative;
+        margin-bottom: 1rem;
+    }
 }
 `
