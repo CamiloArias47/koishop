@@ -1,5 +1,6 @@
 import { useUI } from "components/UIcontext"
 import { useCommerce } from "components/CommerceContext"
+import { getAddressesBy } from 'firebaseApi/firestoreDB/addresses'
 
 import { useEffect, useState } from "react"
 import { NextSeo } from 'next-seo'
@@ -7,6 +8,7 @@ import { config } from 'components/commons/Head'
 
 import ListProcess from 'components/commons/ListProccess'
 import RevisionTab from "components/commons/CheckoutTabs/RevisionTab"
+import EnvioTab from 'components/commons/CheckoutTabs/Envio'
 
 import style from 'styles/style-pago'
 
@@ -22,7 +24,8 @@ export default function PagarPage(){
     const [ mostStep, setMostStep ] = useState(CHECKOUT_STEP.revision)
 
     const { closeSidebar, 
-            userName, 
+            userName,
+            uid, 
             openModal,
             closeModal } = useUI() 
     const { cart } = useCommerce()
@@ -35,6 +38,14 @@ export default function PagarPage(){
         if(userName === '') openModal()
         else closeModal()
     },[userName])
+
+    useEffect( () => {
+        if(uid === '') return false
+
+        getAddressesBy(uid).then( uAddress => {
+           console.log({uAddress})
+        })
+    },[uid])
 
     const handlerBuyButton = ()=>{
         if(userName === ''){
@@ -69,7 +80,7 @@ export default function PagarPage(){
     let displayStep = <RevisionTab/>
 
     if(checkoutStep === CHECKOUT_STEP.envio){
-        displayStep = <div>Formulario para datos de envio</div>
+        displayStep = <EnvioTab />
     }
     else if(checkoutStep === CHECKOUT_STEP.pago){
         displayStep = <div>Formulario para pagar</div>

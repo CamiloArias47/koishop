@@ -10,7 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "firebase": "^8.7.1",
+    "firebase": "^9.0.2",
     "firebase-admin": "^9.11.0",
     "hamburger-react": "^2.4.1",
     "next": "^11.1.0",

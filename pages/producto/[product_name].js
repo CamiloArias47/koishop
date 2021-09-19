@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { firestore } from "firebase/admin"
+import { firestore } from "firebaseApi/admin"
 import { replaceAll, formatPrice } from "utils"
 import { useCart } from 'hooks/useCart'
 import { useUI, SIDEBAR_VIEWS } from 'components/UIcontext'

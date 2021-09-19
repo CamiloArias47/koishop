@@ -1,4 +1,4 @@
-import { logout } from 'firebase/client'
+import { logout } from 'firebaseApi/client'
 import { useUI } from 'components/UIcontext'
 import { useRouter } from 'next/router'
 

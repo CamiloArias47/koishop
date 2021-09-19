@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import UserLayout from 'components/commons/UserLayout'
 import style from 'styles/style-user'
-import { revalidateuser, updatePass } from 'firebase/client'
+import { revalidateuser, updatePass } from 'firebaseApi/client'
 import { ErrorInline } from 'components/commons/ErrorMesage/InlineError'
 import { Spinner } from 'components/icons'
 import { colors } from 'styles/theme'
@@ -41,7 +41,6 @@ export default function ChangePassword(){
 
         revalidateuser(password)
             .then( () =>{
-                console.log({newPassword})
                 updatePass(newPassword).then( (res) =>{
                     console.log({res})
                     setState(STATE_CHANGE.SUCCESS)

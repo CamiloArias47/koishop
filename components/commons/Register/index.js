@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useUI } from "components/UIcontext"
 import { AuthFacebookGooogle } from 'components/commons/Login/AuthFacebookGoogle' 
-import { register, verifyEmail } from 'firebase/client'
+import { register, verifyEmail } from 'firebaseApi/client'
 import Success from './Success'
 import style from 'styles/style-modal-forms'
 import { Spinner } from 'components/icons'
@@ -43,6 +43,7 @@ export const Register = () =>{
 
         register({email:mail,password})
             .then(user => {
+                console.log({user})
                 if(!user.emailVerified){
                     verifyEmail().then( () => {
                         setState(STATES.SUCCESS)

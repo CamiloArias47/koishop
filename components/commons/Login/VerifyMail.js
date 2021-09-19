@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import style from './style'
 import { colors } from 'styles/theme'
-import { verifyEmail } from 'firebase/client'
+import { verifyEmail } from 'firebaseApi/client'
 import { SuccessAnimation, Spinner } from 'components/icons'
 import { ErrorInline } from 'components/commons/ErrorMesage/InlineError'
 

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { authChanged } from 'firebase/client'
+import { authChanged } from 'firebaseApi/client'
 import { useUI } from 'components/UIcontext'
 
 export const USER_STATES = {

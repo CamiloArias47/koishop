@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useUI, SIDEBAR_VIEWS } from "components/UIcontext"
 import { useCommerce } from "components/CommerceContext"
 import { useCart } from "hooks/useCart"
-import { authChanged } from 'firebase/client'
+import { authChanged } from 'firebaseApi/client'
 import  Link  from 'next/link'
 
 import Image from 'next/image'

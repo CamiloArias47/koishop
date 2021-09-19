@@ -1,4 +1,4 @@
-import { db } from 'firebase/client'
+import { db } from 'firebaseApi/client'
 
 export const getCategories = callBack =>{
     return db.collection('categories')

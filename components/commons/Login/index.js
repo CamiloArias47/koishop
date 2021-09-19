@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { AuthFacebookGooogle } from './AuthFacebookGoogle' 
 import { useUI } from "components/UIcontext"
-import { login } from 'firebase/client'
+import { login } from 'firebaseApi/client'
 import { VerifyEmail } from './VerifyMail'
 import { Reset } from './ResetPass'
 import { Spinner } from 'components/icons'

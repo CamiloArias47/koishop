@@ -1,4 +1,4 @@
-import { loginGoogle, loginFacebook } from 'firebase/client'
+import { loginGoogle, loginFacebook } from 'firebaseApi/client'
 import { useUI } from "components/UIcontext"
 import Image from "next/image"
 import googleIcon from 'public/images/logos/google.svg'
@@ -11,10 +11,6 @@ export const AuthFacebookGooogle = () =>{
     const handlerGoogleLogin = ()=>{
         loginGoogle()
             .then( result =>{
-                let credential = result.credential;
-                let token = credential.accessToken;
-                let user = result.user;
-                console.log({token, user})
                 closeModal()
             })
             .catch( error => {

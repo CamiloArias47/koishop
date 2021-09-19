@@ -1,7 +1,7 @@
 import { Avatar } from 'components/commons/Avatar'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { logout } from 'firebase/client'
+import { logout } from 'firebaseApi/client'
 import style from './style'
 
 export default function UserMenu(){

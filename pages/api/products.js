@@ -1,9 +1,7 @@
-import { firestore } from "firebase/admin"
+import { firestore } from "firebaseApi/admin"
 
 export default (request, response) => {
-  //const { query } = request
-  //const { id } = query
-
+  
   firestore
     .collectionGroup("products")
     .get()

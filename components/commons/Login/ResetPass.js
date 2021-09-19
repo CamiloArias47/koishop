@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { resetPassword } from 'firebase/client'
+import { resetPassword } from 'firebaseApi/client'
 import { ErrorInline } from 'components/commons/ErrorMesage/InlineError'
 import { SuccessAnimation } from "components/icons"
 import style from "./style"

@@ -1,4 +1,4 @@
-import { firestore } from "firebase/admin"
+import { firestore } from "firebaseApi/admin"
 import { replaceAll } from "utils"
 
 export default (request, response) => {
