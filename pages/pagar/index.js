@@ -1,6 +1,5 @@
 import { useUI } from "components/UIcontext"
 import { useCommerce } from "components/CommerceContext"
-import { getAddressesBy } from 'firebaseApi/firestoreDB/addresses'
 
 import { useEffect, useState } from "react"
 import { NextSeo } from 'next-seo'
@@ -25,7 +24,6 @@ export default function PagarPage(){
 
     const { closeSidebar, 
             userName,
-            uid, 
             openModal,
             closeModal } = useUI() 
     const { cart } = useCommerce()
@@ -38,14 +36,6 @@ export default function PagarPage(){
         if(userName === '') openModal()
         else closeModal()
     },[userName])
-
-    useEffect( () => {
-        if(uid === '') return false
-
-        getAddressesBy(uid).then( uAddress => {
-           console.log({uAddress})
-        })
-    },[uid])
 
     const handlerBuyButton = ()=>{
         if(userName === ''){

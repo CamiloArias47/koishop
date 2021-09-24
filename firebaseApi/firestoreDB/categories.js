@@ -1,12 +1,16 @@
-import { db } from 'firebaseApi/client'
+import { firebaseApp } from 'firebaseApi/init'
+import { getFirestore, 
+         getDocs,
+         collection, 
+         } from "firebase/firestore";
 
-export const getCategories = callBack =>{
-    return db.collection('categories')
-             .get()
-             .then( ({ docs }) => {
-                 const categories = docs.map( doc => {
-                     return {...doc.data(), id:doc.id}
-                 } )
-                 callBack(categories)
-             })
+const db = getFirestore(firebaseApp);
+
+export const getCategories = async () =>{
+    const querySnapshot = await getDocs(collection(db, 'categories'))
+    let categories = []
+    querySnapshot.forEach( doc => {
+        categories.push({...doc.data(), id:doc.id})
+    })
+    return categories
 }

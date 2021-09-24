@@ -1,6 +1,27 @@
+import { useEffect, useState } from 'react'
+import { useUI } from "components/UIcontext"
+import { getAddressesBy } from 'firebaseApi/firestoreDB/addresses'
+
 import style from './style'
 
 export default function EnvioTab(){
+    const [addresses, setAddresses] = useState([])
+    const { uid } = useUI() 
+
+    useEffect( () => {
+        getAddressesBy(uid).then( uAddress => {
+            setAddresses(uAddress)
+         })
+    }, [uid])
+
+    const selector = addresses.length > 0 
+                          ? <div className="form-controller">
+                              <select className="input input-primary" name="savedAddress" id="savedAddress" required>
+                                {addresses.map(adr => <option key={adr.id} value={adr.id}>{adr.address}</option>)}
+                              </select> 
+                            </div>
+                          : ''
+
     return(
         <div>
             <form>
@@ -29,7 +50,7 @@ export default function EnvioTab(){
 
                 <div className="envio-container">
                     <h1>Datos de envío</h1>
-
+                    { selector }
                     <div className="form-controller">
                         <label htmlFor="departamento">Departamento</label>   
                         <select className="input input-primary" name="departamento" id="departamento" required>
