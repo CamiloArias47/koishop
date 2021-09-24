@@ -1,4 +1,5 @@
 import { useEffect } from "react"
+import { useRouter } from 'next/router'
 import { useUI, SIDEBAR_VIEWS } from "components/UIcontext"
 import { useCommerce } from "components/CommerceContext"
 import { useCart } from "hooks/useCart"
@@ -32,6 +33,7 @@ const Navbar = ()=>{
             setUser,
             email,
             setSidebarView } = useUI()
+    const router = useRouter()
 
     const { totalProductsInCart } = useCommerce()
     const { getProductsAtFrist } = useCart()
@@ -53,9 +55,14 @@ const Navbar = ()=>{
     }
 
     const handlerClickCar = ()=> {
-        openRightSidebar(()=>{
-            setSidebarView(SIDEBAR_VIEWS.CART_VIEW)
-        })  
+            if(router.pathname === '/pagar'){
+                closeSidebar()
+                return false
+            }
+
+            openRightSidebar(()=>{
+                setSidebarView(SIDEBAR_VIEWS.CART_VIEW)
+            })  
     }
 
     const openHamburger = (toggled)=>{

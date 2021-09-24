@@ -53,6 +53,7 @@ export default function PagarPage(){
                                 ? CHECKOUT_STEP.pago  
                                 : checkoutStep < prev ? prev : prev+1
             })
+            window.scrollTo(0,0)
         }
     }
 
@@ -64,7 +65,6 @@ export default function PagarPage(){
         if(mostStep === CHECKOUT_STEP.pago) moveTo = clicked
 
         setCheckoutStep(moveTo)
-
     }
 
     let displayStep = <RevisionTab/>
