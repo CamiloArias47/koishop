@@ -134,6 +134,9 @@ export default function EnvioTab(){
                     <h1>Datos de envío</h1>
                     { selectOrForm }
                     { showToUser }
+                    <p>
+                        dejar que el usuario seleccione una empresa de envio o definir una y dejasr el precio fijo 
+                    </p>
                 </div>
 
             </form>

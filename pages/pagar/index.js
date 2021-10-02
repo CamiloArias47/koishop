@@ -8,6 +8,7 @@ import { config } from 'components/commons/Head'
 import ListProcess from 'components/commons/ListProccess'
 import RevisionTab from "components/commons/CheckoutTabs/RevisionTab"
 import EnvioTab from 'components/commons/CheckoutTabs/Envio'
+import CheckoutTab from 'components/commons/CheckoutTabs/CheckoutTab'
 
 import style from 'styles/style-pago'
 
@@ -73,7 +74,7 @@ export default function PagarPage(){
         displayStep = <EnvioTab />
     }
     else if(checkoutStep === CHECKOUT_STEP.pago){
-        displayStep = <div>Formulario para pagar</div>
+        displayStep = <CheckoutTab />
     }
 
     const butonNext = cart.length === 0 
