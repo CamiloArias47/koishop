@@ -33,4 +33,4 @@ yarn-error.log*
 # vercel
 .vercel
 
-/firebaseApi/koishop-dev-firebase-adminsdk.json
+firebaseApi/koishop-dev-firebase-adminsdk.json
