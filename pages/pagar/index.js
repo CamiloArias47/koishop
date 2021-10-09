@@ -4,6 +4,7 @@ import { useCommerce } from "components/CommerceContext"
 import { useEffect, useState } from "react"
 import { NextSeo } from 'next-seo'
 import { config } from 'components/commons/Head'
+import Script from 'next/script'
 
 import ListProcess from 'components/commons/ListProccess'
 import RevisionTab from "components/commons/CheckoutTabs/RevisionTab"
@@ -25,9 +26,11 @@ export default function PagarPage(){
 
     const { closeSidebar, 
             userName,
+            uid,
+            email,
             openModal,
             closeModal } = useUI() 
-    const { cart } = useCommerce()
+    const { cart, subtotalToPay } = useCommerce()
 
     useEffect( () => {
         closeSidebar()
@@ -37,6 +40,7 @@ export default function PagarPage(){
         if(userName === '') openModal()
         else closeModal()
     },[userName])
+
 
     const handlerBuyButton = ()=>{
         if(userName === ''){
@@ -54,6 +58,44 @@ export default function PagarPage(){
                                 ? CHECKOUT_STEP.pago  
                                 : checkoutStep < prev ? prev : prev+1
             })
+
+            if(checkoutStep === CHECKOUT_STEP.pago){
+
+                var checkout = new WidgetCheckout({
+                    currency: 'COP',
+                    amountInCents: subtotalToPay+'00',
+                    reference: 'AD002901221',
+                    //publicKey: 'pub_prod_bOQshOzmaqsaYQ8tzsHPUP7G3K2A1EqN',
+                    publicKey: 'pub_test_XdVuxWTudRKlUmJf5zwVO71K2I3pQRsO', 
+                    //redirectUrl: 'https://transaction-redirect.wompi.co/check', // Opcional
+                    taxInCents: { // Opcional
+                      vat: 1900,
+                      consumption: 800
+                    },
+                    customerData: { // Opcional
+                      email,
+                      fullName: userName,
+                      phoneNumber: '3040777777',
+                      phoneNumberPrefix: '+57',
+                      legalId: '123456789',
+                      legalIdType: 'CC'
+                    },
+                    shippingAddress: { // Opcional
+                      addressLine1: "Calle 123 # 4-5",
+                      city: "Bogota",
+                      phoneNumber: '3019444444',
+                      region: "Cundinamarca",
+                      country: "CO"
+                    }
+                  })
+
+                checkout.open(function ( result ) {
+                    var transaction = result.transaction
+                    console.log('Transaction ID: ', transaction.id)
+                    console.log('Transaction object: ', transaction)
+                  })
+            }
+
             window.scrollTo(0,0)
         }
     }
@@ -82,12 +124,16 @@ export default function PagarPage(){
                         : <button 
                             className="btn btn-primary btn-buy"
                             onClick={handlerBuyButton}  >
-                                Hacer Compra 
+                                {(checkoutStep === CHECKOUT_STEP.pago) ? 'Pagar' : 'Hacer Compra'} 
                           </button>
 
     return(
         <div className="wraper">
             <NextSeo title={'Realizar pago | '+config.title} />
+            <Script
+                src="https://checkout.wompi.co/widget.js"
+                strategy="beforeInteractive"
+            />
             <ListProcess current={checkoutStep} move={moveFromTabs}/>
             
             { displayStep }
