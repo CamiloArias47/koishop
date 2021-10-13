@@ -1,12 +1,9 @@
-import { firebaseApp } from 'firebaseApi/init'
-import { getFirestore, 
-         getDocs,
+import db from './db'
+import { getDocs,
          collection,
          query,
          where 
          } from "firebase/firestore";
-
-const db = getFirestore(firebaseApp);
 
 export const addresses = async () => {
     const querySnapshot = await getDocs(collection(db, "address"));

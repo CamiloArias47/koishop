@@ -1,4 +1,5 @@
 import { loginGoogle, loginFacebook } from 'firebaseApi/client'
+import { getUser, setUser } from 'firebaseApi/firestoreDB/user'
 import { useUI } from "components/UIcontext"
 import Image from "next/image"
 import googleIcon from 'public/images/logos/google.svg'
@@ -11,6 +12,14 @@ export const AuthFacebookGooogle = () =>{
     const handlerGoogleLogin = ()=>{
         loginGoogle()
             .then( result =>{
+                let user = getUser(result.user.uid)
+                user.then( res => {
+                    if(!res){
+                        console.log({user_before: result.user })
+                        setUser({user:result.user})
+                    }
+                })
+
                 closeModal()
             })
             .catch( error => {

@@ -21,9 +21,6 @@ export const authChanged = (onChange) => {
     onAuthStateChanged(auth, user => {
         onChange(user)
     });
-    /*firebase.auth().onAuthStateChanged((user) => {
-        onChange(user)
-    });*/
 } 
 
 

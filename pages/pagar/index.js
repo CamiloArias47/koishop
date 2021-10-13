@@ -41,6 +41,46 @@ export default function PagarPage(){
         else closeModal()
     },[userName])
 
+    const showWompyModal = () => {
+        var checkout = new WidgetCheckout({
+            currency: 'COP',
+            amountInCents: subtotalToPay+'00',
+            reference: 'AD002901221',
+            //publicKey: 'pub_prod_bOQshOzmaqsaYQ8tzsHPUP7G3K2A1EqN',
+            publicKey: 'pub_test_XdVuxWTudRKlUmJf5zwVO71K2I3pQRsO', 
+            //redirectUrl: 'https://transaction-redirect.wompi.co/check', // Opcional
+            taxInCents: { // Opcional
+              vat: 1900,
+              consumption: 800
+            },
+            customerData: { // Opcional
+              email,
+              fullName: userName,
+              phoneNumber: '3040777777',
+              phoneNumberPrefix: '+57',
+              legalId: '123456789',
+              legalIdType: 'CC'
+            },
+            shippingAddress: { // Opcional
+              addressLine1: "Calle 123 # 4-5",
+              city: "Bogota",
+              phoneNumber: '3019444444',
+              region: "Cundinamarca",
+              country: "CO"
+            }
+          })
+
+        checkout.open(function ( result ) {
+            var transaction = result.transaction
+            console.log('Transaction ID: ', transaction.id)
+            console.log('Transaction object: ', transaction)
+          })
+    }
+
+    const validateFields  = () => {
+        
+    }
+
 
     const handlerBuyButton = ()=>{
         if(userName === ''){
@@ -59,41 +99,12 @@ export default function PagarPage(){
                                 : checkoutStep < prev ? prev : prev+1
             })
 
+            if(checkoutStep === CHECKOUT_STEP.envio){
+                validateFields()
+            }
+
             if(checkoutStep === CHECKOUT_STEP.pago){
-
-                var checkout = new WidgetCheckout({
-                    currency: 'COP',
-                    amountInCents: subtotalToPay+'00',
-                    reference: 'AD002901221',
-                    //publicKey: 'pub_prod_bOQshOzmaqsaYQ8tzsHPUP7G3K2A1EqN',
-                    publicKey: 'pub_test_XdVuxWTudRKlUmJf5zwVO71K2I3pQRsO', 
-                    //redirectUrl: 'https://transaction-redirect.wompi.co/check', // Opcional
-                    taxInCents: { // Opcional
-                      vat: 1900,
-                      consumption: 800
-                    },
-                    customerData: { // Opcional
-                      email,
-                      fullName: userName,
-                      phoneNumber: '3040777777',
-                      phoneNumberPrefix: '+57',
-                      legalId: '123456789',
-                      legalIdType: 'CC'
-                    },
-                    shippingAddress: { // Opcional
-                      addressLine1: "Calle 123 # 4-5",
-                      city: "Bogota",
-                      phoneNumber: '3019444444',
-                      region: "Cundinamarca",
-                      country: "CO"
-                    }
-                  })
-
-                checkout.open(function ( result ) {
-                    var transaction = result.transaction
-                    console.log('Transaction ID: ', transaction.id)
-                    console.log('Transaction object: ', transaction)
-                  })
+                showWompyModal()
             }
 
             window.scrollTo(0,0)
