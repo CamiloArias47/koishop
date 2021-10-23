@@ -39,10 +39,14 @@ export const AuthFacebookGooogle = () =>{
         loginFacebook()
             .then( (result)=>{
                 console.log({result})
-                let credential = result.credential;
-                let token = credential.accessToken;
                 let user = result.user;
-                console.log({token, user, credential})
+                console.log({userFacebook: user})
+                let userRegiter = getUser(result.user.uid)
+                userRegiter.then( res => {
+                    if(!res){
+                        setUser({user:result.user})
+                    }
+                })
                 closeModal()
             })
             .catch( error => {
