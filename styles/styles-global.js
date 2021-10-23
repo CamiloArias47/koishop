@@ -26,6 +26,8 @@ export const globalStyles = css.global`
     border-radius: 10px;
     background: ${colors.alert};
     padding: .8rem;
+    width: 100%;
+    margin-top: .5rem;
 }
 
 .success-message{
