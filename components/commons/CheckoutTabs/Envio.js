@@ -1,16 +1,25 @@
 import { useEffect, useState } from 'react'
 import { useUI } from "components/UIcontext"
+//import { getUser } from "firebaseApi/firestoreDB/user"
 import { getAddressesBy } from 'firebaseApi/firestoreDB/addresses'
 import DeliveryDeatils from './EnvioDetails'
 import {Loadingtext} from 'components/icons'
 
 import style from './style'
 
-export default function EnvioTab(){
+export default function EnvioTab({handlerNext}){
     const [addresses, setAddresses] = useState()
+    const [nombres, setName] = useState('')
+    const [cedula, setCedula] = useState('')
+    const [telefono, setTelefono] = useState('')
     const [addressChose, setAddressChose] = useState({})
     const [selectorState, setSelectorState] = useState('loading')
-    const { uid } = useUI() 
+    const { uid, userName, phoneNumber  } = useUI() 
+
+    useEffect( () => {
+        setName(userName)
+        if(phoneNumber) setTelefono(phoneNumber)
+    },[])
 
     useEffect( () => {
         getAddressesBy(uid).then( uAddress => {
@@ -21,6 +30,13 @@ export default function EnvioTab(){
         })
     }, [uid])
 
+    const handlerForm = e =>{
+        e.preventDefault()
+        if(e.target.name === "nombres") setName(e.target.value)
+        if(e.target.name === "cedula") setCedula(e.target.value)
+        if(e.target.name === "telefono") setTelefono(e.target.value)
+    } 
+
     const changeAddress = (event)=>{
         const selected = event.target.value
         setSelectorState(selected)
@@ -28,6 +44,13 @@ export default function EnvioTab(){
             const addresSelected = addresses.find(direction => direction.id == selected)
             setAddressChose(addresSelected)
         }
+    }
+
+    const handlerSubmit = e => {
+        e.preventDefault()
+        //validar datos
+        
+        handlerNext()
     }
 
     // console.log('🔥🔥🔥🔥🔥')
@@ -110,23 +133,18 @@ export default function EnvioTab(){
                 <div className="facturacion-container">
                     <h1>Detalles de facturación</h1>
                     <div className="form-controller">
-                        <label htmlFor="nombres">Nombres</label>
-                        <input className="input input-primary" type="text" name="nombres" id="nombres" required/>
+                        <label htmlFor="nombres">Nombre completo</label>
+                        <input className="input input-primary" value={nombres} onChange={handlerForm} type="text" name="nombres" id="nombres" required/>
                     </div> 
 
                     <div className="form-controller">
-                        <label htmlFor="apellidos">Apellidos</label>   
-                        <input className="input input-primary" type="text" name="apellidos" id="apellidos" required/>
-                    </div>
-
-                    <div className="form-controller">
                         <label htmlFor="cedula">Cédula</label>   
-                        <input className="input input-primary" type="number" name="cedula" id="cedula" required/>
+                        <input className="input input-primary" value={cedula} onChange={handlerForm} type="number" name="cedula" id="cedula" required/>
                     </div>
 
                     <div className="form-controller">
                         <label htmlFor="telefono">Teléfono</label>   
-                        <input className="input input-primary" type="number" name="telefono" id="telefono" required/>
+                        <input className="input input-primary" value={telefono} onChange={handlerForm} type="number" name="telefono" id="telefono" required/>
                     </div>
                 </div>
 
@@ -137,6 +155,12 @@ export default function EnvioTab(){
                     <p>
                         dejar que el usuario seleccione una empresa de envio o definir una y dejasr el precio fijo 
                     </p>
+                </div>
+
+                <div className="container-btn-buy">
+                    <button className="btn btn-primary btn-buy" onClick={handlerSubmit}>
+                            Hacer compra
+                    </button>
                 </div>
 
             </form>

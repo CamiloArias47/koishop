@@ -4,9 +4,16 @@ import { useCommerce } from "components/CommerceContext"
 import ProductList from "components/commons/ProductList"
 import style from 'styles/style-pago'
 
-export default function RevisionTab(){
+export default function RevisionTab({handlerNext}){
 
     const { cart, subtotalToPay } = useCommerce()
+
+    const butonNext = cart.length === 0 
+                        ? ''
+                        : <button 
+                            className="btn btn-primary btn-buy" onClick={handlerNext}  >
+                                Hacer compra
+                        </button>
 
     return(
         <div>
@@ -52,6 +59,10 @@ export default function RevisionTab(){
                     </div>
                     
                 </div>
+            </div>
+
+            <div className="container-btn-buy">
+                { butonNext }
             </div>
 
             <style jsx>{style}</style>

@@ -32,7 +32,8 @@ const initialState = {
     userAvatar: userAvatarLoading,
     userName: '',
     uid:'',
-    email:'unknow'
+    email:'unknow',
+    phoneNumber: ''
 }
 
 export const UIContext = React.createContext(initialState)
@@ -135,23 +136,23 @@ function uiReducer(state, action) {
       }
       case 'SET_USER' :{
         let avtr = userLogo,
-            uName = '',
-            email = '',
-            uid = ''
+            uName, email, uid, phoneNumber = ''
 
         if(action.user){
            avtr = !action.user.photoURL ? 'https://picsum.photos/62/62' : action.user.photoURL
            uName = !action.user.displayName ? action.user.email : action.user.displayName,
            email = action.user.email
-           uid = action.user.uid
+           uid = action.user.uid,
+           phoneNumber = action.user.phoneNumber
         } 
 
         return {
           ...state,
           userName: uName,
           userAvatar : avtr,
-          email : email,
-          uid : uid
+          email,
+          uid,
+          phoneNumber
         }
       }
     }

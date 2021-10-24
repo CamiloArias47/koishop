@@ -121,22 +121,14 @@ export default function PagarPage(){
         setCheckoutStep(moveTo)
     }
 
-    let displayStep = <RevisionTab/>
+    let displayStep = <RevisionTab handlerNext={handlerBuyButton}/>
 
     if(checkoutStep === CHECKOUT_STEP.envio){
-        displayStep = <EnvioTab />
+        displayStep = <EnvioTab handlerNext={handlerBuyButton}/>
     }
     else if(checkoutStep === CHECKOUT_STEP.pago){
-        displayStep = <CheckoutTab />
+        displayStep = <CheckoutTab handlerNext={handlerBuyButton}/>
     }
-
-    const butonNext = cart.length === 0 
-                        ? ''
-                        : <button 
-                            className="btn btn-primary btn-buy"
-                            onClick={handlerBuyButton}  >
-                                {(checkoutStep === CHECKOUT_STEP.pago) ? 'Pagar' : 'Hacer Compra'} 
-                          </button>
 
     return(
         <div className="wraper">
@@ -148,10 +140,6 @@ export default function PagarPage(){
             <ListProcess current={checkoutStep} move={moveFromTabs}/>
             
             { displayStep }
-
-            <div className="container-btn-buy">
-                { butonNext }
-            </div>
 
             <style jsx>{style}</style>
         </div>
