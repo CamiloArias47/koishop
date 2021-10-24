@@ -12,19 +12,21 @@ export const AuthFacebookGooogle = () =>{
     const [stateLogin, setStateLogin] = useState('initial')
     const { closeModal } = useUI()
 
+    const successLogin = result => {
+        let user = getUser(result.user.uid)
+        user.then( res => {
+            if(!res){
+                console.log({user_before: result.user })
+                setUser({user:result.user})
+            }
+        })
+
+        closeModal()
+    }
+
     const handlerGoogleLogin = ()=>{
         loginGoogle()
-            .then( result =>{
-                let user = getUser(result.user.uid)
-                user.then( res => {
-                    if(!res){
-                        console.log({user_before: result.user })
-                        setUser({user:result.user})
-                    }
-                })
-
-                closeModal()
-            })
+            .then( result => { successLogin(result) })
             .catch( error => {
                 var errorCode = error.code;
                 var errorMessage = error.message;
@@ -37,18 +39,7 @@ export const AuthFacebookGooogle = () =>{
 
     const handlerFacebookLogin = ()=>{
         loginFacebook()
-            .then( (result)=>{
-                console.log({result})
-                let user = result.user;
-                console.log({userFacebook: user})
-                let userRegiter = getUser(result.user.uid)
-                userRegiter.then( res => {
-                    if(!res){
-                        setUser({user:result.user})
-                    }
-                })
-                closeModal()
-            })
+            .then( result => { successLogin(result) })
             .catch( error => {
                 var errorCode = error.code;
                 var errorMessage = error.message;
