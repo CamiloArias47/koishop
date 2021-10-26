@@ -136,7 +136,10 @@ function uiReducer(state, action) {
       }
       case 'SET_USER' :{
         let avtr = userLogo,
-            uName, email, uid, phoneNumber = ''
+            uName = '', 
+            email = '', 
+            uid = '', 
+            phoneNumber = ''
 
         if(action.user){
            avtr = !action.user.photoURL ? 'https://picsum.photos/62/62' : action.user.photoURL

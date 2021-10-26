@@ -12,9 +12,20 @@ export default function EnvioTab({handlerNext}){
     const [nombres, setName] = useState('')
     const [cedula, setCedula] = useState('')
     const [telefono, setTelefono] = useState('')
-    const [namesWrong, setNameWrong] = useState(true)
-    const [cedulaWrong, setCedulaWrong] = useState(true)
-    const [telefonoWrong, setTelefonoWrong] = useState(true)
+    const [departamento, setDepartamento] = useState('')
+    const [ciudad, seCiudad] = useState('')
+    const [direccion, setDireccion] = useState('')
+    const [direccioncomplemento, setDireccioncomplemento] = useState('')
+    const [barrio, setBarrio] = useState('')
+    const [referenciaDireccion, setReferenciaDireccion] = useState('')
+
+    const [namesWrong, setNameWrong] = useState(false)
+    const [cedulaWrong, setCedulaWrong] = useState(false)
+    const [telefonoWrong, setTelefonoWrong] = useState(false)
+    const [departamentoWrong, setDepartamentoWrong] = useState(false)
+    const [ciudadWrong, setCiudadWrong] = useState(false)
+    const [direccionWrong, setDireccionWrong] = useState(false)
+    const [barrioWrong, setBarrioWrong] = useState(false)
     const [addressChose, setAddressChose] = useState({})
     const [selectorState, setSelectorState] = useState('loading')
     const namesRef = useRef(null)
@@ -38,10 +49,71 @@ export default function EnvioTab({handlerNext}){
 
     const handlerForm = e =>{
         e.preventDefault()
-        if(e.target.name === "nombres") setName(e.target.value)
-        if(e.target.name === "cedula") setCedula(e.target.value)
-        if(e.target.name === "telefono") setTelefono(e.target.value)
+        if(e.target.name === "nombres"){
+            setName(e.target.value)
+            if(namesWrong) setNameWrong(false)
+        } 
+        if(e.target.name === "cedula"){
+            setCedula(e.target.value)
+            if(cedulaWrong) setCedulaWrong(false)
+        } 
+        if(e.target.name === "telefono"){
+            setTelefono(e.target.value)
+            if(telefonoWrong) setTelefonoWrong(false)
+        }    
     } 
+
+    const handlerAddressForm = e =>{
+        if(e.target.name === 'departamento'){
+            setDepartamento(e.target.value)
+            if(departamentoWrong) setDepartamentoWrong(false)
+        } 
+        if(e.target.name === 'ciudad'){
+            seCiudad(e.target.value)
+            if(ciudadWrong) setCiudadWrong(false)
+        } 
+        if(e.target.name === 'direccion'){
+            setDireccion(e.target.value)
+            if(direccionWrong) setDireccionWrong(false)
+        }
+        if(e.target.name === 'direccioncomplemento') setDireccioncomplemento(e.target.value)
+        if(e.target.name === 'barrio'){
+            setBarrio(e.target.value)
+            if(barrioWrong) setBarrioWrong(false)
+        }
+        if(e.target.name === 'referenciaDireccion') setReferenciaDireccion(e.target.value)
+    }
+
+    const validateAddress = () => {
+        if(!departamento || !ciudad || !direccion || !barrio){
+            if(!departamento) setDepartamentoWrong(true)
+            if(!ciudad) setCiudadWrong(true)
+            if(!direccion) setDireccionWrong(true)
+            if(!barrio) setBarrioWrong(true)
+            return false
+        }
+        
+        return true
+    }
+
+    const validateBill = () => {
+        if(!nombres || !cedula || !telefono ){
+            if(!telefono){
+                telefonoRef.current.focus()
+                setTelefonoWrong(true)
+            } 
+            if(!cedula){
+                cedulaRef.current.focus()
+                setCedulaWrong(true)
+            } 
+            if(!nombres){
+                namesRef.current.focus()
+                setNameWrong(true)
+            }
+           return false
+        }
+        return true
+    }
 
     const changeAddress = (event)=>{
         const selected = event.target.value
@@ -54,25 +126,14 @@ export default function EnvioTab({handlerNext}){
 
     const handlerSubmit = e => {
         e.preventDefault()
-        //validar datos
-        if(!nombres || !cedula || !telefono){
-            if(!telefono){
-                telefonoRef.current.focus()
-                setTelefonoWrong(false)
-            } 
-            if(!cedula){
-                cedulaRef.current.focus()
-                setCedulaWrong(false)
-            } 
-            if(!nombres){
-                namesRef.current.focus()
-                setNameWrong(false)
-            }
-        }
-        else{
+
+        const vldtAddress = validateAddress()
+        const vldtBill = validateBill()
+
+        if(vldtBill && vldtAddress ){
             handlerNext()
         }
-        
+
     }
 
     // console.log('🔥🔥🔥🔥🔥')
@@ -94,9 +155,9 @@ export default function EnvioTab({handlerNext}){
                     :''
     
     const formEnvio = <div>
-                        <div className="form-controller">
+                        <div className={`form-controller ${departamentoWrong ? "wrong" : ""}`}>
                             <label htmlFor="departamento">Departamento*</label>   
-                            <select className="input input-primary" name="departamento" id="departamento" required>
+                            <select className="input input-primary" name="departamento" id="departamento"  value={departamento} onChange={handlerAddressForm} required>
                                 <option value="">Departamento</option>
                                 <option value="valle">Valle</option>
                                 <option value="Antioquia">Antioquia</option>
@@ -104,33 +165,34 @@ export default function EnvioTab({handlerNext}){
                             </select>
                         </div>
 
-                        <div className="form-controller">
+                        <div className={`form-controller ${ciudadWrong ? "wrong" : ""}`}>
                             <label htmlFor="ciudad">Ciudad / Municipio*</label>   
-                            <select className="input input-primary" name="ciudad" id="ciudad" required>
+                            <select className="input input-primary" name="ciudad" id="ciudad"  value={ciudad} onChange={handlerAddressForm} required>
+                                <option value="">Ciudad</option>
                                 <option value="Cali">Cali</option>
                                 <option value="Palmira">Palmira</option>
                                 <option value="Jamundi">Jamundi</option>
                             </select>
                         </div>
 
-                        <div className="form-controller">
+                        <div className={`form-controller ${direccionWrong ? "wrong" : ""}`}>
                             <label htmlFor="direccion">Dirección*</label>   
-                            <input className="input input-primary" type="text" name="direccion" id="direccion" required/>
+                            <input className="input input-primary" type="text" name="direccion" id="direccion"  value={direccion} onChange={handlerAddressForm} required/>
                         </div>
 
                         <div className="form-controller">
                             <label htmlFor="direccioncomplemento">Unidad, Apartamento, bloque...</label>   
-                            <input className="input input-primary" type="text" name="direccioncomplemento" id="direccioncomplemento"/>
+                            <input className="input input-primary" type="text" name="direccioncomplemento" id="direccioncomplemento" value={direccioncomplemento} onChange={handlerAddressForm} />
                         </div>
 
-                        <div className="form-controller">
+                        <div className={`form-controller ${barrioWrong ? "wrong" : ""}`}>
                             <label htmlFor="barrio">Barrio*</label>   
-                            <input className="input input-primary" type="text" name="barrio" id="barrio" required/>
+                            <input className="input input-primary" type="text" name="barrio" id="barrio"  value={barrio} onChange={handlerAddressForm} required/>
                         </div>
 
                         <div className="form-controller">
                             <label htmlFor="referenciaDireccion">Lugar de referencia</label>   
-                            <input className="input input-primary" type="text" name="referenciaDireccion" id="referenciaDireccion"/>
+                            <input className="input input-primary" type="text" name="referenciaDireccion" id="referenciaDireccion" value={referenciaDireccion} onChange={handlerAddressForm} />
                         </div>
                      </div>
 
@@ -155,17 +217,17 @@ export default function EnvioTab({handlerNext}){
             <form>
                 <div className="facturacion-container">
                     <h1>Detalles de facturación</h1>
-                    <div className={`form-controller ${!namesWrong ? "wrong" : ""}`}>
+                    <div className={`form-controller ${namesWrong ? "wrong" : ""}`}>
                         <label htmlFor="nombres">Nombre completo*</label>
                         <input className="input input-primary" value={nombres} onChange={handlerForm} type="text" name="nombres" id="nombres" ref={namesRef} required/>
                     </div> 
 
-                    <div className={`form-controller ${!cedulaWrong ? "wrong" : ""}`}>
+                    <div className={`form-controller ${cedulaWrong ? "wrong" : ""}`}>
                         <label htmlFor="cedula">Cédula*</label>   
                         <input className="input input-primary" value={cedula} onChange={handlerForm} type="number" name="cedula" id="cedula" ref={cedulaRef} required/>
                     </div>
 
-                    <div className={`form-controller ${!telefonoWrong ? "wrong" : ""}`}>
+                    <div className={`form-controller ${telefonoWrong ? "wrong" : ""}`}>
                         <label htmlFor="telefono">Teléfono*</label>   
                         <input className="input input-primary" value={telefono} onChange={handlerForm} type="number" name="telefono" id="telefono" ref={telefonoRef} required/>
                     </div>
