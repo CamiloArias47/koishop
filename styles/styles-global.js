@@ -97,6 +97,21 @@ export const globalStyles = css.global`
     border: 1px solid ${colors.primaryDark};
 }
 
+.form-controller.wrong .input-primary,
+.form-controller.wrong .input-basic{
+    border: 1px solid ${colors.red} !important;
+}
+
+.form-controller.wrong label{
+    color: ${colors.red} !important;
+    font-weight: 600;
+}     
+
+.form-controller.wrong label::after{
+    content: ": campo requerido❗";
+    font-size: .8rem;
+} 
+
 .close-icon{
     position: absolute;
     right: 1rem;

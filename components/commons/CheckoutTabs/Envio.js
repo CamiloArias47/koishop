@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useUI } from "components/UIcontext"
 //import { getUser } from "firebaseApi/firestoreDB/user"
 import { getAddressesBy } from 'firebaseApi/firestoreDB/addresses'
@@ -12,8 +12,14 @@ export default function EnvioTab({handlerNext}){
     const [nombres, setName] = useState('')
     const [cedula, setCedula] = useState('')
     const [telefono, setTelefono] = useState('')
+    const [namesWrong, setNameWrong] = useState(true)
+    const [cedulaWrong, setCedulaWrong] = useState(true)
+    const [telefonoWrong, setTelefonoWrong] = useState(true)
     const [addressChose, setAddressChose] = useState({})
     const [selectorState, setSelectorState] = useState('loading')
+    const namesRef = useRef(null)
+    const cedulaRef = useRef(null)
+    const telefonoRef = useRef(null)
     const { uid, userName, phoneNumber  } = useUI() 
 
     useEffect( () => {
@@ -49,8 +55,24 @@ export default function EnvioTab({handlerNext}){
     const handlerSubmit = e => {
         e.preventDefault()
         //validar datos
+        if(!nombres || !cedula || !telefono){
+            if(!telefono){
+                telefonoRef.current.focus()
+                setTelefonoWrong(false)
+            } 
+            if(!cedula){
+                cedulaRef.current.focus()
+                setCedulaWrong(false)
+            } 
+            if(!nombres){
+                namesRef.current.focus()
+                setNameWrong(false)
+            }
+        }
+        else{
+            handlerNext()
+        }
         
-        handlerNext()
     }
 
     // console.log('🔥🔥🔥🔥🔥')
@@ -73,8 +95,9 @@ export default function EnvioTab({handlerNext}){
     
     const formEnvio = <div>
                         <div className="form-controller">
-                            <label htmlFor="departamento">Departamento</label>   
+                            <label htmlFor="departamento">Departamento*</label>   
                             <select className="input input-primary" name="departamento" id="departamento" required>
+                                <option value="">Departamento</option>
                                 <option value="valle">Valle</option>
                                 <option value="Antioquia">Antioquia</option>
                                 <option value="Cauca">Cauca</option>
@@ -82,8 +105,8 @@ export default function EnvioTab({handlerNext}){
                         </div>
 
                         <div className="form-controller">
-                            <label htmlFor="departamento">Ciudad / Municipio</label>   
-                            <select className="input input-primary" name="departamento" id="departamento" required>
+                            <label htmlFor="ciudad">Ciudad / Municipio*</label>   
+                            <select className="input input-primary" name="ciudad" id="ciudad" required>
                                 <option value="Cali">Cali</option>
                                 <option value="Palmira">Palmira</option>
                                 <option value="Jamundi">Jamundi</option>
@@ -91,23 +114,23 @@ export default function EnvioTab({handlerNext}){
                         </div>
 
                         <div className="form-controller">
-                            <label htmlFor="direccion">Dirección</label>   
+                            <label htmlFor="direccion">Dirección*</label>   
                             <input className="input input-primary" type="text" name="direccion" id="direccion" required/>
                         </div>
 
                         <div className="form-controller">
                             <label htmlFor="direccioncomplemento">Unidad, Apartamento, bloque...</label>   
-                            <input className="input input-primary" type="text" name="direccioncomplemento" id="direccioncomplemento" required/>
+                            <input className="input input-primary" type="text" name="direccioncomplemento" id="direccioncomplemento"/>
                         </div>
 
                         <div className="form-controller">
-                            <label htmlFor="barrio">Barrio</label>   
+                            <label htmlFor="barrio">Barrio*</label>   
                             <input className="input input-primary" type="text" name="barrio" id="barrio" required/>
                         </div>
 
                         <div className="form-controller">
                             <label htmlFor="referenciaDireccion">Lugar de referencia</label>   
-                            <input className="input input-primary" type="text" name="referenciaDireccion" id="referenciaDireccion" required/>
+                            <input className="input input-primary" type="text" name="referenciaDireccion" id="referenciaDireccion"/>
                         </div>
                      </div>
 
@@ -132,19 +155,19 @@ export default function EnvioTab({handlerNext}){
             <form>
                 <div className="facturacion-container">
                     <h1>Detalles de facturación</h1>
-                    <div className="form-controller">
-                        <label htmlFor="nombres">Nombre completo</label>
-                        <input className="input input-primary" value={nombres} onChange={handlerForm} type="text" name="nombres" id="nombres" required/>
+                    <div className={`form-controller ${!namesWrong ? "wrong" : ""}`}>
+                        <label htmlFor="nombres">Nombre completo*</label>
+                        <input className="input input-primary" value={nombres} onChange={handlerForm} type="text" name="nombres" id="nombres" ref={namesRef} required/>
                     </div> 
 
-                    <div className="form-controller">
-                        <label htmlFor="cedula">Cédula</label>   
-                        <input className="input input-primary" value={cedula} onChange={handlerForm} type="number" name="cedula" id="cedula" required/>
+                    <div className={`form-controller ${!cedulaWrong ? "wrong" : ""}`}>
+                        <label htmlFor="cedula">Cédula*</label>   
+                        <input className="input input-primary" value={cedula} onChange={handlerForm} type="number" name="cedula" id="cedula" ref={cedulaRef} required/>
                     </div>
 
-                    <div className="form-controller">
-                        <label htmlFor="telefono">Teléfono</label>   
-                        <input className="input input-primary" value={telefono} onChange={handlerForm} type="number" name="telefono" id="telefono" required/>
+                    <div className={`form-controller ${!telefonoWrong ? "wrong" : ""}`}>
+                        <label htmlFor="telefono">Teléfono*</label>   
+                        <input className="input input-primary" value={telefono} onChange={handlerForm} type="number" name="telefono" id="telefono" ref={telefonoRef} required/>
                     </div>
                 </div>
 
