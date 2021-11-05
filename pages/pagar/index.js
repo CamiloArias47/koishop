@@ -1,5 +1,6 @@
 import { useUI } from "components/UIcontext"
 import { useCommerce } from "components/CommerceContext"
+import { ManagedBuyFormContext } from "components/BuyformContext"
 
 import { useEffect, useState } from "react"
 import { NextSeo } from 'next-seo'
@@ -138,8 +139,9 @@ export default function PagarPage(){
                 strategy="beforeInteractive"
             />
             <ListProcess current={checkoutStep} move={moveFromTabs}/>
-            
-            { displayStep }
+            <ManagedBuyFormContext>
+             { displayStep }
+            </ManagedBuyFormContext>
 
             <style jsx>{style}</style>
         </div>

@@ -16,6 +16,8 @@ export const AuthFacebookGooogle = () =>{
         let user = getUser(result.user.uid)
         user.then( res => {
             if(!res){
+                //verificar el res paa setia en el setuser
+                console.log({user_firebase: res})
                 console.log({user_before: result.user })
                 setUser({user:result.user})
             }

@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useUI } from "components/UIcontext"
-//import { getUser } from "firebaseApi/firestoreDB/user"
+import { useBuyForm } from "components/BuyformContext"
+import { getUser } from "firebaseApi/firestoreDB/user"
 import { getAddressesBy } from 'firebaseApi/firestoreDB/addresses'
 import DeliveryDeatils from './EnvioDetails'
 import {Loadingtext} from 'components/icons'
@@ -9,9 +10,6 @@ import style from './style'
 
 export default function EnvioTab({handlerNext}){
     const [addresses, setAddresses] = useState()
-    const [nombres, setName] = useState('')
-    const [cedula, setCedula] = useState('')
-    const [telefono, setTelefono] = useState('')
     const [departamento, setDepartamento] = useState('')
     const [ciudad, seCiudad] = useState('')
     const [direccion, setDireccion] = useState('')
@@ -31,11 +29,24 @@ export default function EnvioTab({handlerNext}){
     const namesRef = useRef(null)
     const cedulaRef = useRef(null)
     const telefonoRef = useRef(null)
-    const { uid, userName, phoneNumber  } = useUI() 
+    const { uid, userName, phoneNumber, ucedula  } = useUI() 
+
+    const {render,
+           names,
+           cedula,
+           phone,
+           setNames,
+           setCedula,
+           setPhone,
+           setRender} = useBuyForm()
 
     useEffect( () => {
-        setName(userName)
-        if(phoneNumber) setTelefono(phoneNumber)
+        if(render === 0){
+            setNames(userName)
+            if( phoneNumber) setPhone(phoneNumber)
+            if(ucedula) setCedula(ucedula)
+        }
+        setRender()
     },[])
 
     useEffect( () => {
@@ -50,7 +61,7 @@ export default function EnvioTab({handlerNext}){
     const handlerForm = e =>{
         e.preventDefault()
         if(e.target.name === "nombres"){
-            setName(e.target.value)
+            setNames(e.target.value)
             if(namesWrong) setNameWrong(false)
         } 
         if(e.target.name === "cedula"){
@@ -58,7 +69,7 @@ export default function EnvioTab({handlerNext}){
             if(cedulaWrong) setCedulaWrong(false)
         } 
         if(e.target.name === "telefono"){
-            setTelefono(e.target.value)
+            setPhone(e.target.value)
             if(telefonoWrong) setTelefonoWrong(false)
         }    
     } 
@@ -97,8 +108,8 @@ export default function EnvioTab({handlerNext}){
     }
 
     const validateBill = () => {
-        if(!nombres || !cedula || !telefono ){
-            if(!telefono){
+        if(!names || !cedula || !phone ){
+            if(!phone){
                 telefonoRef.current.focus()
                 setTelefonoWrong(true)
             } 
@@ -106,7 +117,7 @@ export default function EnvioTab({handlerNext}){
                 cedulaRef.current.focus()
                 setCedulaWrong(true)
             } 
-            if(!nombres){
+            if(!names){
                 namesRef.current.focus()
                 setNameWrong(true)
             }
@@ -219,7 +230,7 @@ export default function EnvioTab({handlerNext}){
                     <h1>Detalles de facturación</h1>
                     <div className={`form-controller ${namesWrong ? "wrong" : ""}`}>
                         <label htmlFor="nombres">Nombre completo*</label>
-                        <input className="input input-primary" value={nombres} onChange={handlerForm} type="text" name="nombres" id="nombres" ref={namesRef} required/>
+                        <input className="input input-primary" value={names} onChange={handlerForm} type="text" name="nombres" id="nombres" ref={namesRef} required/>
                     </div> 
 
                     <div className={`form-controller ${cedulaWrong ? "wrong" : ""}`}>
@@ -229,7 +240,7 @@ export default function EnvioTab({handlerNext}){
 
                     <div className={`form-controller ${telefonoWrong ? "wrong" : ""}`}>
                         <label htmlFor="telefono">Teléfono*</label>   
-                        <input className="input input-primary" value={telefono} onChange={handlerForm} type="number" name="telefono" id="telefono" ref={telefonoRef} required/>
+                        <input className="input input-primary" value={phone} onChange={handlerForm} type="number" name="telefono" id="telefono" ref={telefonoRef} required/>
                     </div>
                 </div>
 
