@@ -2,21 +2,29 @@ import Image from "next/image"
 import { formatPrice } from "utils"
 import { CloseIcon } from "components/icons"
 import { useCart } from 'hooks/useCart'
+import { useUI } from 'components/UIcontext'
 
 import style from './style'
 
-export default function ProductList(props){
-    let {name, id, price, photo, buyAmount} = {...props}
+export default function ProductList({name, id, price, photo, buyAmount, stock}){
+    buyAmount = Number(buyAmount)
+
+    const { openToast } = useUI()
 
     const { quitProduct, addProduct } = useCart()
 
     const addOneMore = () => {
-        addProduct({id, name, price, buyAmount:buyAmount+1, photo})
+        if(buyAmount+1 > stock){
+            openToast({msg:`Solo quedan ${stock} disponibles`})
+            return false;
+        }
+        
+        addProduct({id, name, price, buyAmount:buyAmount+1, photo, stock})
     }
 
     const quitOne = () => {
         if(buyAmount-1 === 0) return
-        addProduct({id, name, price, buyAmount:buyAmount-1, photo})
+        addProduct({id, name, price, buyAmount:buyAmount-1, photo, stock})
     }
 
     return(

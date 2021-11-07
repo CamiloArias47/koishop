@@ -1,11 +1,11 @@
 import { useUI } from "components/UIcontext"
 import { useCommerce } from "components/CommerceContext"
-import { ManagedBuyFormContext } from "components/BuyformContext"
 
 import { useEffect, useState } from "react"
 import { NextSeo } from 'next-seo'
 import { config } from 'components/commons/Head'
 import Script from 'next/script'
+import { useBuyForm } from "components/BuyformContext"
 
 import ListProcess from 'components/commons/ListProccess'
 import RevisionTab from "components/commons/CheckoutTabs/RevisionTab"
@@ -24,6 +24,13 @@ export default function PagarPage(){
 
     const [ checkoutStep, setCheckoutStep ] = useState(CHECKOUT_STEP.revision)
     const [ mostStep, setMostStep ] = useState(CHECKOUT_STEP.revision)
+    
+    const { reference, 
+            cedula, 
+            phone,
+            city, 
+            address,
+            department } = useBuyForm()
 
     const { closeSidebar, 
             userName,
@@ -46,7 +53,7 @@ export default function PagarPage(){
         var checkout = new WidgetCheckout({
             currency: 'COP',
             amountInCents: subtotalToPay+'00',
-            reference: 'AD002901221',
+            reference: reference,
             //publicKey: 'pub_prod_bOQshOzmaqsaYQ8tzsHPUP7G3K2A1EqN',
             publicKey: 'pub_test_XdVuxWTudRKlUmJf5zwVO71K2I3pQRsO', 
             //redirectUrl: 'https://transaction-redirect.wompi.co/check', // Opcional
@@ -57,16 +64,16 @@ export default function PagarPage(){
             customerData: { // Opcional
               email,
               fullName: userName,
-              phoneNumber: '3040777777',
+              phoneNumber: phone,
               phoneNumberPrefix: '+57',
-              legalId: '123456789',
+              legalId: cedula,
               legalIdType: 'CC'
             },
             shippingAddress: { // Opcional
-              addressLine1: "Calle 123 # 4-5",
-              city: "Bogota",
-              phoneNumber: '3019444444',
-              region: "Cundinamarca",
+              addressLine1: address,
+              city: city,
+              phoneNumber: phone,
+              region: department,
               country: "CO"
             }
           })
@@ -77,11 +84,6 @@ export default function PagarPage(){
             console.log('Transaction object: ', transaction)
           })
     }
-
-    const validateFields  = () => {
-        
-    }
-
 
     const handlerBuyButton = ()=>{
         if(userName === ''){
@@ -99,10 +101,6 @@ export default function PagarPage(){
                                 ? CHECKOUT_STEP.pago  
                                 : checkoutStep < prev ? prev : prev+1
             })
-
-            if(checkoutStep === CHECKOUT_STEP.envio){
-                validateFields()
-            }
 
             if(checkoutStep === CHECKOUT_STEP.pago){
                 showWompyModal()
@@ -122,7 +120,7 @@ export default function PagarPage(){
         setCheckoutStep(moveTo)
     }
 
-    let displayStep = <RevisionTab handlerNext={handlerBuyButton}/>
+    let displayStep = <RevisionTab uid={uid} handlerNext={handlerBuyButton}/>
 
     if(checkoutStep === CHECKOUT_STEP.envio){
         displayStep = <EnvioTab handlerNext={handlerBuyButton}/>
@@ -139,10 +137,7 @@ export default function PagarPage(){
                 strategy="beforeInteractive"
             />
             <ListProcess current={checkoutStep} move={moveFromTabs}/>
-            <ManagedBuyFormContext>
              { displayStep }
-            </ManagedBuyFormContext>
-
             <style jsx>{style}</style>
         </div>
     )

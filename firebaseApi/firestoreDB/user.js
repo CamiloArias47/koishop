@@ -14,7 +14,6 @@ export const getUser = async (uid) => {
 }
 
 export const setUser = async ({user}) => {
-console.log({user})
   const {uid, displayName, email, phoneNumber, emailVerified, photoURL} = user
 
   const resp = await setDoc(doc(db, "users", uid), {

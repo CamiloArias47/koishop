@@ -10,12 +10,6 @@ import style from './style'
 
 export default function EnvioTab({handlerNext}){
     const [addresses, setAddresses] = useState()
-    const [departamento, setDepartamento] = useState('')
-    const [ciudad, seCiudad] = useState('')
-    const [direccion, setDireccion] = useState('')
-    const [direccioncomplemento, setDireccioncomplemento] = useState('')
-    const [barrio, setBarrio] = useState('')
-    const [referenciaDireccion, setReferenciaDireccion] = useState('')
 
     const [namesWrong, setNameWrong] = useState(false)
     const [cedulaWrong, setCedulaWrong] = useState(false)
@@ -35,9 +29,21 @@ export default function EnvioTab({handlerNext}){
            names,
            cedula,
            phone,
+           department,
+           city,
+           address,
+           addressComplement,
+           neighborhood,
+           nextToAddress,
            setNames,
            setCedula,
            setPhone,
+           setDepartment,
+           setCity,
+           setAddress,
+           setAddressComplement,
+           setNeighborhood,
+           setNextToAddress,
            setRender} = useBuyForm()
 
     useEffect( () => {
@@ -76,31 +82,31 @@ export default function EnvioTab({handlerNext}){
 
     const handlerAddressForm = e =>{
         if(e.target.name === 'departamento'){
-            setDepartamento(e.target.value)
+            setDepartment(e.target.value)
             if(departamentoWrong) setDepartamentoWrong(false)
         } 
         if(e.target.name === 'ciudad'){
-            seCiudad(e.target.value)
+            setCity(e.target.value)
             if(ciudadWrong) setCiudadWrong(false)
         } 
         if(e.target.name === 'direccion'){
-            setDireccion(e.target.value)
+            setAddress(e.target.value)
             if(direccionWrong) setDireccionWrong(false)
         }
-        if(e.target.name === 'direccioncomplemento') setDireccioncomplemento(e.target.value)
+        if(e.target.name === 'direccioncomplemento') setAddressComplement(e.target.value)
         if(e.target.name === 'barrio'){
-            setBarrio(e.target.value)
+            setNeighborhood(e.target.value)
             if(barrioWrong) setBarrioWrong(false)
         }
-        if(e.target.name === 'referenciaDireccion') setReferenciaDireccion(e.target.value)
+        if(e.target.name === 'referenciaDireccion') setNextToAddress(e.target.value)
     }
 
     const validateAddress = () => {
-        if(!departamento || !ciudad || !direccion || !barrio){
-            if(!departamento) setDepartamentoWrong(true)
-            if(!ciudad) setCiudadWrong(true)
-            if(!direccion) setDireccionWrong(true)
-            if(!barrio) setBarrioWrong(true)
+        if(!department || !city || !address || !neighborhood){
+            if(!department) setDepartamentoWrong(true)
+            if(!city) setCiudadWrong(true)
+            if(!address) setDireccionWrong(true)
+            if(!neighborhood) setBarrioWrong(true)
             return false
         }
         
@@ -168,7 +174,7 @@ export default function EnvioTab({handlerNext}){
     const formEnvio = <div>
                         <div className={`form-controller ${departamentoWrong ? "wrong" : ""}`}>
                             <label htmlFor="departamento">Departamento*</label>   
-                            <select className="input input-primary" name="departamento" id="departamento"  value={departamento} onChange={handlerAddressForm} required>
+                            <select className="input input-primary" name="departamento" id="departamento"  value={department} onChange={handlerAddressForm} required>
                                 <option value="">Departamento</option>
                                 <option value="valle">Valle</option>
                                 <option value="Antioquia">Antioquia</option>
@@ -178,7 +184,7 @@ export default function EnvioTab({handlerNext}){
 
                         <div className={`form-controller ${ciudadWrong ? "wrong" : ""}`}>
                             <label htmlFor="ciudad">Ciudad / Municipio*</label>   
-                            <select className="input input-primary" name="ciudad" id="ciudad"  value={ciudad} onChange={handlerAddressForm} required>
+                            <select className="input input-primary" name="ciudad" id="ciudad"  value={city} onChange={handlerAddressForm} required>
                                 <option value="">Ciudad</option>
                                 <option value="Cali">Cali</option>
                                 <option value="Palmira">Palmira</option>
@@ -188,22 +194,22 @@ export default function EnvioTab({handlerNext}){
 
                         <div className={`form-controller ${direccionWrong ? "wrong" : ""}`}>
                             <label htmlFor="direccion">Dirección*</label>   
-                            <input className="input input-primary" type="text" name="direccion" id="direccion"  value={direccion} onChange={handlerAddressForm} required/>
+                            <input className="input input-primary" type="text" name="direccion" id="direccion"  value={address} onChange={handlerAddressForm} required/>
                         </div>
 
                         <div className="form-controller">
                             <label htmlFor="direccioncomplemento">Unidad, Apartamento, bloque...</label>   
-                            <input className="input input-primary" type="text" name="direccioncomplemento" id="direccioncomplemento" value={direccioncomplemento} onChange={handlerAddressForm} />
+                            <input className="input input-primary" type="text" name="direccioncomplemento" id="direccioncomplemento" value={addressComplement} onChange={handlerAddressForm} />
                         </div>
 
                         <div className={`form-controller ${barrioWrong ? "wrong" : ""}`}>
                             <label htmlFor="barrio">Barrio*</label>   
-                            <input className="input input-primary" type="text" name="barrio" id="barrio"  value={barrio} onChange={handlerAddressForm} required/>
+                            <input className="input input-primary" type="text" name="barrio" id="barrio"  value={neighborhood} onChange={handlerAddressForm} required/>
                         </div>
 
                         <div className="form-controller">
                             <label htmlFor="referenciaDireccion">Lugar de referencia</label>   
-                            <input className="input input-primary" type="text" name="referenciaDireccion" id="referenciaDireccion" value={referenciaDireccion} onChange={handlerAddressForm} />
+                            <input className="input input-primary" type="text" name="referenciaDireccion" id="referenciaDireccion" value={nextToAddress} onChange={handlerAddressForm} />
                         </div>
                      </div>
 

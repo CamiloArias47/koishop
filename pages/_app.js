@@ -5,6 +5,7 @@ import {ManagedUIContext} from 'components/UIcontext'
 import { ManagedCommerceContext } from 'components/CommerceContext'
 import {UiWindows} from 'components/UIwindows'
 import {globalStyles} from 'styles/styles-global'
+import { ManagedBuyFormContext } from "components/BuyformContext"
 
 function MyApp({ Component, pageProps }) {
 
@@ -15,9 +16,11 @@ function MyApp({ Component, pageProps }) {
         <ManagedUIContext>
           <Navbar/>
           <UiWindows>
-            <section className="main-section">
-              <Component {...pageProps} />
-            </section>
+            <ManagedBuyFormContext>
+              <section className="main-section">
+                <Component {...pageProps} />
+              </section>
+            </ManagedBuyFormContext>
           </UiWindows>
         </ManagedUIContext>
       </ManagedCommerceContext>

@@ -43,12 +43,11 @@ const ProductPage = (props) => {
     event.preventDefault()
     setAdding(true)
 
-    setTimeout( ()=>{
-      addProduct({id, name, price, buyAmount, photo, stock:amount})
-      setSidebarView(SIDEBAR_VIEWS.CART_VIEW)
-      openSidebarFromRight()
-      setAdding(false)
-    },100)
+    addProduct({id, name, price, buyAmount, photo, stock:amount})
+    setSidebarView(SIDEBAR_VIEWS.CART_VIEW)
+    openSidebarFromRight()
+    setAdding(false)
+
   }
 
   const iconBtn = adding 
