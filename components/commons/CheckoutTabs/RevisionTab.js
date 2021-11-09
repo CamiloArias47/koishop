@@ -1,7 +1,9 @@
-import { formatPrice } from "utils"
+import { useEffect } from "react"
 import { useCommerce } from "components/CommerceContext"
-import { setBill, updateBill } from "firebaseApi/firestoreDB/bill"
 import { useBuyForm } from "components/BuyformContext"
+import useBill from "hooks/userBill"
+import { setBill, updateBill } from "firebaseApi/firestoreDB/bill"
+import { formatPrice } from "utils"
 
 import ProductList from "components/commons/ProductList"
 import style from 'styles/style-pago'
@@ -10,6 +12,17 @@ export default function RevisionTab({handlerNext, uid}){
 
     const { cart, subtotalToPay } = useCommerce()
     const {reference, setReference} = useBuyForm()
+    const {setBillId,
+          getBillId } = useBill()
+    const localBillId = getBillId()
+    
+    //revisar si hay una referencia en el localstorage
+    useEffect( ()=>{
+        console.log({localBillId})
+        if(localBillId !== null){
+            setReference(localBillId)
+        }
+    },[localBillId])
 
     const saveDetailsBill = ()=>{
         const cartSave = cart.map( pcart => {
@@ -29,9 +42,10 @@ export default function RevisionTab({handlerNext, uid}){
 
         if(reference === undefined){
             setBill(bill)
-                .then( resp => {
+            .then( resp => {
                     console.log({msg:'saved',resp})
                     setReference(resp.bid)
+                    setBillId(resp.bid)
                     handlerNext()
                 })
         }

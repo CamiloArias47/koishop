@@ -4,7 +4,7 @@ import useLocalStorage from 'hooks/useLocalStorage'
 
 export function useCart(){
 
-    const { setProductCart, setProductsCart, cart } = useCommerce()
+    const { setProductCart, setProductsCart } = useCommerce()
     const { canIUseLocalStorage } = useLocalStorage()
     
     const addProduct = ({id, name, price, buyAmount, photo, stock}) => {
@@ -53,10 +53,6 @@ export function useCart(){
         
         newCartproducts = JSON.stringify(newCartproducts)
         miCart.setItem('cart', newCartproducts)
-    }
-
-    const getTotalProducts = () => {
-
     }
 
     return {
