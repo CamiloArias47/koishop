@@ -12,15 +12,29 @@ export default function RevisionTab({handlerNext, uid}){
 
     const { cart, subtotalToPay } = useCommerce()
     const {reference, setReference} = useBuyForm()
-    const {setBillId,
-          getBillId } = useBill()
+
+    const {
+        setBillId,
+        getBillIdTimestamp,
+        getBillId 
+    } = useBill()
+
     const localBillId = getBillId()
     
-    //revisar si hay una referencia en el localstorage
+    //revisar si hay una referencia en el localstorage (si el usuario inicio un proceso de compra)
+    //esto evita que el usuario cree más de una factura en la base de datos para una sola compra
+    //solo se le permite crear otra factura si ha pasado un dia desde que inicio una compra (creo factura en base de datos) 
+    //y no termino el proceso, se le da un día para retomar dicha compra 
     useEffect( ()=>{
         console.log({localBillId})
         if(localBillId !== null){
-            setReference(localBillId)
+            const createdBill =  new Date(getBillIdTimestamp()).getTime()
+            const now =  Date.now() 
+            const diff = (now - createdBill) / 1000
+            //Si no ha pasado más de un dia retomamos la factura creada
+            if(diff <= 86400){
+                setReference(localBillId)
+            }
         }
     },[localBillId])
 

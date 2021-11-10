@@ -112,10 +112,23 @@ export default function PagarPage(){
 
     const moveFromTabs = (clicked) => {
         let moveTo = checkoutStep
+        let updateCar = false
 
-        if(mostStep === CHECKOUT_STEP.revision) moveTo = CHECKOUT_STEP.revision
-        if(mostStep === CHECKOUT_STEP.envio) moveTo = clicked <= CHECKOUT_STEP.envio ? clicked : checkoutStep
-        if(mostStep === CHECKOUT_STEP.pago) moveTo = clicked
+        if(checkoutStep === clicked) return false
+
+        if(mostStep === CHECKOUT_STEP.revision) return false
+
+        if(mostStep === CHECKOUT_STEP.envio){
+            updateCar = checkoutStep === CHECKOUT_STEP.revision ? true : false
+            moveTo = clicked <= CHECKOUT_STEP.envio ? clicked : checkoutStep
+        } 
+
+        if(mostStep === CHECKOUT_STEP.pago){
+            updateCar = checkoutStep === CHECKOUT_STEP.revision ? true : false
+            moveTo = clicked
+        } 
+
+        //if(updateCar) 
 
         setCheckoutStep(moveTo)
     }

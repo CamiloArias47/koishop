@@ -1,5 +1,5 @@
 import db from './db'
-import { doc, getDoc, setDoc } from "firebase/firestore"
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore"
 
 
 export const getUser = async (uid) => {
@@ -23,7 +23,21 @@ export const setUser = async ({user}) => {
     phoneNumber,
     photoURL,
   });
+}
 
-  console.log({resp})
 
+export const updateUCedula = async ({uid, ucedula})=>{
+  const userRef = doc(db, "users", uid);
+
+  await updateDoc(userRef, {ucedula});
+
+  return {uid,ucedula}
+}
+
+export const updatePhone = async ({uid, phoneNumber})=>{
+  const userRef = doc(db, "users", uid);
+
+  await updateDoc(userRef, {phoneNumber});
+
+  return {uid,phoneNumber}
 }

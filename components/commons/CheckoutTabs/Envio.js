@@ -1,7 +1,9 @@
 import { useEffect, useState, useRef } from 'react'
 import { useUI } from "components/UIcontext"
 import { useBuyForm } from "components/BuyformContext"
-import { getUser } from "firebaseApi/firestoreDB/user"
+import { updateBillWithPerson } from "firebaseApi/firestoreDB/bill"
+import { updateUCedula,
+         updatePhone } from "firebaseApi/firestoreDB/user"
 import { getAddressesBy } from 'firebaseApi/firestoreDB/addresses'
 import DeliveryDeatils from './EnvioDetails'
 import {Loadingtext} from 'components/icons'
@@ -25,7 +27,8 @@ export default function EnvioTab({handlerNext}){
     const telefonoRef = useRef(null)
     const { uid, userName, phoneNumber, ucedula  } = useUI() 
 
-    const {render,
+    const {reference,
+           render,
            names,
            cedula,
            phone,
@@ -148,7 +151,18 @@ export default function EnvioTab({handlerNext}){
         const vldtBill = validateBill()
 
         if(vldtBill && vldtAddress ){
-            handlerNext()
+            const personBill = {
+                bid: reference,
+                name:names,
+                nationalIdentification: cedula,
+                phone
+            }
+            updateBillWithPerson(personBill)
+                .then( (resp) => {
+                    if(!ucedula) updateUCedula({uid, ucedula:cedula })
+                    if(!phoneNumber) updatePhone({uid, phoneNumber: phone})
+                    handlerNext()
+                })
         }
 
     }
