@@ -29,10 +29,22 @@ export default function useBill(){
         return btime
     }
 
+    const deleteBill = () => {
+        const miLocal = window.localStorage;
+        miLocal.removeItem('billId')
+    }
+
+    const deleteBillTime = () => {
+        const miLocal = window.localStorage;
+        miLocal.removeItem('billId-timestamp')
+    }
+
     return {
         setBillId,
         getBillId,
-        getBillIdTimestamp
+        getBillIdTimestamp,
+        deleteBill,
+        deleteBillTime
     }
 }
 

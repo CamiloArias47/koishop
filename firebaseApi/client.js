@@ -13,13 +13,25 @@ import { getAuth,
          FacebookAuthProvider,
          signOut } from "firebase/auth";
 
+import { getUser }  from "firebaseApi/firestoreDB/user"
+
 
 const auth = getAuth(firebaseApp);
 
 
 export const authChanged = (onChange) => {
     onAuthStateChanged(auth, user => {
-        onChange(user)
+        getUser(user.uid)
+            .then( resp => {
+                return {
+                    ...user,
+                    ...resp
+                }
+            })
+            .then( udata => {
+                onChange(udata)
+            })
+
     });
 } 
 

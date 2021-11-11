@@ -16,7 +16,9 @@ export default function RevisionTab({handlerNext, uid}){
     const {
         setBillId,
         getBillIdTimestamp,
-        getBillId 
+        getBillId,
+        deleteBill,
+        deleteBillTime
     } = useBill()
 
     const localBillId = getBillId()
@@ -34,6 +36,10 @@ export default function RevisionTab({handlerNext, uid}){
             //Si no ha pasado más de un dia retomamos la factura creada
             if(diff <= 86400){
                 setReference(localBillId)
+            }
+            else{
+                deleteBill()
+                deleteBillTime()
             }
         }
     },[localBillId])
