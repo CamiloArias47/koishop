@@ -1,4 +1,10 @@
 import React, {useCallback, useMemo} from 'react'
+import { useUI } from "components/UIcontext"
+import { updateBillWithPerson } from "firebaseApi/firestoreDB/bill"
+import { 
+    updateUCedula,
+    updatePhone 
+} from "firebaseApi/firestoreDB/user"
 
 const initialState = {
     reference : undefined,
@@ -229,15 +235,15 @@ export const useBuyForm = () => {
 export const useDeliveryActions = () => {
 
     const context = useBuyForm()
+    const {
+        names, cedula, phone, department, city, address, neighborhood,
+        reference, setDepartamentoWrong, setCiudadWrong, setDireccionWrong,
+        setBarrioWrong,setTelefonoWrong, setCedulaWrong, setNamesWrong
+    } = context
+    const { uid, phoneNumber, ucedula  } = useUI() 
+
 
     const validateAddress = () => {
-
-        const {
-            department, city, address, neighborhood,
-            setDepartamentoWrong, setCiudadWrong, setDireccionWrong,
-            setBarrioWrong 
-        } = context
-
         if(!department || !city || !address || !neighborhood){
             if(!department) setDepartamentoWrong(true)
             if(!city) setCiudadWrong(true)
@@ -249,10 +255,6 @@ export const useDeliveryActions = () => {
     }
 
     const validateBill = () => {
-        const {
-            names, cedula, phone, setTelefonoWrong, setCedulaWrong, setNamesWrong
-        } = context
-
         if(!names || !cedula || !phone ){
             if(!phone) setTelefonoWrong(true)
             if(!cedula) setCedulaWrong(true)
@@ -264,9 +266,31 @@ export const useDeliveryActions = () => {
         return true
     }
 
+    const validateAndSave = () => {
+        const vldtAddress = validateAddress()
+        const vldtBill = validateBill()
+
+        if(vldtBill && vldtAddress ){
+            const personBill = {
+                bid: reference,
+                name:names,
+                nationalIdentification: cedula,
+                phone
+            }
+
+            return updateBillWithPerson(personBill)
+                .then( (resp) => {
+                    if(!ucedula) updateUCedula({uid, ucedula:cedula })
+                    if(!phoneNumber) updatePhone({uid, phoneNumber: phone})
+                    return resp
+                })
+        }
+    } 
+
     return {
         validateAddress,
-        validateBill
+        validateBill,
+        validateAndSave
     }
 }
 

@@ -1,9 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { useUI } from "components/UIcontext"
 import { useBuyForm, useDeliveryActions } from "components/BuyformContext"
-import { updateBillWithPerson } from "firebaseApi/firestoreDB/bill"
-import { updateUCedula,
-         updatePhone } from "firebaseApi/firestoreDB/user"
 import { getAddressesBy } from 'firebaseApi/firestoreDB/addresses'
 import DeliveryDeatils from './EnvioDetails'
 import {Loadingtext} from 'components/icons'
@@ -20,8 +17,7 @@ export default function EnvioTab({handlerNext}){
     const telefonoRef = useRef(null)
     const { uid, userName, phoneNumber, ucedula  } = useUI() 
 
-    const {reference,
-           render,
+    const {render,
            names,
            cedula,
            phone,
@@ -56,7 +52,7 @@ export default function EnvioTab({handlerNext}){
            setBarrioWrong,
            setRender} = useBuyForm()
 
-    const { validateAddress, validateBill } = useDeliveryActions()
+    const { validateAndSave } = useDeliveryActions()
 
     useEffect( () => {
         if(render === 0){
@@ -124,25 +120,10 @@ export default function EnvioTab({handlerNext}){
 
     const handlerSubmit = e => {
         e.preventDefault()
-
-        const vldtAddress = validateAddress()
-        const vldtBill = validateBill()
-
-        if(vldtBill && vldtAddress ){
-            const personBill = {
-                bid: reference,
-                name:names,
-                nationalIdentification: cedula,
-                phone
-            }
-            updateBillWithPerson(personBill)
-                .then( (resp) => {
-                    if(!ucedula) updateUCedula({uid, ucedula:cedula })
-                    if(!phoneNumber) updatePhone({uid, phoneNumber: phone})
-                    handlerNext()
-                })
-        }
-
+        validateAndSave().then( resp => {
+            console.log({respValiateAndSave: resp})
+            handlerNext()
+        })
     }
 
     // console.log('🔥🔥🔥🔥🔥')
