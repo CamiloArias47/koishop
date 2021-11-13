@@ -1,4 +1,7 @@
 import React, { useCallback, useMemo }  from 'react'
+import { useBuyForm } from "components/BuyformContext"
+import { setBill, updateBill } from "firebaseApi/firestoreDB/bill"
+import useBill from "hooks/useBill"
 
 const initialState = {
     categories : [],
@@ -98,12 +101,62 @@ export const CommerceProvider = ({...props}) =>{
     return <CoomerceContext.Provider value={value} {...props}/>
 }
 
-export const useCommerce = () => {
+const getContext = () => {
     const context = React.useContext(CoomerceContext)
     if (context === undefined) {
       throw new Error(`useCommerce must be used within a CommerceProvider`)
     }
     return context
+}
+
+export const useCommerce = () => {
+    const context = getContext()
+    return context
+}
+
+export const useSaveCart = () => {
+    const context = getContext()
+    const {reference, setReference} = useBuyForm()
+    const {setBillId} = useBill()
+
+    const saveCart = (uid) =>{
+        const {cart} = context 
+    
+        const cartSave = cart.map( pcart => {
+            return {
+                id: pcart.id,
+                amount: pcart.buyAmount,
+                name: pcart.name,
+                pricex1: pcart.price
+            }
+        })
+
+        const bill = {
+            uid,
+            cart: cartSave,
+            status:'incomplete'
+        }
+    
+        if(reference === undefined){
+            return setBill(bill)
+            .then( resp => {
+                    const dataResp = {msg:'saved',resp}
+                    setReference(resp.bid)
+                    setBillId(resp.bid)
+                    return  dataResp
+                })
+        }
+        else{
+            bill.bid = reference
+            return updateBill(bill)
+                .then( resp => {
+                    const dataResp = {msg:'updated',resp}
+                    return  dataResp
+                })
+        }
+    }
+
+    return {saveCart}
 }
 
 export const ManagedCommerceContext = ({ children }) => (

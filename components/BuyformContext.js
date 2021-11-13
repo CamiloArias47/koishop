@@ -3,7 +3,7 @@ import React, {useCallback, useMemo} from 'react'
 const initialState = {
     reference : undefined,
     render : 0,
-    names : ' ',
+    names : '',
     cedula: '',
     phone: '',
     department: '',
@@ -11,7 +11,14 @@ const initialState = {
     address: '',
     addressComplement : '',
     neighborhood:'',
-    nextToAddress:''
+    nextToAddress:'',
+    namesWrong: false,
+    cedulaWrong: false,
+    telefonoWrong: false,
+    departamentoWrong: false,
+    ciudadWrong: false,
+    direccionWrong: false,
+    barrioWrong: false,
 }
 
 export const BuyFormContext = React.createContext(initialState)
@@ -52,7 +59,27 @@ function reducer(state, action){
         case 'reference' : {
             return{...state, reference : action.payload}
         }
-        
+        case 'namesWrong' : {
+            return{...state, namesWrong : action.payload}
+        }
+        case 'cedulaWrong' : {
+            return{...state, cedulaWrong : action.payload}
+        }
+        case 'telefonoWrong' : {
+            return{...state, telefonoWrong : action.payload}
+        }
+        case 'departamentoWrong' : {
+            return{...state, departamentoWrong : action.payload}
+        }
+        case 'ciudadWrong' : {
+            return{...state, ciudadWrong : action.payload}
+        }
+        case 'direccionWrong' : {
+            return{...state, direccionWrong : action.payload}
+        }
+        case 'barrioWrong' : {
+            return{...state, barrioWrong : action.payload}
+        }
     }
 }
 
@@ -124,6 +151,42 @@ export const BuyFormProvider = ({...props}) => {
         [dispatch]
     )
 
+    const setNamesWrong = useCallback(
+        payload => { 
+            dispatch({type:'namesWrong', payload}) },
+        [dispatch]
+    )
+    const setCedulaWrong = useCallback(
+        payload => { 
+            dispatch({type:'cedulaWrong', payload}) },
+        [dispatch]
+    )
+    const setTelefonoWrong = useCallback(
+        payload => { 
+            dispatch({type:'telefonoWrong', payload}) },
+        [dispatch]
+    )
+    const setDepartamentoWrong = useCallback(
+        payload => { 
+            dispatch({type:'departamentoWrong', payload}) },
+        [dispatch]
+    )
+    const setCiudadWrong = useCallback(
+        payload => { 
+            dispatch({type:'ciudadWrong', payload}) },
+        [dispatch]
+    )
+    const setDireccionWrong = useCallback(
+        payload => { 
+            dispatch({type:'direccionWrong', payload}) },
+        [dispatch]
+    )
+    const setBarrioWrong = useCallback(
+        payload => { 
+            dispatch({type:'barrioWrong', payload}) },
+        [dispatch]
+    )
+
     const value= useMemo(
         ()=>({
             ...state,
@@ -137,13 +200,22 @@ export const BuyFormProvider = ({...props}) => {
             setAddress,
             setNeighborhood,
             setNextToAddress,
-            setReference
+            setReference,
+            setNamesWrong,
+            setCedulaWrong,
+            setTelefonoWrong,
+            setDepartamentoWrong,
+            setCiudadWrong,
+            setDireccionWrong,
+            setBarrioWrong,
         }),
         [state]
     )
 
     return <BuyFormContext.Provider value={value} {...props}/>
 }
+
+
 
 export const useBuyForm = () => {
     const context = React.useContext(BuyFormContext)
@@ -152,6 +224,53 @@ export const useBuyForm = () => {
     }
     return context
 }
+
+
+export const useDeliveryActions = () => {
+
+    const context = useBuyForm()
+
+    const validateAddress = () => {
+
+        const {
+            department, city, address, neighborhood,
+            setDepartamentoWrong, setCiudadWrong, setDireccionWrong,
+            setBarrioWrong 
+        } = context
+
+        if(!department || !city || !address || !neighborhood){
+            if(!department) setDepartamentoWrong(true)
+            if(!city) setCiudadWrong(true)
+            if(!address) setDireccionWrong(true)
+            if(!neighborhood) setBarrioWrong(true)
+            return false
+        }
+        return true
+    }
+
+    const validateBill = () => {
+        const {
+            names, cedula, phone, setTelefonoWrong, setCedulaWrong, setNamesWrong
+        } = context
+
+        if(!names || !cedula || !phone ){
+            if(!phone) setTelefonoWrong(true)
+            if(!cedula) setCedulaWrong(true)
+            if(!names) setNamesWrong(true) 
+
+            return false
+        }
+
+        return true
+    }
+
+    return {
+        validateAddress,
+        validateBill
+    }
+}
+
+
 
 export const ManagedBuyFormContext = ({ children }) => (
     <BuyFormProvider>

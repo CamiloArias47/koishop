@@ -1,8 +1,6 @@
-import { useEffect } from "react"
-import { useCommerce } from "components/CommerceContext"
-import { useBuyForm } from "components/BuyformContext"
-import useBill from "hooks/userBill"
-import { setBill, updateBill } from "firebaseApi/firestoreDB/bill"
+import { useCommerce, 
+        useSaveCart } from "components/CommerceContext"
+import useBill from "hooks/useBill"
 import { formatPrice } from "utils"
 
 import ProductList from "components/commons/ProductList"
@@ -11,72 +9,20 @@ import style from 'styles/style-pago'
 export default function RevisionTab({handlerNext, uid}){
 
     const { cart, subtotalToPay } = useCommerce()
-    const {reference, setReference} = useBuyForm()
 
-    const {
-        setBillId,
-        getBillIdTimestamp,
-        getBillId,
-        deleteBill,
-        deleteBillTime
-    } = useBill()
+    const { validateBillId} = useBill()
 
-    const localBillId = getBillId()
+    const {saveCart} = useSaveCart()
     
-    //revisar si hay una referencia en el localstorage (si el usuario inicio un proceso de compra)
-    //esto evita que el usuario cree más de una factura en la base de datos para una sola compra
-    //solo se le permite crear otra factura si ha pasado un dia desde que inicio una compra (creo factura en base de datos) 
-    //y no termino el proceso, se le da un día para retomar dicha compra 
-    useEffect( ()=>{
-        console.log({localBillId})
-        if(localBillId !== null){
-            const createdBill =  new Date(getBillIdTimestamp()).getTime()
-            const now =  Date.now() 
-            const diff = (now - createdBill) / 1000
-            //Si no ha pasado más de un dia retomamos la factura creada
-            if(diff <= 86400){
-                setReference(localBillId)
-            }
-            else{
-                deleteBill()
-                deleteBillTime()
-            }
-        }
-    },[localBillId])
-
     const saveDetailsBill = ()=>{
-        const cartSave = cart.map( pcart => {
-            return {
-                id: pcart.id,
-                amount: pcart.buyAmount,
-                name: pcart.name,
-                pricex1: pcart.price
-            }
-        })
 
-        const bill = {
-            uid,
-            cart: cartSave,
-            status:'incomplete'
-        }
-
-        if(reference === undefined){
-            setBill(bill)
-            .then( resp => {
-                    console.log({msg:'saved',resp})
-                    setReference(resp.bid)
-                    setBillId(resp.bid)
-                    handlerNext()
-                })
-        }
-        else{
-            bill.bid = reference
-            updateBill(bill)
-                .then( resp => {
-                    console.log({msg:'updated',resp})
-                    handlerNext()
-                })
-        }
+         saveCart(uid).then( (data) => {
+             console.log(data)
+             handlerNext()
+         })
+         .catch(err => {
+             console.error({err})
+         })
     }
 
     const butonNext = cart.length === 0 
@@ -85,6 +31,9 @@ export default function RevisionTab({handlerNext, uid}){
                             className="btn btn-primary btn-buy" onClick={saveDetailsBill}  >
                                 Hacer compra
                         </button>
+
+    //valida si existe un id de factura y su fecha
+    validateBillId() 
 
     return(
         <div>

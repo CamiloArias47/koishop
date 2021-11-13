@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { useUI } from "components/UIcontext"
-import { useBuyForm } from "components/BuyformContext"
+import { useBuyForm, useDeliveryActions } from "components/BuyformContext"
 import { updateBillWithPerson } from "firebaseApi/firestoreDB/bill"
 import { updateUCedula,
          updatePhone } from "firebaseApi/firestoreDB/user"
@@ -12,14 +12,7 @@ import style from './style'
 
 export default function EnvioTab({handlerNext}){
     const [addresses, setAddresses] = useState()
-
-    const [namesWrong, setNameWrong] = useState(false)
-    const [cedulaWrong, setCedulaWrong] = useState(false)
-    const [telefonoWrong, setTelefonoWrong] = useState(false)
-    const [departamentoWrong, setDepartamentoWrong] = useState(false)
-    const [ciudadWrong, setCiudadWrong] = useState(false)
-    const [direccionWrong, setDireccionWrong] = useState(false)
-    const [barrioWrong, setBarrioWrong] = useState(false)
+    
     const [addressChose, setAddressChose] = useState({})
     const [selectorState, setSelectorState] = useState('loading')
     const namesRef = useRef(null)
@@ -38,6 +31,13 @@ export default function EnvioTab({handlerNext}){
            addressComplement,
            neighborhood,
            nextToAddress,
+           namesWrong,
+           cedulaWrong,
+           telefonoWrong,
+           departamentoWrong,
+           ciudadWrong,
+           direccionWrong,
+           barrioWrong,
            setNames,
            setCedula,
            setPhone,
@@ -47,7 +47,16 @@ export default function EnvioTab({handlerNext}){
            setAddressComplement,
            setNeighborhood,
            setNextToAddress,
+           setNamesWrong,
+           setCedulaWrong,
+           setTelefonoWrong,
+           setDepartamentoWrong,
+           setCiudadWrong,
+           setDireccionWrong,
+           setBarrioWrong,
            setRender} = useBuyForm()
+
+    const { validateAddress, validateBill } = useDeliveryActions()
 
     useEffect( () => {
         if(render === 0){
@@ -71,7 +80,7 @@ export default function EnvioTab({handlerNext}){
         e.preventDefault()
         if(e.target.name === "nombres"){
             setNames(e.target.value)
-            if(namesWrong) setNameWrong(false)
+            if(namesWrong) setNamesWrong(false)
         } 
         if(e.target.name === "cedula"){
             setCedula(e.target.value)
@@ -102,37 +111,6 @@ export default function EnvioTab({handlerNext}){
             if(barrioWrong) setBarrioWrong(false)
         }
         if(e.target.name === 'referenciaDireccion') setNextToAddress(e.target.value)
-    }
-
-    const validateAddress = () => {
-        if(!department || !city || !address || !neighborhood){
-            if(!department) setDepartamentoWrong(true)
-            if(!city) setCiudadWrong(true)
-            if(!address) setDireccionWrong(true)
-            if(!neighborhood) setBarrioWrong(true)
-            return false
-        }
-        
-        return true
-    }
-
-    const validateBill = () => {
-        if(!names || !cedula || !phone ){
-            if(!phone){
-                telefonoRef.current.focus()
-                setTelefonoWrong(true)
-            } 
-            if(!cedula){
-                cedulaRef.current.focus()
-                setCedulaWrong(true)
-            } 
-            if(!names){
-                namesRef.current.focus()
-                setNameWrong(true)
-            }
-           return false
-        }
-        return true
     }
 
     const changeAddress = (event)=>{

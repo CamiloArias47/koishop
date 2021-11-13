@@ -1,5 +1,5 @@
 import { useUI } from "components/UIcontext"
-import { useCommerce } from "components/CommerceContext"
+import { useCommerce, useSaveCart } from "components/CommerceContext"
 
 import { useEffect, useState } from "react"
 import { NextSeo } from 'next-seo'
@@ -38,7 +38,9 @@ export default function PagarPage(){
             email,
             openModal,
             closeModal } = useUI() 
-    const { cart, subtotalToPay } = useCommerce()
+
+    const { subtotalToPay } = useCommerce()
+    const { saveCart } = useSaveCart()
 
     useEffect( () => {
         closeSidebar()
@@ -110,27 +112,29 @@ export default function PagarPage(){
         }
     }
 
-    const moveFromTabs = (clicked) => {
+    const moveFromTabs = (userWantGoTo) => {
         let moveTo = checkoutStep
-        let updateCar = false
 
-        if(checkoutStep === clicked) return false
+        if(moveTo === userWantGoTo) return false
 
         if(mostStep === CHECKOUT_STEP.revision) return false
 
         if(mostStep === CHECKOUT_STEP.envio){
-            updateCar = checkoutStep === CHECKOUT_STEP.revision ? true : false
-            moveTo = clicked <= CHECKOUT_STEP.envio ? clicked : checkoutStep
+            moveTo = userWantGoTo <= CHECKOUT_STEP.envio ? userWantGoTo : checkoutStep
         } 
 
-        if(mostStep === CHECKOUT_STEP.pago){
-            updateCar = checkoutStep === CHECKOUT_STEP.revision ? true : false
-            moveTo = clicked
-        } 
+        if(mostStep === CHECKOUT_STEP.pago) moveTo = userWantGoTo
 
-        //if(updateCar) 
-
-        setCheckoutStep(moveTo)
+        //si estoy en revisión y me muevo a otro lado, actualiar carrito en base de datos 
+        if(checkoutStep === CHECKOUT_STEP.revision){
+            saveCart(uid).then( resp => {
+                console.log({saveFromTabs: resp})
+                setCheckoutStep(moveTo)
+            })
+        }
+        else{
+            setCheckoutStep(moveTo)
+        }
     }
 
     let displayStep = <RevisionTab uid={uid} handlerNext={handlerBuyButton}/>
@@ -149,8 +153,11 @@ export default function PagarPage(){
                 src="https://checkout.wompi.co/widget.js"
                 strategy="beforeInteractive"
             />
+
             <ListProcess current={checkoutStep} move={moveFromTabs}/>
+
              { displayStep }
+
             <style jsx>{style}</style>
         </div>
     )
