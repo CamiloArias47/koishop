@@ -101,7 +101,8 @@ export const CommerceProvider = ({...props}) =>{
     return <CoomerceContext.Provider value={value} {...props}/>
 }
 
-const getContext = () => {
+
+export const useCommerce = () => {
     const context = React.useContext(CoomerceContext)
     if (context === undefined) {
       throw new Error(`useCommerce must be used within a CommerceProvider`)
@@ -109,13 +110,8 @@ const getContext = () => {
     return context
 }
 
-export const useCommerce = () => {
-    const context = getContext()
-    return context
-}
-
 export const useSaveCart = () => {
-    const context = getContext()
+    const context = useCommerce()
     const {reference, setReference} = useBuyForm()
     const {setBillId} = useBill()
 
