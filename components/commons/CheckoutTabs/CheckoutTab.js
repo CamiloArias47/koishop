@@ -1,4 +1,4 @@
-
+import style from "./styleDiscountCode"
 
 export default function CheckoutTab({handlerNext}){
     const handlerSubmit = e => {
@@ -6,12 +6,20 @@ export default function CheckoutTab({handlerNext}){
         handlerNext()
     }
 
+    const handlerCode = e => {
+        e.preventDefault()
+        console.log('validar codigo')
+    }
+
     return(
         <div>
             <form>
-                <div className="form-controller">
+                <div className="form-controller discount-code-form">
                     <label htmlFor="discount-code">Codigo de descuento</label>   
                     <input className="input input-primary" type="text" name="discount-code" id="discount-code"/>
+                    <button className="btn btn-primary" onClick={handlerCode}>
+                        Aplicar
+                    </button>
                 </div>
 
                 <p>
@@ -25,6 +33,8 @@ export default function CheckoutTab({handlerNext}){
                 </div>
 
             </form>
+
+            <style jsx>{style}</style>
         </div>
     )
 }

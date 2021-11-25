@@ -1,5 +1,6 @@
 import db from './db'
 import { getDocs,
+         addDoc,
          collection,
          query,
          where 
@@ -24,4 +25,18 @@ export const getAddressesBy = async uid => {
         addresses.push({...doc.data(), id:doc.id})
     });
     return addresses
+}
+
+export const setAdrress = async ({address, addresscomplement, city, department, neighborhood, nextToAddress, uid}) => {
+    const docRef = await addDoc(collection(db, "address"), {
+        address,
+        addresscomplement,
+        city,
+        department,
+        neighborhood,
+        nextToAddress,
+        uid
+    });
+
+    return {aid: docRef.id} 
 }

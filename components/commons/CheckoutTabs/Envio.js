@@ -8,7 +8,6 @@ import {Loadingtext} from 'components/icons'
 import style from './style'
 
 export default function EnvioTab({handlerNext}){
-    const [addresses, setAddresses] = useState()
     
     const [addressChose, setAddressChose] = useState({})
     const [selectorState, setSelectorState] = useState('loading')
@@ -50,9 +49,13 @@ export default function EnvioTab({handlerNext}){
            setCiudadWrong,
            setDireccionWrong,
            setBarrioWrong,
+           addresses,
+           setAddresses,
+           setAddressFromSelector,
+           clearAddressOfDb,
            setRender} = useBuyForm()
 
-    const { validateAndSave } = useDeliveryActions()
+    const { validateAndSave, setAddressOf_DB } = useDeliveryActions()
 
     useEffect( () => {
         if(render === 0){
@@ -69,6 +72,10 @@ export default function EnvioTab({handlerNext}){
             setAddresses(uAddress)
             setAddressChose(uAddress[0])
             setSelectorState(setSelect)
+            if(uAddress.length >= 1){
+                setAddressOf_DB(uAddress[0])
+                setAddressFromSelector(true)
+            }
         })
     }, [uid])
 
@@ -115,15 +122,24 @@ export default function EnvioTab({handlerNext}){
         if(selected !== 'agregar'){
             const addresSelected = addresses.find(direction => direction.id == selected)
             setAddressChose(addresSelected)
+            setAddressOf_DB(addresSelected)
+            setAddressFromSelector(true)
+        }
+        if(selected === 'agregar'){
+            setAddressFromSelector(false)
+            clearAddressOfDb()
         }
     }
 
     const handlerSubmit = e => {
         e.preventDefault()
-        validateAndSave().then( resp => {
-            console.log({respValiateAndSave: resp})
-            handlerNext()
-        })
+
+        validateAndSave()
+            .then( resp => {
+                console.log({respValiateAndSave: resp})
+                handlerNext()
+            })
+            .catch( err => console.error({err}) )
     }
 
     // console.log('🔥🔥🔥🔥🔥')

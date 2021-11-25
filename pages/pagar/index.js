@@ -1,11 +1,11 @@
+import { useEffect, useState } from "react"
 import { useUI } from "components/UIcontext"
 import { useCommerce, useSaveCart } from "components/CommerceContext"
+import { useBuyForm, useDeliveryActions } from "components/BuyformContext"
 
-import { useEffect, useState } from "react"
 import { NextSeo } from 'next-seo'
 import { config } from 'components/commons/Head'
 import Script from 'next/script'
-import { useBuyForm } from "components/BuyformContext"
 
 import ListProcess from 'components/commons/ListProccess'
 import RevisionTab from "components/commons/CheckoutTabs/RevisionTab"
@@ -31,6 +31,8 @@ export default function PagarPage(){
             city, 
             address,
             department } = useBuyForm()
+    
+    const { validateAndSave } = useDeliveryActions()
 
     const { closeSidebar, 
             userName,
@@ -125,10 +127,17 @@ export default function PagarPage(){
 
         if(mostStep === CHECKOUT_STEP.pago) moveTo = userWantGoTo
 
-        //si estoy en revisión y me muevo a otro lado, actualiar carrito en base de datos 
+        //si estoy en revisión y me muevo a otro lado, actualizar carrito en base de datos 
         if(checkoutStep === CHECKOUT_STEP.revision){
             saveCart(uid).then( resp => {
                 console.log({saveFromTabs: resp})
+                setCheckoutStep(moveTo)
+            })
+        }
+        //si estoy en envio y me muevo a otro lado guardar los datos en la base de datos
+        else if(checkoutStep === CHECKOUT_STEP.envio){
+            validateAndSave().then( resp => {
+                console.log({valiateAndSave_fromTab: resp})
                 setCheckoutStep(moveTo)
             })
         }

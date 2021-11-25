@@ -3,13 +3,13 @@ export default function DeliveryDeatils({currentAddress}){
            addresscomplement,
            city, 
            department,
-           id,
-           identification,
-           lastnames,
-           names,
+           //id,
+           //identification,
+           //lastnames,
+           //names,
            neighborhood,
-           phone,
-           reference,
+           //phone,
+           nextToAddress,
            uid} = currentAddress
     //console.log({address})
     return(
@@ -19,7 +19,7 @@ export default function DeliveryDeatils({currentAddress}){
             <div><b>Barrio: </b>{neighborhood}</div>
             <div><b>Dirección: </b>{address}</div>
             <div><b>Complemento: </b>{addresscomplement}</div>
-            <div><b>Punto de referencia: </b>{reference}</div>
+            <div><b>Punto de referencia: </b>{nextToAddress}</div>
         </div>
     )
 }

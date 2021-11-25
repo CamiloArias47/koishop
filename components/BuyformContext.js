@@ -1,6 +1,7 @@
 import React, {useCallback, useMemo} from 'react'
 import { useUI } from "components/UIcontext"
 import { updateBillWithPerson } from "firebaseApi/firestoreDB/bill"
+import { setAdrress } from "firebaseApi/firestoreDB/addresses"
 import { 
     updateUCedula,
     updatePhone 
@@ -14,6 +15,8 @@ const initialState = {
     phone: '',
     department: '',
     city: '',
+    addresses: undefined,
+    addressId:'',
     address: '',
     addressComplement : '',
     neighborhood:'',
@@ -25,6 +28,7 @@ const initialState = {
     ciudadWrong: false,
     direccionWrong: false,
     barrioWrong: false,
+    addressFromSelector:false,
 }
 
 export const BuyFormContext = React.createContext(initialState)
@@ -86,6 +90,41 @@ function reducer(state, action){
         case 'barrioWrong' : {
             return{...state, barrioWrong : action.payload}
         }
+        case 'addresses' : {
+            return{...state, addresses : action.payload}
+        }
+        case 'serAddressOfDb' : {
+            return{
+                ...state, 
+                department : action.payload.department,
+                city : action.payload.city,
+                address : action.payload.address,
+                addressComplement : action.payload.addresscomplement,
+                neighborhood : action.payload.neighborhood,
+                nextToAddress : action.payload.nextToAddress,
+                addressId : action.payload.id
+            }
+        }
+        case 'clearAddressOfDb' : {
+            return{
+                ...state, 
+                department : '',
+                city : '',
+                address : '',
+                addressComplement : '',
+                neighborhood : '',
+                nextToAddress : '',
+                addressId : ''
+            }
+        }
+        case 'addressFromSelector' : {
+            return{...state, addressFromSelector : action.payload}
+        }
+        case 'addressId' : {
+            return{...state, addressId : action.payload}
+        }
+        
+        
     }
 }
 
@@ -192,6 +231,38 @@ export const BuyFormProvider = ({...props}) => {
             dispatch({type:'barrioWrong', payload}) },
         [dispatch]
     )
+    
+    const setAddresses = useCallback(
+        payload => { 
+            dispatch({type:'addresses', payload}) },
+        [dispatch]
+    )
+
+    const setAddressOfDB = useCallback(
+        payload => { 
+            dispatch({type:'serAddressOfDb', payload}) },
+        [dispatch]
+    ) 
+    
+    const setAddressFromSelector = useCallback(
+        payload => { 
+            dispatch({type:'addressFromSelector', payload}) },
+        [dispatch]
+    ) 
+
+    const setAddressId = useCallback(
+        payload => { 
+            dispatch({type:'addressId', payload}) },
+        [dispatch]
+    ) 
+
+    const clearAddressOfDb = useCallback(
+        payload => { 
+            dispatch({type:'clearAddressOfDb', payload}) },
+        [dispatch]
+    )
+
+    
 
     const value= useMemo(
         ()=>({
@@ -214,6 +285,11 @@ export const BuyFormProvider = ({...props}) => {
             setCiudadWrong,
             setDireccionWrong,
             setBarrioWrong,
+            setAddresses,
+            setAddressOfDB,
+            setAddressFromSelector,
+            setAddressId,
+            clearAddressOfDb
         }),
         [state]
     )
@@ -235,11 +311,15 @@ export const useBuyForm = () => {
 export const useDeliveryActions = () => {
 
     const context = useBuyForm()
+
     const {
-        names, cedula, phone, department, city, address, neighborhood,
-        reference, setDepartamentoWrong, setCiudadWrong, setDireccionWrong,
-        setBarrioWrong,setTelefonoWrong, setCedulaWrong, setNamesWrong
+        names, cedula, phone, department, city, address, addressComplement,
+        nextToAddress, neighborhood, reference, setAddressOfDB, 
+        setDepartamentoWrong, setCiudadWrong, 
+        setDireccionWrong, setBarrioWrong,setTelefonoWrong, 
+        setCedulaWrong, setNamesWrong, addressId
     } = context
+
     const { uid, phoneNumber, ucedula  } = useUI() 
 
 
@@ -270,7 +350,13 @@ export const useDeliveryActions = () => {
         const vldtAddress = validateAddress()
         const vldtBill = validateBill()
 
-        if(vldtBill && vldtAddress ){
+        return new Promise( (resolve,reject) => {
+           
+            if(!vldtBill || !vldtAddress ){
+                reject({msg:'verifica que los campos obligatorios esten completos'})
+                return false
+            }
+
             const personBill = {
                 bid: reference,
                 name:names,
@@ -278,19 +364,45 @@ export const useDeliveryActions = () => {
                 phone
             }
 
-            return updateBillWithPerson(personBill)
+            updateBillWithPerson(personBill)
                 .then( (resp) => {
                     if(!ucedula) updateUCedula({uid, ucedula:cedula })
                     if(!phoneNumber) updatePhone({uid, phoneNumber: phone})
                     return resp
                 })
-        }
+                .then( (res) => {
+                    //validar si la dirección es nueva y registrarla
+                    if(addressId === ''){ 
+                        console.log('Guardar la nueva dirección')
+                        setAdrress({
+                            address, 
+                            addresscomplement:addressComplement, 
+                            city, department, neighborhood,
+                            nextToAddress, uid})
+                        .then( resp =>{
+                            resolve(resp) 
+                        })
+                    }
+                    else{
+                        console.log('es una dirección ya almacenada')
+                        resolve(res) 
+                    }
+
+                })
+
+        })
+
     } 
+
+    const setAddressOf_DB = (addressDB) => {
+        setAddressOfDB(addressDB)
+    }
 
     return {
         validateAddress,
         validateBill,
-        validateAndSave
+        validateAndSave,
+        setAddressOf_DB
     }
 }
 
