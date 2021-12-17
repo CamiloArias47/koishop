@@ -18,4 +18,18 @@ export default css`
     font-size: 0.8rem;
     font-weight: 400;
 }
+.info-code{
+    display:flex;
+    height: 7rem;
+}
+.info-code-text{
+    width: 70%;
+    align-self: center;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 300;
+}
+.info-code-animation{
+    width:30%;
+}
 `
