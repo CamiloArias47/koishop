@@ -7,7 +7,9 @@ const initialState = {
     categories : [],
     cart:[],
     totalProductsInCart:0,
-    subtotalToPay:0
+    subtotalToPay:0,
+    priceBeforeDiscount:0,
+    discountValue:0
 }
 
 export const CoomerceContext = React.createContext(initialState)
@@ -40,7 +42,8 @@ function commerceReducer(state, action){
                 ...state,
                 cart : action.payload,
                 totalProductsInCart: total,
-                subtotalToPay : subtotal
+                subtotalToPay : subtotal,
+                priceBeforeDiscount : subtotal
             }
         }
         case 'set-product-cart' : {
@@ -64,7 +67,40 @@ function commerceReducer(state, action){
                 ...state,
                 cart : productsInCart,
                 subtotalToPay : subtotal,
+                priceBeforeDiscount : subtotal,
                 totalProductsInCart: countProductsInCart(productsInCart)
+            }
+        }
+        case 'set-discount' : {
+            console.log('descuento 🔥🔥🔥')
+            const {discount, type} = action.payload
+            let discountValue = 0
+            console.log({discount, type})
+            let newTotal = state.subtotalToPay
+
+            if(type === 'no discount' && (state.priceBeforeDiscount > state.subtotalToPay)){
+                newTotal = state.priceBeforeDiscount
+            }
+
+            if(type === 'percent discount'){
+                const discountPercent = parseInt(discount)
+                discountValue = state.subtotalToPay*discountPercent/100
+                newTotal = state.subtotalToPay - discountValue
+            }
+
+            if(type === 'free-delivery'){
+                //aun no se cuanto cuesta el delivery
+            }
+
+            if(type === 'value discount'){
+                discountValue = parseInt(discount)
+                newTotal = state.subtotalToPay - discountValue
+            }
+
+            return {
+                ...state,
+                subtotalToPay: newTotal,
+                discountValue 
             }
         }
     }
@@ -88,19 +124,24 @@ export const CommerceProvider = ({...props}) =>{
         [dispatch]
     )
 
+    const setDiscount = useCallback(
+        payload => { dispatch( {type:'set-discount', payload}) },
+        [dispatch]
+    )
+
     const value= useMemo(
         ()=>({
             ...state,
             setCategories,
             setProductsCart,
-            setProductCart
+            setProductCart,
+            setDiscount
         }),
         [state]
     )
 
     return <CoomerceContext.Provider value={value} {...props}/>
 }
-
 
 export const useCommerce = () => {
     const context = React.useContext(CoomerceContext)

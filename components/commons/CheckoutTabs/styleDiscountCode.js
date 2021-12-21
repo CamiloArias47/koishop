@@ -1,4 +1,5 @@
 import css from 'styled-jsx/css'
+import { colors } from 'styles/theme'
 
 export default css`
 .discount-code-form{
@@ -31,5 +32,19 @@ export default css`
 }
 .info-code-animation{
     width:30%;
+}
+.checkout-resume{
+    display:flex;
+    flex-flow:row wrap;
+    padding-top:2rem;
+}
+.checkout-resume div{
+    width:50%;
+    padding-bottom: .5rem;
+}
+.checkout-resume .total-to-pay{
+    font-weight: 600;
+    font-size: 1.2rem;
+    border-top: 1px solid ${colors.gray};
 }
 `

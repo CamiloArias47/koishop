@@ -152,7 +152,7 @@ export default function PagarPage(){
         displayStep = <EnvioTab handlerNext={handlerBuyButton}/>
     }
     else if(checkoutStep === CHECKOUT_STEP.pago){
-        displayStep = <CheckoutTab handlerNext={handlerBuyButton}/>
+        displayStep = <CheckoutTab handlerNext={handlerBuyButton} uid={uid} />
     }
 
     return(
@@ -164,9 +164,7 @@ export default function PagarPage(){
             />
 
             <ListProcess current={checkoutStep} move={moveFromTabs}/>
-
              { displayStep }
-
             <style jsx>{style}</style>
         </div>
     )
