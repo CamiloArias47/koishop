@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useBuyForm } from "components/BuyformContext"
+import { useCommerce } from "components/CommerceContext"
+import { useUI } from "components/UIcontext"
 
 export default function useBill(){
-    const { setReference} = useBuyForm()
+    const { setReference } = useBuyForm()
 
     const setBillId = (bid) => {
         const now = new Date() 
@@ -57,6 +59,15 @@ export default function useBill(){
     const deleteBillTime = () => {
         const miLocal = window.localStorage;
         miLocal.removeItem('billId-timestamp')
+    }
+
+    const setPromoCode = () => {
+        const { discountCode } = useCommerce()
+        const { reference } = useBuyForm()
+        const { uid } = useUI()
+
+        
+
     }
 
     return {

@@ -18,7 +18,7 @@ export default function CheckoutTab({handlerNext, uid}){
         setCode(e.target.value)
         setCodeItsFine(undefined)
         setStatusCodeTex('')
-        setDiscount({discount:0, type:'no discount'})
+        setDiscount({discount:0, type:'no discount',code})
     }
 
     const handlerSubmit = e => {
@@ -35,7 +35,7 @@ export default function CheckoutTab({handlerNext, uid}){
                 headers: {
                   'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({uid}) 
+                body: JSON.stringify({uid, priceToPay:priceBeforeDiscount}) 
               })
                 .then(res => res.json())
                 .then(data => {
@@ -44,7 +44,7 @@ export default function CheckoutTab({handlerNext, uid}){
                         if(data.status){
                             setCodeItsFine(true)
                             setStatusCodeTex(data.motive)
-                            setDiscount({discount:data.value, type:data.type})
+                            setDiscount({discount:data.value, type:data.type, code})
                         }
                         else{
                             setStatusCodeTex(data.motive)

@@ -1,5 +1,7 @@
 import db from './db'
-import {doc, collection, addDoc, updateDoc, serverTimestamp } from "firebase/firestore"
+import {doc, collection, addDoc,
+        updateDoc, serverTimestamp, 
+        arrayUnion } from "firebase/firestore"
 
 
 export const setBill = async ({uid, cart, status}) => {
@@ -36,4 +38,19 @@ export const updateBillWithPerson = async ({bid, name, nationalIdentification, p
   });
 
   return {bid,name,nationalIdentification,phone}
+}
+
+export const updateCodeUsedBy = async ({bid, uid, code}) => {
+  const billRef = doc(db, "bill", bid);
+  const codeRef = doc(db, "codes", code);
+
+  return await updateDoc(billRef, {
+    promocode: code
+  })
+  .then( () => {
+    return updateDoc(codeRef, {
+      usedby: arrayUnion(uid)
+    })
+  })
+
 }

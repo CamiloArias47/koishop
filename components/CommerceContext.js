@@ -9,7 +9,8 @@ const initialState = {
     totalProductsInCart:0,
     subtotalToPay:0,
     priceBeforeDiscount:0,
-    discountValue:0
+    discountValue:0,
+    discountCode:''
 }
 
 export const CoomerceContext = React.createContext(initialState)
@@ -73,9 +74,9 @@ function commerceReducer(state, action){
         }
         case 'set-discount' : {
             console.log('descuento 🔥🔥🔥')
-            const {discount, type} = action.payload
+            const {discount, type, code} = action.payload
             let discountValue = 0
-            console.log({discount, type})
+            let discountCode = type === 'no discount' ? '' : code
             let newTotal = state.subtotalToPay
 
             if(type === 'no discount' && (state.priceBeforeDiscount > state.subtotalToPay)){
@@ -100,7 +101,8 @@ function commerceReducer(state, action){
             return {
                 ...state,
                 subtotalToPay: newTotal,
-                discountValue 
+                discountValue,
+                discountCode
             }
         }
     }
@@ -194,6 +196,12 @@ export const useSaveCart = () => {
     }
 
     return {saveCart}
+}
+
+export const useSaveCode = () => {
+    const {reference} = useBuyForm()
+
+    
 }
 
 export const ManagedCommerceContext = ({ children }) => (

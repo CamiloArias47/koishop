@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useUI } from "components/UIcontext"
 import { useCommerce, useSaveCart } from "components/CommerceContext"
 import { useBuyForm, useDeliveryActions } from "components/BuyformContext"
+import { updateCodeUsedBy } from "firebaseApi/firestoreDB/bill"
 
 import { NextSeo } from 'next-seo'
 import { config } from 'components/commons/Head'
@@ -18,6 +19,11 @@ export const CHECKOUT_STEP = {
     revision : 1,
     envio : 2,
     pago: 3 
+}
+
+const TRANSACTION_STATUS = {
+    ok : 'APPROVED',
+    fail: 'DECLINED'
 }
 
 export default function PagarPage(){
@@ -41,7 +47,7 @@ export default function PagarPage(){
             openModal,
             closeModal } = useUI() 
 
-    const { subtotalToPay } = useCommerce()
+    const { subtotalToPay, discountCode } = useCommerce()
     const { saveCart } = useSaveCart()
 
     useEffect( () => {
@@ -84,9 +90,22 @@ export default function PagarPage(){
 
         checkout.open(function ( result ) {
             var transaction = result.transaction
-            console.log('Transaction ID: ', transaction.id)
-            console.log('Transaction object: ', transaction)
+            if(transaction.status === TRANSACTION_STATUS.ok){
+                handlerPayApproved()
+            }
           })
+    }
+
+    const handlerPayApproved = () => {
+        if(discountCode !== ''){
+            updateCodeUsedBy({bid:reference,uid,code:discountCode})
+                .then(result => {
+                    console.log({result})
+                })
+                .catch(err => {
+                    console.log('something when wrong:',err)
+                })
+        }
     }
 
     const handlerBuyButton = ()=>{

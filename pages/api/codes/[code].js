@@ -3,7 +3,7 @@ import { firestore } from "firebaseApi/admin"
 export default async (request, response) => {
   const { query, body } = request
   const { code } = query 
-  const { uid } = body
+  const { uid, priceToPay } = body
 
   const codeRef = firestore.collection('codes').doc(code);
   const doc = await codeRef.get();
@@ -12,7 +12,7 @@ export default async (request, response) => {
   } else {
       const data = doc.data()
 
-      validate(data, uid)
+      validate({code:data, uid, priceToPay})
         .then( () => {
           let motive = "¡Exelente, tienes un descuento!"
 
@@ -35,7 +35,7 @@ export default async (request, response) => {
   }
 }
 
-function validate(code, uid){
+function validate({code, uid, priceToPay}){
 
   const validateUses = new Promise( (resolve, reject) => {
     if(code.uses > 0 && code.used >= code.uses){
@@ -46,6 +46,8 @@ function validate(code, uid){
 
   const validateDate = new Promise((resolve, reject)=>{
     const now = new Date()
+    console.log('aca falla?')
+    console.log({duracion:code.duration})
     const until = code.duration.toDate()
     //const untilR = new Date(new Date(until).setHours(until.getHours() - 5));
     
@@ -56,10 +58,22 @@ function validate(code, uid){
     resolve(true)
   })
 
+  const validateMinBuy = new Promise( (resolve, reject) => {
+    console.log({priceToPay})
+    console.log({minbuy: code.minbuy})
+    if(priceToPay < code.minbuy){
+      reject({status:false, motive:`El valor de la compra debe ser mayor a: ${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0, minimumFractionDigits: 0, }).format(code.minbuy)} `})
+    }
+    resolve(true)
+  })
+
   const validateReUse = new Promise( (resolve, reject) => {
      //si el codigo no se puede reusar, validamos que el usuario no lo haya usado ya
      if(!code.reuse && code.usedby){
+       console.log('verificar si el usuario ya uso el codigo')
       const usedbyUser = code.usedby.find(u => u === uid) 
+      console.log({uid})
+      console.log({usedbyUser})
       if(usedbyUser){
         reject({status:false, motive:'Este código no se puede usar más de una vez'})
       }
@@ -69,5 +83,6 @@ function validate(code, uid){
 
   return validateUses
     .then( () => validateDate)
+    .then( () => validateMinBuy )
     .then( () => validateReUse )
 }
