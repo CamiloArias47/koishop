@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
+import { useRouter } from 'next/router'
 import { useUI } from "components/UIcontext"
 import { useCommerce, useSaveCart } from "components/CommerceContext"
 import { useBuyForm, useDeliveryActions } from "components/BuyformContext"
-import { updateCodeUsedBy } from "firebaseApi/firestoreDB/bill"
+import { updateCodeUsedBy, updateStatus } from "firebaseApi/firestoreDB/bill"
+import { useCart } from "hooks/useCart"
 
 import { NextSeo } from 'next-seo'
 import { config } from 'components/commons/Head'
@@ -28,6 +30,8 @@ const TRANSACTION_STATUS = {
 
 export default function PagarPage(){
 
+    const router = useRouter()
+    const {quitAllProducts} = useCart()
     const [ checkoutStep, setCheckoutStep ] = useState(CHECKOUT_STEP.revision)
     const [ mostStep, setMostStep ] = useState(CHECKOUT_STEP.revision)
     
@@ -93,19 +97,28 @@ export default function PagarPage(){
             if(transaction.status === TRANSACTION_STATUS.ok){
                 handlerPayApproved()
             }
+            else{
+                updateStatus({bid:reference,status:TRANSACTION_STATUS.fail})
+                    .then(response => {
+                        console.log({response})
+                    })
+            }
           })
     }
 
     const handlerPayApproved = () => {
         if(discountCode !== ''){
             updateCodeUsedBy({bid:reference,uid,code:discountCode})
-                .then(result => {
-                    console.log({result})
-                })
                 .catch(err => {
                     console.log('something when wrong:',err)
                 })
         }
+
+        updateStatus({bid:reference,status:TRANSACTION_STATUS.ok})
+         .then( () => {
+            quitAllProducts()
+            router.push('/success')
+         })
     }
 
     const handlerBuyButton = ()=>{

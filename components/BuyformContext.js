@@ -1,6 +1,6 @@
 import React, {useCallback, useMemo} from 'react'
 import { useUI } from "components/UIcontext"
-import { updateBillWithPerson } from "firebaseApi/firestoreDB/bill"
+import { updateBillWithPersonAndAddress } from "firebaseApi/firestoreDB/bill"
 import { setAdrress } from "firebaseApi/firestoreDB/addresses"
 import { 
     updateUCedula,
@@ -345,52 +345,54 @@ export const useDeliveryActions = () => {
         return true
     }
 
-    const validateAndSave = () => {
-        const vldtAddress = validateAddress()
-        const vldtBill = validateBill()
+    const saveAddres = async () => {
+        if(addressId === ''){ 
+            console.log('(1) Guardar la nueva dirección')
+            const newAddress = await setAdrress({address,
+                                           addresscomplement:addressComplement, 
+                                           city, 
+                                           department, 
+                                           neighborhood,
+                                           nextToAddress,
+                                           uid})
+            return newAddress.aid
+        }
+        else{
+            console.log('(1) es una dirección ya almacenada:',addressId)
+            return addressId
+        }
+    }
 
-        return new Promise( (resolve,reject) => {
+    const validateAndSave = () => {
+
+        let person = {
+            bid: reference,
+            name:names,
+            nationalIdentification: cedula,
+            phone,
+            address : addressId
+        }
+        
+        const validateAll = new Promise( (resolve,reject) => {
+            const vldtAddress = validateAddress()
+            const vldtBill = validateBill()
            
             if(!vldtBill || !vldtAddress ){
                 reject({msg:'verifica que los campos obligatorios esten completos'})
                 return false
             }
-
-            const personBill = {
-                bid: reference,
-                name:names,
-                nationalIdentification: cedula,
-                phone
-            }
-
-            updateBillWithPerson(personBill)
-                .then( (resp) => {
-                    if(!ucedula) updateUCedula({uid, ucedula:cedula })
-                    if(!phoneNumber) updatePhone({uid, phoneNumber: phone})
-                    return resp
-                })
-                .then( (res) => {
-                    //validar si la dirección es nueva y registrarla
-                    if(addressId === ''){ 
-                        console.log('Guardar la nueva dirección')
-                        setAdrress({
-                            address, 
-                            addresscomplement:addressComplement, 
-                            city, department, neighborhood,
-                            nextToAddress, uid})
-                        .then( resp =>{
-                            resolve(resp) 
-                        })
-                    }
-                    else{
-                        console.log('es una dirección ya almacenada')
-                        resolve(res) 
-                    }
-
-                })
-
+            resolve(true)
         })
 
+        return validateAll
+                .then( () => saveAddres() )
+                .then( aid => { return {...person, aid} })
+                .then( personBill => updateBillWithPersonAndAddress(personBill) )
+                .then( () => {
+                    if(!ucedula) updateUCedula({uid, ucedula:cedula })
+                    if(!phoneNumber) updatePhone({uid, phoneNumber: phone})
+                    return {process:'validated and saved successfuly'}
+                })
     } 
 
     const setAddressOf_DB = (addressDB) => {

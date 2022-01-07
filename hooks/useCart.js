@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useCommerce } from 'components/CommerceContext'
 import useLocalStorage from 'hooks/useLocalStorage'
+import useBill from 'hooks/useBill'
 
 export function useCart(){
 
+    const { deleteBill, deleteBillTime } = useBill()
     const { setProductCart, setProductsCart } = useCommerce()
     const { canIUseLocalStorage } = useLocalStorage()
     
@@ -55,10 +57,19 @@ export function useCart(){
         miCart.setItem('cart', newCartproducts)
     }
 
+    const quitAllProducts = () => {
+        const miCart = window.localStorage;
+        setProductsCart([])
+        miCart.removeItem('cart')
+        deleteBill() 
+        deleteBillTime()
+    }
+
     return {
         addProduct,
         getProductsCart,
         getProductsAtFrist,
-        quitProduct
+        quitProduct,
+        quitAllProducts
     }
 }

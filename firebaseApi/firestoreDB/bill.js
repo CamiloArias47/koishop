@@ -15,25 +15,27 @@ export const setBill = async ({uid, cart, status}) => {
     return {bid: docRef.id, uid, cart, status} 
 }
 
-export const updateBill = async ({bid, cart, status})=>{
+export const updateBill = async ({bid, uid, cart, status})=>{
   const billRef = doc(db, "bill", bid);
 
   await updateDoc(billRef, {
     products: cart,
     status,
+    uid,
     timestamp: serverTimestamp()
   });
 
   return {bid,cart,status}
 }
 
-export const updateBillWithPerson = async ({bid, name, nationalIdentification, phone})=>{
+export const updateBillWithPersonAndAddress = async ({bid, name, nationalIdentification, phone, aid})=>{
   const billRef = doc(db, "bill", bid);
 
   await updateDoc(billRef, {
     name,
     cedula: nationalIdentification,
     phone,
+    address:aid,
     timestampEnvioStep: serverTimestamp()
   });
 
@@ -48,9 +50,18 @@ export const updateCodeUsedBy = async ({bid, uid, code}) => {
     promocode: code
   })
   .then( () => {
-    return updateDoc(codeRef, {
+     updateDoc(codeRef, {
       usedby: arrayUnion(uid)
     })
+    return {codeUpdated:true}
   })
 
 }
+
+export const updateStatus = async ({bid, status}) => {
+  const billRef = doc(db, "bill", bid);
+
+  const response = await updateDoc(billRef, {status});
+  return {response}
+}
+
