@@ -117,7 +117,7 @@ export default function PagarPage(){
         updateStatus({bid:reference,status:TRANSACTION_STATUS.ok})
          .then( () => {
             quitAllProducts()
-            router.push('/success')
+            router.push(`/user/pedidos/${reference}`)
          })
     }
 

@@ -56,11 +56,12 @@ export default css`
     .user-layout .menu-left ul li:hover{
         background:${colors.dimGray};
         border-left: 2px solid ${colors.gray};
+        cursor: pointer;
     }
 
     .user-layout .menu-left ul li.active{
         background:${colors.dimGray};
-        border-left: 2px solid ${fontColor.important};
+        border-left: 2px solid ${colors.primary};
     }
 
     .container-main{

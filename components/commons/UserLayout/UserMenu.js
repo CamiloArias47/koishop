@@ -24,13 +24,16 @@ export default function UserMenu(){
             </div>
             <div className="user-options-list">
                 <ul>
-                    <li className={router.pathname === '/user/password' ? 'active' : ''}>
-                        <Link href="/user/password">
-                            <a>Cambiar contraseña</a>
-                        </Link>
-                    </li>
-                </ul>
-                <ul>
+                    <Link href="/user/pedidos">
+                        <li className={router.pathname.indexOf('/user/pedidos') >= 0  ? 'active' : ''}>
+                                <a>Pedidos</a>
+                        </li>
+                    </Link>
+                    <Link href="/user/password">
+                        <li className={router.pathname === '/user/password' ? 'active' : ''}>
+                                <a>Cambiar contraseña</a>
+                        </li>
+                    </Link>
                     <li>
                         <a onClick={singOut}>Cerrar sesión</a>
                     </li>
