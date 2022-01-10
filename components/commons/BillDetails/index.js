@@ -26,7 +26,7 @@ export default function BillDetails({bill}){
                            </div>
     }
 
-    let status = (data.status === TRANSACTION_STATUS.ok) ? 'Pago exitoso' : Cancelado
+    let status = (data.status === TRANSACTION_STATUS.ok) ? 'Pago exitoso' : 'Cancelado'
 
      
 
