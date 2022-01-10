@@ -13,6 +13,11 @@ const initialState = {
     discountCode:''
 }
 
+export const TRANSACTION_STATUS = {
+    ok : 'APPROVED',
+    fail: 'DECLINED'
+}
+
 export const CoomerceContext = React.createContext(initialState)
 CoomerceContext.displayName = CoomerceContext
 
@@ -82,21 +87,27 @@ function commerceReducer(state, action){
             if(type === 'no discount' && (state.priceBeforeDiscount > state.subtotalToPay)){
                 newTotal = state.priceBeforeDiscount
             }
-
-            if(type === 'percent discount'){
-                const discountPercent = parseInt(discount)
-                discountValue = state.subtotalToPay*discountPercent/100
-                newTotal = state.subtotalToPay - discountValue
+            else{
+                let discountValues =  handlerDiscount({type, discount, total:state.subtotalToPay})
+                newTotal = discountValues.newTotal
+                discountValue = discountValues.discountValue
             }
 
-            if(type === 'free-delivery'){
-                //aun no se cuanto cuesta el delivery
-            }
 
-            if(type === 'value discount'){
-                discountValue = parseInt(discount)
-                newTotal = state.subtotalToPay - discountValue
-            }
+            // if(type === 'percent discount'){
+            //     const discountPercent = parseInt(discount)
+            //     discountValue = state.subtotalToPay*discountPercent/100
+            //     newTotal = state.subtotalToPay - discountValue
+            // }
+
+            // if(type === 'free-delivery'){
+            //     //aun no se cuanto cuesta el delivery
+            // }
+
+            // if(type === 'value discount'){
+            //     discountValue = parseInt(discount)
+            //     newTotal = state.subtotalToPay - discountValue
+            // }
 
             return {
                 ...state,
@@ -198,10 +209,26 @@ export const useSaveCart = () => {
     return {saveCart}
 }
 
-export const useSaveCode = () => {
-    const {reference} = useBuyForm()
+export const handlerDiscount = ({type, discount, total}) => {
+    let newTotal = total
+    let discountValue = 0
 
-    
+    if(type === 'percent discount'){
+        const discountPercent = parseInt(discount)
+        discountValue = total*discountPercent/100
+        newTotal = total - discountValue
+    }
+
+    if(type === 'free-delivery'){
+        //aun no se cuanto cuesta el delivery
+    }
+
+    if(type === 'value discount'){
+        discountValue = parseInt(discount)
+        newTotal = total - discountValue
+    }
+
+    return {newTotal,discountValue}
 }
 
 export const ManagedCommerceContext = ({ children }) => (

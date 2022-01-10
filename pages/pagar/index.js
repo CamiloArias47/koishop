@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useRouter } from 'next/router'
 import { useUI } from "components/UIcontext"
-import { useCommerce, useSaveCart } from "components/CommerceContext"
+import { useCommerce, useSaveCart, TRANSACTION_STATUS } from "components/CommerceContext"
 import { useBuyForm, useDeliveryActions } from "components/BuyformContext"
 import { updateCodeUsedBy, updateStatus } from "firebaseApi/firestoreDB/bill"
 import { useCart } from "hooks/useCart"
@@ -21,11 +21,6 @@ export const CHECKOUT_STEP = {
     revision : 1,
     envio : 2,
     pago: 3 
-}
-
-const TRANSACTION_STATUS = {
-    ok : 'APPROVED',
-    fail: 'DECLINED'
 }
 
 export default function PagarPage(){
@@ -92,10 +87,10 @@ export default function PagarPage(){
             }
           })
 
-        checkout.open(function ( result ) {
+        checkout.open( result  => {
             var transaction = result.transaction
             if(transaction.status === TRANSACTION_STATUS.ok){
-                handlerPayApproved()
+                handlerPayApproved({result})
             }
             else{
                 updateStatus({bid:reference,status:TRANSACTION_STATUS.fail})
@@ -106,7 +101,14 @@ export default function PagarPage(){
           })
     }
 
-    const handlerPayApproved = () => {
+    const handlerPayApproved = ({result}) => {
+        console.log({result})
+
+        const amountInCents = result.transaction.amountInCents.toString()
+        const lengthPrice = amountInCents.length
+        let price = amountInCents.substring(0,lengthPrice-2)
+        price = Number(price)
+        
         if(discountCode !== ''){
             updateCodeUsedBy({bid:reference,uid,code:discountCode})
                 .catch(err => {
@@ -114,7 +116,7 @@ export default function PagarPage(){
                 })
         }
 
-        updateStatus({bid:reference,status:TRANSACTION_STATUS.ok})
+        updateStatus({bid:reference, status:TRANSACTION_STATUS.ok, pricePayed:price})
          .then( () => {
             quitAllProducts()
             router.push(`/user/pedidos/${reference}`)

@@ -1,6 +1,7 @@
 import { logout } from 'firebaseApi/client'
 import { useUI } from 'components/UIcontext'
 import { useRouter } from 'next/router'
+import style from './style-user'
 
 export const UserSidebar = () => {
 
@@ -26,12 +27,16 @@ export const UserSidebar = () => {
         <div className="user-view-sidebar">
             <ul>
                 <li>
-                    <a onClick={singOut}>Cerrar sesión</a>
+                    <a onClick={()=>{handlerClick('/user/pedidos')} }>Pedidos</a>
                 </li>
-                <li>
+                <li className='hidde-in-desktop'>
                     <a onClick={()=>{handlerClick('/user/password')} }>Cambiar contraseña</a>
                 </li>
+                <li>
+                    <a onClick={singOut}>Cerrar sesión</a>
+                </li>
             </ul>
+            <style jsx>{style}</style>
         </div>
     )
 }

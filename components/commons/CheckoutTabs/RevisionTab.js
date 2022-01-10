@@ -5,6 +5,8 @@ import { formatPrice } from "utils"
 
 import ProductList from "components/commons/ProductList"
 import style from 'styles/style-pago'
+import styleGlobalsTable from 'styles/global-table'
+import styleSumary from 'styles/global-sumary-pay'
 
 export default function RevisionTab({handlerNext, uid}){
 
@@ -87,6 +89,8 @@ export default function RevisionTab({handlerNext, uid}){
             </div>
 
             <style jsx>{style}</style>
+            <style jsx>{styleGlobalsTable}</style>
+            <style jsx>{styleSumary}</style>
         </div>
     )
 }

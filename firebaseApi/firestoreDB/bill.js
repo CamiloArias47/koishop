@@ -51,17 +51,21 @@ export const updateCodeUsedBy = async ({bid, uid, code}) => {
   })
   .then( () => {
      updateDoc(codeRef, {
-      usedby: arrayUnion(uid)
+      usedby: arrayUnion({uid,bid})
     })
     return {codeUpdated:true}
   })
 
 }
 
-export const updateStatus = async ({bid, status}) => {
+export const updateStatus = async ({bid, status, pricePayed=false}) => {
   const billRef = doc(db, "bill", bid);
 
-  const response = await updateDoc(billRef, {status});
+  const data = (pricePayed) 
+                ? {status, total:pricePayed}
+                : {status}
+
+  const response = await updateDoc(billRef, data);
   return {response}
 }
 

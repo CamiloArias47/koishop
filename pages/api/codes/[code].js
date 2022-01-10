@@ -46,8 +46,6 @@ function validate({code, uid, priceToPay}){
 
   const validateDate = new Promise((resolve, reject)=>{
     const now = new Date()
-    console.log('aca falla?')
-    console.log({duracion:code.duration})
     const until = code.duration.toDate()
     //const untilR = new Date(new Date(until).setHours(until.getHours() - 5));
     
@@ -59,8 +57,6 @@ function validate({code, uid, priceToPay}){
   })
 
   const validateMinBuy = new Promise( (resolve, reject) => {
-    console.log({priceToPay})
-    console.log({minbuy: code.minbuy})
     if(priceToPay < code.minbuy){
       reject({status:false, motive:`El valor de la compra debe ser mayor a: ${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0, minimumFractionDigits: 0, }).format(code.minbuy)} `})
     }
@@ -70,10 +66,7 @@ function validate({code, uid, priceToPay}){
   const validateReUse = new Promise( (resolve, reject) => {
      //si el codigo no se puede reusar, validamos que el usuario no lo haya usado ya
      if(!code.reuse && code.usedby){
-       console.log('verificar si el usuario ya uso el codigo')
-      const usedbyUser = code.usedby.find(u => u === uid) 
-      console.log({uid})
-      console.log({usedbyUser})
+      const usedbyUser = code.usedby.find(u => u.uid === uid) 
       if(usedbyUser){
         reject({status:false, motive:'Este código no se puede usar más de una vez'})
       }
