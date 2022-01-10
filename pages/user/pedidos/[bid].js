@@ -2,7 +2,7 @@ import UserLayout from 'components/commons/UserLayout'
 import { useUI } from "components/UIcontext"
 import { LoadingPedido } from 'components/icons'
 import BillDetails from 'components/commons/BillDetails'
-import style from './style-bid'
+import style from 'styles/style-bid'
 
 export default function DetailBill({bill}){
 
