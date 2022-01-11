@@ -1,7 +1,7 @@
 import db from './db'
 import {doc, collection, addDoc,
         updateDoc, serverTimestamp, 
-        arrayUnion } from "firebase/firestore"
+        arrayUnion, query, where, getDocs, orderBy} from "firebase/firestore"
 
 
 export const setBill = async ({uid, cart, status}) => {
@@ -67,5 +67,22 @@ export const updateStatus = async ({bid, status, pricePayed=false}) => {
 
   const response = await updateDoc(billRef, data);
   return {response}
+}
+
+export const getBillsByUser = async ({uid}) => {
+
+  let bills = []
+  
+  const q = query(collection(db, "bill"),
+                  where("uid", "==", uid),
+                  orderBy("timestamp", "desc"));
+
+  const querySnapshot = await getDocs(q);
+
+  querySnapshot.forEach((doc) => {
+    bills.push({id: doc.id, ...doc.data()});
+  });
+
+  return bills
 }
 

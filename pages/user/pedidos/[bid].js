@@ -54,6 +54,14 @@ export async function getServerSideProps(context) {
                 bill.code = code
             } 
         }
+
+        if(bill.data.address){
+            const reqAddress = await fetch(`${process.env.URL}/api/address/${bill.data.address}`)
+            if(reqAddress.ok){
+                let address = await reqAddress.json()
+                bill.addressDetails = address
+            } 
+        }
     } 
 
     return { props: { bill } }

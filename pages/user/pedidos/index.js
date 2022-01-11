@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useUI } from 'components/UIcontext'
+import { getBillsByUser } from 'firebaseApi/firestoreDB/bill'
 import UserLayout from 'components/commons/UserLayout'
 
 export default function Pedidos(){
@@ -11,9 +12,7 @@ export default function Pedidos(){
 
     useEffect( ()=>{
         if(uid !== ''){
-            let route = `/api/bills/byuser/${uid}`
-            fetch(route)
-                .then(res => res.json())
+            getBillsByUser({uid})
                 .then(data => setPedidos(data) )
         }
     },[uid])

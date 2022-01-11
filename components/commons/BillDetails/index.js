@@ -1,5 +1,5 @@
 import { formatDate, formatPrice } from "utils";
-import Link from 'next/Link'
+import Link from 'next/link'
 
 import {handlerDiscount, TRANSACTION_STATUS} from 'components/CommerceContext'
 import {RowIcon} from 'components/icons'
@@ -11,11 +11,13 @@ import styleSumary from 'styles/global-sumary-pay'
 
 export default function BillDetails({bill}){
 
-    const {data,code} = bill
+    const {data,code, addressDetails} = bill
 
     let date = ''
     let discountAmount = 0
     let codeDescription = ''
+    let addressContent = ''
+    let userBillDetails = ''
 
     if (data.timestampEnvioStep || data.timestamp){
         date = (data.timestampEnvioStep)
@@ -43,8 +45,29 @@ export default function BillDetails({bill}){
     let status = (data.status === TRANSACTION_STATUS.ok)
                 ? 'Pago exitoso'
                 : 'Cancelado'
-
+                
+    if(addressDetails){
+        addressContent = <div>
+                            <h1>Dirección de envio</h1>
+                            <ul>
+                                <li>{addressDetails.department} - {addressDetails.city}</li>
+                                <li>{addressDetails.address} - {addressDetails.addresscomplement}</li>
+                                <li>{addressDetails.neighborhood}</li>
+                                <li>{addressDetails.nextToAddress} </li>
+                            </ul>
+                         </div>
+    }
      
+    if(data.name){
+        userBillDetails = <div>
+                                <h1>Facturación</h1>
+                                <ul>
+                                    <li>{data.name}</li>
+                                    <li>{data.cedula}</li>
+                                    <li>{data.phone}</li>
+                                </ul>
+                          </div>
+    }
 
     return <div>
              <div className="head-description">
@@ -97,6 +120,17 @@ export default function BillDetails({bill}){
                     
                 </div>
              </div>
+             
+             <div className="details-bills">
+                <div className="address-details">
+                    {addressContent}
+                </div>
+                
+                <div className="user-bill-details">
+                    {userBillDetails}
+                </div>
+             </div>
+
 
              <style jsx>{style}</style>
              <style jsx>{styleGlobalsTable}</style>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useCommerce } from 'components/CommerceContext'
+import Link from 'next/link'
 
 import style from './style'
 import Image from 'next/image'
@@ -12,7 +13,7 @@ const BTN = {
 
 const SLIDER_SIZE = 82 //size in px of each slider
 
-function CategorySlide({img,name, moveX}){
+function CategorySlide({id,img,name, moveX}){
 
     const [slide, setSlide] = useState(`translateX(${moveX}px)`)
 
@@ -23,17 +24,21 @@ function CategorySlide({img,name, moveX}){
     return (
         <>
             <div className="category-slide" style={{transform:slide}}>
-                <div className="category-circle">
-                    <Image 
-                        src={img}
-                        className="category-slide-image"
-                        width="64"
-                        height="64"
-                        alt={name} 
-                        unoptimized={process.env.ENVIRONMENT !== "PRODUCTION"}
-                    />
-                </div>
-                <div className="category-title">{name}</div>
+                <Link href={`/categoria/${id}`}>
+                    <a>
+                        <div className="category-circle">
+                            <Image 
+                                src={img}
+                                className="category-slide-image"
+                                width="64"
+                                height="64"
+                                alt={name} 
+                                unoptimized={process.env.ENVIRONMENT !== "PRODUCTION"}
+                                />
+                        </div>
+                        <div className="category-title">{name}</div>
+                    </a>
+                </Link>
             </div>
 
             <style jsx>{style}</style>
@@ -51,7 +56,7 @@ export default function CategorySlider(){
         setMove(mov)
     }
     const sliders = categories.map( cat =>
-        <CategorySlide img={cat.photo} name={cat.name} key={cat.id} moveX={move}/>
+        <CategorySlide img={cat.photo} name={cat.name} id={cat.id} key={cat.id} moveX={move}/>
     )
 
     const totalCategories = categories.length

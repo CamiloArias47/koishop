@@ -3,6 +3,9 @@ import {TRANSACTION_STATUS} from 'components/CommerceContext'
 import { colors, fontColor } from 'styles/theme'
 
 export default css`
+h1{
+    color:${fontColor.important}
+}
 .date{
     display:block;
     margin-top:1rem;
@@ -59,5 +62,22 @@ export default css`
 .status.${TRANSACTION_STATUS.incomplete}:after{
     content: ' ❌';
     color:${colors.greenDark}
+}
+
+
+.address-details,
+.user-bill-details{
+    margin-top:3rem;
+    width:100%;
+}
+
+@media (min-width: 768px){
+    .details-bills{
+        display:flex;
+    }
+    .address-details,
+    .user-bill-details{
+        width:50%;
+    }
 }
 `
