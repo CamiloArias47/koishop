@@ -15,7 +15,8 @@ const initialState = {
 
 export const TRANSACTION_STATUS = {
     ok : 'APPROVED',
-    fail: 'DECLINED'
+    fail: 'DECLINED',
+    incomplete: 'incomplete'
 }
 
 export const CoomerceContext = React.createContext(initialState)

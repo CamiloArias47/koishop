@@ -1,7 +1,9 @@
 import { formatDate, formatPrice } from "utils";
+import Link from 'next/Link'
 
-import ProductListReview from 'components/commons/ProductList/review-pedido'
 import {handlerDiscount, TRANSACTION_STATUS} from 'components/CommerceContext'
+import {RowIcon} from 'components/icons'
+import ProductListReview from 'components/commons/ProductList/review-pedido'
 
 import style from './style'
 import styleGlobalsTable from 'styles/global-table'
@@ -11,30 +13,54 @@ export default function BillDetails({bill}){
 
     const {data,code} = bill
 
-    const date = formatDate( data.timestampEnvioStep._seconds )
+    let date = ''
+    let discountAmount = 0
+    let codeDescription = ''
+
+    if (data.timestampEnvioStep || data.timestamp){
+        date = (data.timestampEnvioStep)
+            ? formatDate( data.timestampEnvioStep._seconds )
+            : formatDate( data.timestamp._seconds )
+    }
 
     const subtotals = data.products.map(p => p.pricex1*p.amount)
     const total = subtotals.reduce((prev, curr) => prev + curr, 0);
 
-    let codeDescription = ''
-
     if(code){
         let {discountValue} = handlerDiscount({type:code.type, discount:code.value, total})
+        discountAmount = discountValue
         codeDescription =  <div className="detail-field">
                               <div>Codigo de descuento ({data.promocode}): </div>
                               <div>- {formatPrice(discountValue)}</div>
                            </div>
     }
 
-    let status = (data.status === TRANSACTION_STATUS.ok) ? 'Pago exitoso' : 'Cancelado'
+    if(!data.total){
+        data.total = total - discountAmount
+    }
+
+
+    let status = (data.status === TRANSACTION_STATUS.ok)
+                ? 'Pago exitoso'
+                : 'Cancelado'
 
      
 
     return <div>
-             <h1>Pedido: {data.id}</h1>
+             <div className="head-description">
+                <div className="go-back-pedidos">
+                    <Link href="/user/pedidos">
+                        <a>
+                            <RowIcon height={42} width={42}/>
+                            <span>todos tus pedidos</span>
+                        </a>
+                    </Link>
+                </div>
+                <h1>Pedido: {data.id}</h1>
+             </div>
              <span className="date">{date}</span>
         
-             <span>{status}</span>
+             <span className={'status '+data.status}>{status}</span>
 
              <div className="wraper-table">
                 <table>
