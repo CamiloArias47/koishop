@@ -10,8 +10,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.6.0",
     "crypto-js": "^4.1.1",
-    "emailjs": "^3.7.0",
     "firebase": "^9.0.2",
     "firebase-admin": "^9.11.0",
     "hamburger-react": "^2.4.1",

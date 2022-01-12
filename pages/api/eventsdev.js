@@ -1,6 +1,18 @@
 import { firestore } from "firebaseApi/admin"
 import sha256 from 'crypto-js/sha256';
-import { SMTPClient } from 'emailjs';
+import sgMail from '@sendgrid/mail'
+
+const WOPMPI_EVENTS = {
+  transactionUpdate : 'transaction.updated',
+  nequiTokenUpdate : 'nequi_token.updated'
+}
+
+const WOMPI_STATES = {
+  ok : 'APPROVED',
+  void: 'VOIDED',
+  declined : 'DECLINED',
+  fail: 'ERROR'
+}
 
 export default async (request, response) => {
   const { query, body } = request
@@ -85,13 +97,13 @@ export default async (request, response) => {
   }
 
    validate({signature, data, timestamp}) 
-    .then( (result) => {
-      console.log({result})
-      if(data.transaction.customer_email){ 
-        sendMailToUser = sendMail({email: data.transaction.customer_email})
+    .then( (result) => updateBillStatus({event, status:data.transaction.status, reference:data.transaction.reference}) )
+    .then( result => {
+      if(result.status && data.transaction.customer_email){ 
+        sendMailToUser = sendMail({data})
       }
 
-      return response.status(200).json({succes:'paso validación', sendMailToUser})
+      return response.status(200).json({succes:result, sendMailToUser})
     })
     .catch( (e) => {
       console.log('fallo...')
@@ -130,32 +142,83 @@ function validate({signature,data,timestamp}){
   })
 }
 
-async function sendMail({email}){
-  
-  let sendEmail = 'no yet'
+async function updateBillStatus({event, status, reference}){
 
-  const client = new SMTPClient({
-    user: process.env.MAIL,
-    password: process.env.PASSMAIL,
-    host: 'smtp.gmail.com',
-    ssl:true
-  });
-  
-  try{
-    await client.sendAsync(
-      {
-        text: `Just for testing purpose`,
-        from: process.env.MAIL,
-        to: email,
-        subject: 'testing emailjs',
-       
+    if(event === WOPMPI_EVENTS.transactionUpdate || event === WOPMPI_EVENTS.nequiTokenUpdate){
+      if(status === WOMPI_STATES.ok){
+
+        const billRef = firestore.collection('bill').doc(reference);
+        try {
+          const res = await firestore.runTransaction(async t => {
+            const bill = await t.get(billRef);
+            const products = bill.data().products;
+
+            let productsObjs =  products.map( async product => {
+              let productRef = firestore.collection('products').doc(product.id);
+              let productObj = await t.get(productRef);
+              return {
+                productObj: {...productObj.data()},
+                amountBuy:product.amount,
+                productRef
+              }
+            });
+
+            return Promise.all(productsObjs)
+                      .then( values => {
+
+                        let updateStatus = t.update(billRef, { status })
+
+                        let updates = values.map( data =>{
+                              let newAmount = data.productObj.amount - data.amountBuy;
+                              let update = t.update(data.productRef, { amount: newAmount });
+                              return update
+                            })
+                        return [...updates, updateStatus]
+                      })
+                      .then( arrayUpdates => Promise.all(arrayUpdates) )
+          });
+          return {status: true, msg:'documentos actualizados'};
+        } catch (e) {
+          return {status: false, msg:'fallo actualizacion', e};
+        }
+        
       }
-      )
-      sendEmail = 'success'
+      else{
+        let billReference = firestore.collection('bill').doc(reference);
+        await billReference.update({status});
+        return {status: false , msg:'transación no aprobada status actualizado en firebase'}
+      }
     }
-  catch(e){
-    sendEmail = {e, error:'fallo mail'}
-  }
+    else{
+      return {status: false, msg : 'evento Wompi desconocido'}
+    }
+
+}
+
+
+async function sendMail({data}){
   
-  return sendEmail
+  sgMail.setApiKey(process.env.SENDGRID_APIKEY)
+  
+  const str = data.transaction.customer_data.full_name;
+  const name = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+  const msg = {
+    to: data.transaction.customer_email, // Change to your recipient
+    from: 'koimaquillaje@gmail.com', // Change to your verified sender
+    subject: '¡Hemos recibido tu pedido en Koi Makeup!',
+    text: `Hola ${name} Hemos recibido tu pedido ${data.transaction.reference}, y ahora se está procesando, recuerda que el tiempo de llegada es de 1 semana después del pago, 3-5 días hábiles de lunes a viernes sin contar sábados, domingos ni festivos. Tan pronto el número de guia para tu envio sea generado te lo enviaremós para que puedas consultar el estado de tu envío. ¡Gracias por confiar en nosotros! Estamos trabajando para cumplirte lo más pronto posible.`,
+    html: `<h1>Hola ${name}</h1><br/>
+           Hemos recibido tu pedido <b>${data.transaction.reference}</b>, y ahora se está procesando, recuerda que el tiempo de llegada es de 1 semana después del pago, 3-5 días hábiles de lunes a viernes sin contar sábados, domingos ni festivos.<br/> Tan pronto el número de guia para tu envio sea generado te lo enviaremós para que puedas consultar el estado de tu envío.<br/> <b>¡Gracias por confiar en nosotros! Estamos trabajando para cumplirte lo más pronto posible.</b>`,
+  }
+
+  return sgMail
+    .send(msg)
+    .then(() => {
+      return 'Email Sended'
+    })
+    .catch((error) => {
+      return {error, msg:'error al enviar mail'}
+    })
+    
 }
