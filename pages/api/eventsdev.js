@@ -20,14 +20,14 @@ export default async (request, response) => {
     sent_at
   };
   
-  const res = await db.collection('cities').add(webhook);
-  
-  if(!res.ok){
-    res.status(500).json({})
-    return
-  }
+  const res = await db.collection('webhooks').add(webhook);
 
-  res.status(200).json({})
+  // if(!res.ok){
+  //   res.status(500).json({})
+  //   return
+  // }
+
+  res.status(200).json({res})
 }
 
 function validate({signature,data}){
