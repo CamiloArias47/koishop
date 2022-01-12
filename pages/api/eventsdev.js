@@ -20,7 +20,7 @@ export default async (request, response) => {
     sent_at
   };
   
-  const res = await db.collection('webhooks').add(webhook);
+  const res = await firestore.collection('webhooks').add(webhook);
 
   // if(!res.ok){
   //   res.status(500).json({})
