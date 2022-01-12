@@ -154,7 +154,7 @@ function sendMail({email}){
       sendEmail = 'success'
     }
   catch(e){
-    sendEmail = "Error"
+    sendEmail = e
   }
   
   return sendEmail
