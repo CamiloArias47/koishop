@@ -64,6 +64,10 @@ h1{
     color:${colors.greenDark}
 }
 
+.address-details :global(ul),
+.user-bill-details :global(ul){
+    list-style:none;
+}
 
 .address-details,
 .user-bill-details{

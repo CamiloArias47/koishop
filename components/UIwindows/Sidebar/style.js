@@ -1,5 +1,5 @@
 import css from 'styled-jsx/css'
-import {shadow} from 'styles/theme'
+import {colors, shadow} from 'styles/theme'
 
 export default css`
 .slidebar-container{

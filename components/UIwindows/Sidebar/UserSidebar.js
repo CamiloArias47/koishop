@@ -25,7 +25,7 @@ export const UserSidebar = () => {
 
     return(
         <div className="user-view-sidebar">
-            <ul>
+            <ul className='ul-user-sidebar'>
                 <li>
                     <a onClick={()=>{handlerClick('/user/pedidos')} }>Pedidos</a>
                 </li>
