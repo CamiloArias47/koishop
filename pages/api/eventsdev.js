@@ -27,7 +27,7 @@ export default async (request, response) => {
   //   return
   // }
 
-  res.status(200).json({res})
+  response.status(200).json({res})
 }
 
 function validate({signature,data}){
