@@ -130,7 +130,7 @@ function validate({signature,data,timestamp}){
   })
 }
 
-function sendMail({email}){
+async function sendMail({email}){
   
   let sendEmail = 'no yet'
 
@@ -142,7 +142,7 @@ function sendMail({email}){
   });
   
   try{
-    client.send(
+    await client.sendAsync(
       {
         text: `Just for testing purpose`,
         from: process.env.MAIL,
