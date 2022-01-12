@@ -98,9 +98,9 @@ export default async (request, response) => {
 
    validate({signature, data, timestamp}) 
     .then( (result) => updateBillStatus({event, status:data.transaction.status, reference:data.transaction.reference}) )
-    .then( result => {
+    .then( async result => {
       if(result.status && data.transaction.customer_email){ 
-        sendMailToUser = sendMail({data})
+        sendMailToUser = await sendMail({data})
       }
 
       return response.status(200).json({succes:result, sendMailToUser})
@@ -127,15 +127,10 @@ function validate({signature,data,timestamp}){
     concat = concat + timestamp + secret
     const hashDigest = sha256(concat).toString();
 
-    console.log({hashDigest})
-    console.log({checksum: signature.checksum})
-
     if(signature.checksum === hashDigest){
-      console.log('son iguales')
       resolve(true)
     }
     else{
-      console.log('estan mal')
       reject(false)
     }
 
@@ -196,7 +191,7 @@ async function updateBillStatus({event, status, reference}){
 }
 
 
-async function sendMail({data}){
+function sendMail({data}){
   
   sgMail.setApiKey(process.env.SENDGRID_APIKEY)
   
