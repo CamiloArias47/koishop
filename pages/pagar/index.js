@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useRouter } from 'next/router'
 import { useUI } from "components/UIcontext"
-import { useCommerce, useSaveCart, TRANSACTION_STATUS } from "components/CommerceContext"
+import { useCommerce, useSaveCart, TRANSACTION_STATUS, centsToPesos } from "components/CommerceContext"
 import { useBuyForm, useDeliveryActions } from "components/BuyformContext"
 import { updateCodeUsedBy, updateStatus } from "firebaseApi/firestoreDB/bill"
 import { useCart } from "hooks/useCart"
@@ -104,10 +104,9 @@ export default function PagarPage(){
     const handlerPayApproved = ({result}) => {
         console.log({result})
 
-        const amountInCents = result.transaction.amountInCents.toString()
-        const lengthPrice = amountInCents.length
-        let price = amountInCents.substring(0,lengthPrice-2)
-        price = Number(price)
+        const amountInCents = result.transaction.amountInCents
+
+        const price = centsToPesos({amountInCents})
         
         if(discountCode !== ''){
             updateCodeUsedBy({bid:reference,uid,code:discountCode})

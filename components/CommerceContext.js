@@ -210,6 +210,13 @@ export const useSaveCart = () => {
     return {saveCart}
 }
 
+/**
+ * 
+ * @param {type} string | tipo de descuento 
+ * @param {discount} string|number valor del descuento
+ * @param {total} number | valor al que se le aplica el descuento
+ * @returns 
+ */
 export const handlerDiscount = ({type, discount, total}) => {
     let newTotal = total
     let discountValue = 0
@@ -230,6 +237,14 @@ export const handlerDiscount = ({type, discount, total}) => {
     }
 
     return {newTotal,discountValue}
+}
+
+export const centsToPesos = ({amountInCents}) => {
+    amountInCents = amountInCents.toString()
+    const lengthPrice = amountInCents.length
+    let price = amountInCents.substring(0,lengthPrice-2)
+    price = Number(price)
+    return price
 }
 
 export const ManagedCommerceContext = ({ children }) => (
