@@ -5,6 +5,7 @@ import { useCommerce, useSaveCart, TRANSACTION_STATUS, centsToPesos } from "comp
 import { useBuyForm, useDeliveryActions } from "components/BuyformContext"
 import { updateCodeUsedBy, updateStatus } from "firebaseApi/firestoreDB/bill"
 import { useCart } from "hooks/useCart"
+import { usePromo } from 'hooks/usePromo'
 
 import { NextSeo } from 'next-seo'
 import { config } from 'components/commons/Head'
@@ -44,10 +45,15 @@ export default function PagarPage(){
             uid,
             email,
             openModal,
-            closeModal } = useUI() 
+            closeModal,
+            openDisplayBlockWindow,
+            closeDisplayBlockWindow,
+            openToast
+         } = useUI() 
 
-    const { subtotalToPay, discountCode } = useCommerce()
+    const { subtotalToPay, discountCode, setDiscount } = useCommerce()
     const { saveCart } = useSaveCart()
+    const { validateSimultaneousUses } = usePromo()
 
     useEffect( () => {
         closeSidebar()
@@ -88,14 +94,17 @@ export default function PagarPage(){
           })
 
         checkout.open( result  => {
+
+            openDisplayBlockWindow()
+
             var transaction = result.transaction
             if(transaction.status === TRANSACTION_STATUS.ok){
                 handlerPayApproved({result})
             }
             else{
                 updateStatus({bid:reference,status:TRANSACTION_STATUS.fail})
-                    .then(response => {
-                        console.log({response})
+                    .then( () => {
+                        closeDisplayBlockWindow()
                     })
             }
           })
@@ -119,6 +128,7 @@ export default function PagarPage(){
          .then( () => {
             quitAllProducts()
             router.push(`/user/pedidos/${reference}`)
+            closeDisplayBlockWindow()
          })
     }
 
@@ -140,7 +150,31 @@ export default function PagarPage(){
             })
 
             if(checkoutStep === CHECKOUT_STEP.pago){
-                showWompyModal()
+                 
+
+                if(discountCode === ''){
+                    showWompyModal()
+                }
+                else{ //validar el codigo otra vez
+                    openDisplayBlockWindow()
+                    const dataConsult = {
+                        cid: discountCode, 
+                        uid
+                    }
+    
+                    validateSimultaneousUses(dataConsult)
+                        .then( () => {
+                            closeDisplayBlockWindow()
+                            showWompyModal() 
+                        })
+                        .catch( e => {
+                            closeDisplayBlockWindow()
+                            setDiscount({discount:0, type:'no discount',code:''})
+                            openToast({title:'No se puede aplicar este código',msg:'Acabas de usar este codigo en otra compra'})
+                            console.log({e})
+                        })
+                }
+                
             }
 
             window.scrollTo(0,0)

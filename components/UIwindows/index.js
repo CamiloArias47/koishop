@@ -8,6 +8,7 @@ import { Register } from 'components/commons/Register'
 import { UserSidebar } from './Sidebar/UserSidebar'
 import { HamburgerViewSidebar } from './Sidebar/HamburgerSidebar'
 import { CarSidebar } from './Sidebar/CarSidebar'
+import { BlockWindow } from 'components/UIwindows/BlockWindow'
 
 const SideBarView = ()=>{
     const { displaySidebar, sidebarView } = useUI();
@@ -40,12 +41,21 @@ const ToastView = () => {
     return <Toast msg={toast.msg} title={toast.title}/>
 }
 
+const ShowWaitingWindow = () => {
+    const { displayBlockWindow } = useUI();
+     
+    if(!displayBlockWindow) return null;
+
+    return <BlockWindow/>
+}
+
 export const UiWindows = ({children})=>{
     return(
         <>
             <SideBarView/>
             <ModalView/>
             <ToastView />
+            <ShowWaitingWindow/>
             {children}
         </>
     )

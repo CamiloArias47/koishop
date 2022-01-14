@@ -3,7 +3,6 @@ import {doc, collection, addDoc,
         updateDoc, serverTimestamp, 
         arrayUnion, query, where, getDocs, orderBy} from "firebase/firestore"
 
-
 export const setBill = async ({uid, cart, status}) => {
     const docRef = await addDoc(collection(db, "bill"), {
       uid,
@@ -76,6 +75,35 @@ export const getBillsByUser = async ({uid}) => {
   const q = query(collection(db, "bill"),
                   where("uid", "==", uid),
                   orderBy("timestamp", "desc"));
+
+  const querySnapshot = await getDocs(q);
+
+  querySnapshot.forEach((doc) => {
+    bills.push({id: doc.id, ...doc.data()});
+  });
+
+  return bills
+}
+
+export const updateCodeAndPriceToPay = async ({bid, code, discountValue, totalToPay}) => {
+  const billRef = doc(db, "bill", bid);
+
+  const response = await updateDoc(billRef, {
+    promocode: code,
+    discount : discountValue,
+    total : totalToPay
+  });
+
+  return response
+}
+
+export const getBillsByUserAndPromoCode = async ({uid, promoCode}) => {
+  
+  let bills = []
+  
+  const q = query(collection(db, "bill"),
+                  where("uid", "==", uid),
+                  where('promocode', '==', promoCode));
 
   const querySnapshot = await getDocs(q);
 

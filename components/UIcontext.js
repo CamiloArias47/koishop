@@ -26,6 +26,7 @@ const initialState = {
     displayDropdown: false,
     displayModal: false,
     displayToast: false,
+    displayBlockWindow : false,
     toast:{title:'',msg:''},
     modalView: MODAL_VIEWS.LOGIN_VIEW,
     sidebarView: SIDEBAR_VIEWS.CART_VIEW,
@@ -110,6 +111,18 @@ function uiReducer(state, action) {
           ...state,
           toast:{title:'',msg:''},
           displayToast: false
+        }
+      }
+      case 'open-block-window' : {
+        return {
+          ...state,
+          displayBlockWindow: true
+        }
+      }
+      case 'close-block-window' : {
+        return {
+          ...state,
+          displayBlockWindow: false
         }
       }
       case 'SET_MODAL_VIEW': {
@@ -228,6 +241,14 @@ export const UIProvider = (props) => {
     const closeToast = useCallback(
       () => dispatch({type:'close-toast'}), [dispatch]
     )
+    const openDisplayBlockWindow = useCallback(
+      (data) => dispatch({ type: 'open-block-window', data }),
+      [dispatch]
+    ) 
+    const closeDisplayBlockWindow = useCallback(
+      (data) => dispatch({ type: 'close-block-window', data }),
+      [dispatch]
+    ) 
     const setUserAvatar = useCallback(
       (value) => dispatch({ type: 'SET_USER_AVATAR', value }),
       [dispatch]
@@ -266,6 +287,8 @@ export const UIProvider = (props) => {
         setModalView,
         setSidebarView,
         setUserAvatar,
+        openDisplayBlockWindow,
+        closeDisplayBlockWindow,
         setUser
       }),
       [state]

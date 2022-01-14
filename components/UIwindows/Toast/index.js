@@ -12,15 +12,17 @@ export const Toast = ({title = '', msg = ''}) => {
     },[msg])
 
     return(
-        <div className="toast-container">
-            <button className="close-icon" onClick={closeToast}>
-                <CloseIcon width="20" height="20"/>
-            </button>
-            <div className="toast" style={trasnform}>
-                <h3>{title}</h3>
-                <p>{msg}</p>
+        <div className='toast-transparent-wrapper'>
+            <div className="toast-container">
+                <button className="close-icon" onClick={closeToast}>
+                    <CloseIcon width="20" height="20"/>
+                </button>
+                <div className="toast" style={trasnform}>
+                    <h3>{title}</h3>
+                    <p>{msg}</p>
+                </div>
+                <style jsx>{style}</style>
             </div>
-            <style jsx>{style}</style>
         </div>
     )
 }

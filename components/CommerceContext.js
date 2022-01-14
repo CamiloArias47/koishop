@@ -94,22 +94,6 @@ function commerceReducer(state, action){
                 discountValue = discountValues.discountValue
             }
 
-
-            // if(type === 'percent discount'){
-            //     const discountPercent = parseInt(discount)
-            //     discountValue = state.subtotalToPay*discountPercent/100
-            //     newTotal = state.subtotalToPay - discountValue
-            // }
-
-            // if(type === 'free-delivery'){
-            //     //aun no se cuanto cuesta el delivery
-            // }
-
-            // if(type === 'value discount'){
-            //     discountValue = parseInt(discount)
-            //     newTotal = state.subtotalToPay - discountValue
-            // }
-
             return {
                 ...state,
                 subtotalToPay: newTotal,
@@ -229,6 +213,7 @@ export const handlerDiscount = ({type, discount, total}) => {
 
     if(type === 'free-delivery'){
         //aun no se cuanto cuesta el delivery
+         discountValue = 200
     }
 
     if(type === 'value discount'){

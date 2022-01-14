@@ -1,4 +1,5 @@
 import { firestore } from "firebaseApi/admin"
+import { FieldValue } from 'firebase-admin'
 import sha256 from 'crypto-js/sha256';
 import sgMail from '@sendgrid/mail'
 import mailOrderConfirmed from 'components/mails/order-confirmation'
@@ -145,15 +146,10 @@ function validate({signature,data,timestamp}){
     concat = concat + timestamp + secret
     const hashDigest = sha256(concat).toString();
 
-    console.log({hashDigest})
-    console.log({checksum: signature.checksum})
-
     if(signature.checksum === hashDigest){
-      console.log('son iguales')
       resolve(true)
     }
     else{
-      console.log('Fraude')
       reject(false)
     }
 
@@ -176,9 +172,11 @@ async function updateBillStatus({event, status, reference, totalPaid}){
             const bill = await t.get(billRef);
             const products = bill.data().products;
             const discountCode = bill.data().promocode
+            const uid = bill.data().uid
+            let codeRef
 
             if(discountCode){
-              const codeRef = firestore.collection('codes').doc(discountCode);
+              codeRef = firestore.collection('codes').doc(discountCode);
               discountPromo = await t.get(codeRef);
               subtotal = products.reduce( (acc, actual) => acc+actual.pricex1*actual.amount, 0)
               
@@ -204,23 +202,44 @@ async function updateBillStatus({event, status, reference, totalPaid}){
 
             return Promise.all(productsObjs)
                       .then( values => {
-
+                        let updateCode
+                        
                         const dataUpdateBill = (aplyDiscount) 
                                                 ? { status, discount:aplyDiscount, total: totalPaid}
                                                 : { status, total: totalPaid}
-
+ 
                         let updateStatus = t.update(billRef, dataUpdateBill)
+                        
+                        if(codeRef){
+                          const discountPromoData = discountPromo.data()
+                          const oldUsedBy = discountPromoData.usedby
+                          
+                          const newUsedBy = oldUsedBy 
+                                              ? [...oldUsedBy, {uid:uid,bid:reference}]
+                                              : [{uid:uid,bid:reference}]
+      
+                          updateCode = t.update(codeRef,{
+                            usedby: newUsedBy
+                          })
+                        }
                     
-                        let updates = values.map( data =>{
-
-                              prouctsdata.push({...data.productObj, ...data.productSell})
-
-                              let newAmount = data.productObj.amount - data.amountBuy;
-                              let update = t.update(data.productRef, { amount: newAmount });
-                              
-                              return update
+                        let productsUpdates = values.map( data =>{
+                            prouctsdata.push({
+                              ...data.productObj, 
+                              ...data.productSell
                             })
-                        return [...updates, updateStatus]
+
+                            let newAmount = data.productObj.amount - data.amountBuy;
+                            let update = t.update(data.productRef, { amount: newAmount });
+                            
+                            return update
+                          })
+                        
+                        const updates = (updateCode) 
+                                          ? [...productsUpdates, updateStatus, updateCode ]
+                                          : [...productsUpdates, updateStatus ]
+
+                        return updates
                       })
                       .then( arrayUpdates => Promise.all(arrayUpdates) )
           });
@@ -266,20 +285,47 @@ function sendMail({data, products, discount, subtotal, totalInPesos}){
   })
 
   const msg = {
-    to: [data.transaction.customer_email,'camillo47@gmail.com','koimaquillaje@gmail.com'], 
+    to: data.transaction.customer_email, 
     from: 'koimaquillaje@gmail.com', 
     subject: '¡Hemos recibido tu pedido en Koi Makeup!',
     text: `Hola ${name} Hemos recibido tu pedido ${data.transaction.reference}, y ahora se está procesando, recuerda que el tiempo de llegada es de 1 semana después del pago, 3-5 días hábiles de lunes a viernes sin contar sábados, domingos ni festivos. Tan pronto el número de guia para tu envio sea generado te lo enviaremós para que puedas consultar el estado de tu envío. ¡Gracias por confiar en nosotros! Estamos trabajando para cumplirte lo más pronto posible.`,
     html: createMail
   }
 
-  return sgMail
-    .send(msg)
-    .then(() => {
-      return 'Email Sended'
-    })
-    .catch((error) => {
-      return {error, msg:'error al enviar mail'}
-    })
+  const msg2 = {
+    to: 'camillo47@gmail.com', 
+    from: 'koimaquillaje@gmail.com', 
+    subject: '¡Hemos recibido tu pedido en Koi Makeup!',
+    text: `Hola ${name} Hemos recibido tu pedido ${data.transaction.reference}, y ahora se está procesando, recuerda que el tiempo de llegada es de 1 semana después del pago, 3-5 días hábiles de lunes a viernes sin contar sábados, domingos ni festivos. Tan pronto el número de guia para tu envio sea generado te lo enviaremós para que puedas consultar el estado de tu envío. ¡Gracias por confiar en nosotros! Estamos trabajando para cumplirte lo más pronto posible.`,
+    html: createMail
+  }
+
+  let mailsSended = 0
+  let mailsendedText = ''
+
+  return executeSendMail(msg)
+          .then( result => {
+            mailsSended++
+            mailsendedText = result+':'+mailsSended
+            return executeSendMail(msg2)
+            
+          })
+          .then( result => {
+            mailsSended++
+            mailsendedText = result+':'+mailsSended+', '+mailsendedText
+            return mailsendedText
+          })
+          .catch((error) => {
+            return {error, msg:'error al enviar mail'}
+          })
     
+}
+
+function executeSendMail(msg){
+
+  sgMail.setApiKey(process.env.SENDGRID_APIKEY)
+
+  return sgMail
+          .send(msg)
+          .then(() => 'Email Sended' )
 }

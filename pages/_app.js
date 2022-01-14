@@ -1,11 +1,13 @@
-import 'styles/globals.css'
+import { ManagedUIContext } from 'components/UIcontext'
+import { ManagedCommerceContext } from 'components/CommerceContext'
+import { ManagedBuyFormContext } from "components/BuyformContext"
+import { UiWindows } from 'components/UIwindows'
+
 import Head from "components/commons/Head"
 import Navbar from 'components/commons/Navbar/Navbar'
-import {ManagedUIContext} from 'components/UIcontext'
-import { ManagedCommerceContext } from 'components/CommerceContext'
-import {UiWindows} from 'components/UIwindows'
+
+import 'styles/globals.css'
 import {globalStyles} from 'styles/styles-global'
-import { ManagedBuyFormContext } from "components/BuyformContext"
 
 function MyApp({ Component, pageProps }) {
 

@@ -12,7 +12,13 @@ export default async (request, response) => {
   } else {
       const data = doc.data()
 
-      validate({code:data, uid, priceToPay})
+      const validateData = {
+        code:data, 
+        uid, 
+        priceToPay
+      }
+
+      validate(validateData)
         .then( () => {
           let motive = "¡Exelente, tienes un descuento!"
 
@@ -64,8 +70,8 @@ function validate({code, uid, priceToPay}){
   })
 
   const validateReUse = new Promise( (resolve, reject) => {
-     //si el codigo no se puede reusar, validamos que el usuario no lo haya usado ya
-     if(!code.reuse && code.usedby){
+    //si el codigo no se puede reusar, validamos que el usuario no lo haya usado ya
+    if(!code.reuse && code.usedby){
       const usedbyUser = code.usedby.find(u => u.uid === uid) 
       if(usedbyUser){
         reject({status:false, motive:'Este código no se puede usar más de una vez'})

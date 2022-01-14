@@ -3,11 +3,18 @@ import { fontColor } from 'styles/theme'
 import { glass, shadow } from 'styles/theme'
 
 export default css`
+.toast-transparent-wrapper{
+    width: 100%;
+    display: flex;
+    position: fixed;
+    bottom: 3rem;
+    justify-content: center;
+}
 .toast-container{
     display:flex;
     justify-content: center;
     bottom: 2rem;
-    position: fixed;
+    position: absolute;
     z-index: 10;
     text-align: center;
 }
@@ -38,5 +45,12 @@ export default css`
     font-weight: 600;
     transform: translateY(8rem);
     transition: transform 600ms ease-out;
+}
+
+@media (min-width: 760px){
+    .toast-transparent-wrapper{
+        left: -6rem;
+        justify-content: flex-end;
+    }
 }
 `

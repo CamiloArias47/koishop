@@ -14,10 +14,14 @@ form{
 @media (min-width: 768px){
     form{
         flex-direction:row;
+        flex-wrap: wrap;
     }
     .envio-container,
     .facturacion-container{
         width:50%
+    }
+    .container-btn-buy{
+        width:100%;
     }
 
 }
