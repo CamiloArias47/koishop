@@ -1,13 +1,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { createProductPath } from 'utils'
+
 import style from './style'
 
 const Cardcategory = ({name, img, price})=>{
     return (
         <>
             <div className="card product-card">
-                <Link href={`/producto/${name.replace(/\s/g,'-')}`}>
+                <Link href={`/producto/${ createProductPath(name) }`}>
                     <a >
                         <div className="product-card-img-container">
                             <Image

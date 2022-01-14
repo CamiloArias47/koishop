@@ -13,3 +13,7 @@ export function formatDate(seconds){
     const date = new Intl.DateTimeFormat('es-CO', options).format(until)
     return date
 }
+
+export function createProductPath(name){
+    return name.replace(/\s/g,'-')
+}

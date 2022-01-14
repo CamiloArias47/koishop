@@ -5,7 +5,7 @@ import { HomeIcon } from 'components/icons'
 import style from './style'
 
 export default function BreadCrum({links}){
-    console.log({links})
+
     return <ul className="breadcrum">
                  <li>
                      <Link href="/">

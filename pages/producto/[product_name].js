@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { firestore } from "firebaseApi/admin"
+import { getFirstTwentyProductsPaths } from "firebaseApi/firestoreADMIN/products"
 import { replaceAll, formatPrice } from "utils"
 import { useCart } from 'hooks/useCart'
 import { useUI, SIDEBAR_VIEWS } from 'components/UIcontext'
@@ -28,7 +29,7 @@ const ProductPage = (props) => {
 
   const { id, name, photo, description, price, category, subcategory, amount} = props.product
   const formatedPrice = formatPrice(price)
-
+console.log({formatedPrice})
   const handlerAmount = (event) => {
     let wantBuy = event.target.value
     let totalToBuy = (wantBuy > amount) ? amount : wantBuy 
@@ -115,11 +116,12 @@ return <section className="product-page-section wraper">
 export default ProductPage
 
 export async function getStaticPaths() {
-  const paths = [{ params: { product_name: 'Aro-Led-Selfie'} }]
-  //const paths = []
+
+  const productPaths = await getFirstTwentyProductsPaths()
+
   return { 
-    paths, 
-    fallback: true
+    paths : productPaths, 
+    fallback: 'blocking'
   }
 }
 
@@ -127,25 +129,26 @@ export async function getStaticProps(context) {
   const { params } = context 
   let { product_name } = params
   product_name = replaceAll(product_name,'-',' ')
+
   return firestore
     .collectionGroup("products")
     .where('name','==',product_name)
     .get()
     .then((querySnapshot) => {
         let product = {}
-        querySnapshot.forEach((doc) => {
+        querySnapshot.forEach( doc => {
             product = {id: doc.id, ...doc.data()}
         });
 
         if(product.name === undefined) return { notFound: true }
+
         return {
           props: {product},
+          revalidate: 200,
         }
     })
     .catch(error => {
-      return {
-        props: {},
-      }
+      return { notFound: true }
     })
 
 }

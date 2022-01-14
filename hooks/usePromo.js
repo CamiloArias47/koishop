@@ -63,7 +63,7 @@ export function usePromo(){
     }
 
     //validar si se puede reusar el codigo
-    function validateReUse({reuse, usedby}){
+    function validateReUse({reuse, usedby, uid}){
         return new Promise( (resolve, reject) => {
             //si el codigo no se puede reusar, validamos que el usuario no lo haya usado ya
             if(!reuse && usedby){
@@ -81,7 +81,8 @@ export function usePromo(){
 
         const dataReuse = {
             reuse : code.reuse,
-            usedby : code.usedby
+            usedby : code.usedby,
+            uid
         }
 
         return validateReUse(dataReuse)
