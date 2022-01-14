@@ -26,8 +26,6 @@ const ProductPage = (props) => {
           openSidebarFromRight
          } = useUI()
   
-  if(router.isFallback) return 'loading...'
-
   const { id, name, photo, description, price, category, subcategory, amount} = props.product
   const formatedPrice = formatPrice(price)
 
