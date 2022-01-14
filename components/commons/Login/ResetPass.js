@@ -56,7 +56,7 @@ export const Reset = ({email})=>{
             <h1>Restablecer contraseña</h1>
             <form onSubmit={handlerSubmit}>
                 <p>Te enviaremos un correo para que cambies tu contraseña</p>
-                <input className="input input-primary" type="text" name="mail" value={mail} onChange={handlerChange} required />
+                <input className="input input-primary" type="text" name="mail" value={mail} onChange={handlerChange} placeholder="email" required />
                 { erroMessage }
                 <button className="btn btn-primary">
                     Continuar

@@ -6,6 +6,7 @@ export default css`
     color: ${fontColor.general};
     display:flex;
     flex-direction:column;
+    padding-bottom: 3rem;
 }
 
 .product-page-section .product-image{
@@ -58,6 +59,11 @@ h1{
 }
 .btn-primary{
    font-size:1.4rem;
+}
+
+.no-stock-info{
+    font-size: 1.5rem;
+    font-weight: 500;
 }
 
 @media (min-width: 760px){

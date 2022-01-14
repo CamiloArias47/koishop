@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { firestore } from "firebaseApi/admin"
 import { getFirstTwentyProductsPaths } from "firebaseApi/firestoreADMIN/products"
@@ -15,6 +15,7 @@ import { ShoppingBagIcon, Spinner } from 'components/icons'
 import { colors } from 'styles/theme'
 import style from 'styles/styles-product'
 
+
 const ProductPage = (props) => {
   const router = useRouter()
   const [ buyAmount, setBuyAmount ] = useState(1)
@@ -29,26 +30,52 @@ const ProductPage = (props) => {
 
   const { id, name, photo, description, price, category, subcategory, amount} = props.product
   const formatedPrice = formatPrice(price)
-console.log({formatedPrice})
-  const handlerAmount = (event) => {
-    let wantBuy = event.target.value
-    let totalToBuy = (wantBuy > amount) ? amount : wantBuy 
-    let gramatic = amount === 1 ? 'disponible' : 'disponibles'
 
-    if(wantBuy > amount) openToast({msg:`En este momento solo tenemos ${gramatic} ${amount} ${name}`})
-    
+  useEffect( () => {
+    if(amount <= 0){
+      setBuyAmount(0)
+    }
+  },[])
+
+  const handlerAmount = (event) => {
+    const amountToBuy = event.target.value
+    const totalToBuy = validateAmountToBuy({amountToBuy})
     setBuyAmount(totalToBuy)
   }
 
   const handlerAddCart = (event) => {
     event.preventDefault()
-    setAdding(true)
 
-    addProduct({id, name, price, buyAmount, photo, stock:amount})
-    setSidebarView(SIDEBAR_VIEWS.CART_VIEW)
-    openSidebarFromRight()
-    setAdding(false)
+    const validateAmoutData = { amountToBuy: buyAmount}
 
+    let validateBuy = validateAmountToBuy(validateAmoutData)
+
+    if(validateBuy > 0){
+      setAdding(true)
+      addProduct({id, name, price, buyAmount, photo, stock:amount})
+      setSidebarView(SIDEBAR_VIEWS.CART_VIEW)
+      openSidebarFromRight()
+      setAdding(false)
+    }
+  }
+
+  const validateAmountToBuy =  ({amountToBuy}) => {
+    let totalToBuy = amountToBuy
+    let gramatic = amount > 1 ? 'disponibles' : 'disponible'
+    let msg
+
+    if(amount > 0){
+       totalToBuy = (amountToBuy > amount) ? amount : amountToBuy 
+       msg = `En este momento solo tenemos ${gramatic} ${amount} ${name}`
+    }
+    else{
+      totalToBuy = 0
+      msg = 'Esta agotado por le momento'
+    }
+
+    if(amountToBuy > amount) openToast({msg})
+
+    return totalToBuy
   }
 
   const iconBtn = adding 
@@ -90,23 +117,30 @@ return <section className="product-page-section wraper">
               <h1>{ name }</h1>
               <span className="product-price">{formatedPrice}</span>
               <p className="product-description">{description}</p>
-              <form className="form-add" onSubmit={handlerAddCart}>
-                <div className="form-group">
-                  <label htmlFor="cantidad-buy">Cantidad</label>
-                  <input 
-                    type="number" 
-                    title="cantidad" 
-                    id="cantidad-buy"  
-                    className="input input-basic" 
-                    value={buyAmount}
-                    onChange={handlerAmount}
-                    required/>
-                </div>
-                <button className="btn btn-primary" disabled={adding}>
-                  agregar 
-                  {iconBtn}
-                </button>
-              </form>
+              { (amount > 0 ) ?
+                <form className="form-add" onSubmit={handlerAddCart}>
+                  <div className="form-group">
+                    <label htmlFor="cantidad-buy">Cantidad</label>
+                    <input 
+                      type="number" 
+                      title="cantidad" 
+                      id="cantidad-buy"  
+                      className="input input-basic" 
+                      value={buyAmount}
+                      onChange={handlerAmount}
+                      required/>
+                  </div>
+                  <button className="btn btn-primary" disabled={adding}>
+                    agregar 
+                    {iconBtn}
+                  </button>
+                </form>
+                : 
+                <span className='no-stock-info'>
+                  Producto agotado por el momento
+                </span>
+              }
+
             </div>
 
             <style jsx>{style}</style>
