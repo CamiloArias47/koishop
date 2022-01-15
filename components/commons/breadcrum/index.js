@@ -13,14 +13,16 @@ export default function BreadCrum({links}){
                      </Link>
                  </li>
                 { links.map( (link, index) => {
-                    
+
+                        let name = link.replace('-',' ') 
+
                         const route = (index === 0) 
                                         ?  `/categoria/${link}`
                                         : `/categoria/${links[0]}/${link}`
 
                         return <li key={link}>
                                     <Link href={route}>
-                                        <a>{link}</a>
+                                        <a>{name}</a>
                                     </Link>
                                 </li>
                     }) 

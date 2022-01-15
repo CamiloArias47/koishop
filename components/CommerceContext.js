@@ -36,9 +36,12 @@ export const sumSubtotal = (products) => {
 function commerceReducer(state, action){
     switch(action.type){
         case 'set-categories' : {
+            let categories = action.payload
+            categories = categories.map(cat => ( {name : cat.id.replace('-',' '), ...cat} ) )
+
             return {
                 ...state,
-                categories : action.payload
+                categories
             }
         }
         case 'set-products-cart' : {

@@ -145,7 +145,6 @@ return <section className="product-page-section wraper">
          </section>
 }
 
-export default ProductPage
 
 export async function getStaticPaths() {
 
@@ -185,3 +184,5 @@ export async function getStaticProps(context) {
 
 }
 
+
+export default ProductPage
