@@ -8,14 +8,21 @@ import {
   getCategories
 } from 'firebaseApi/firestoreADMIN/category'
 
+import { getFirstProductsOfCategory } from 'firebaseApi/firestoreADMIN/products'
+
 import { NextSeo } from 'next-seo'
 import { useCommerce } from 'components/CommerceContext'
+
 import CategorySlider from 'components/commons/categorySlider'
+import SubcategoryList from 'components/commons/subcategoryList'
+import ProductsGrid from 'components/commons/ProductsGrid'
 
 import { config } from 'components/commons/Head'
 import BreadCrum from 'components/commons/breadcrum'
+import style from 'styles/style-category'
 
-const CategoryPage = ({category, categories}) => {
+
+const CategoryPage = ({category, categories, products}) => {
   const router = useRouter()
   let { slug } = router.query
 
@@ -26,6 +33,14 @@ const CategoryPage = ({category, categories}) => {
   
   let cat = slug.length > 0 ? slug[0] : ''
   let subcat = slug.length > 1 ? slug[1] : ''
+
+  const nameToShow = category.isSub 
+                      ? category.isSub 
+                      : category.name
+
+  const linksBreadcrum = category.isSub 
+                          ? [ category.id, category.isSub ]
+                          : [ category.id ]
 
   useEffect( ()=>{
     setCategories(categories)
@@ -38,11 +53,25 @@ const CategoryPage = ({category, categories}) => {
   },[cat])
   
   return <div>
-            <Seo name={category.name} config={config} photo={category.photo}/>
+            <Seo name={nameToShow} config={config} photo={category.photo}/>
             <CategorySlider/>
-            <BreadCrum links={[category.id]}/>
-            Categoria: { slug[0] }, 
-            Subcategoria: { subcat }
+            <section className='category-wrapper'>
+              <BreadCrum links={linksBreadcrum}/>
+
+              <div className='wraper-subcats-list'>
+                  <div className='wraper-subcats'>
+                    <div className='float'>
+                      <h1>{category.name}</h1>
+                      <SubcategoryList cid={category.id} subcategories={category.subcategories} />
+                    </div>
+                  </div>
+                  <div className='wraper-list'>
+                      <ProductsGrid products={products} />
+                  </div>
+              </div>
+
+            </section>
+            <style jsx>{style}</style>
          </div>
 }
 
@@ -83,28 +112,57 @@ export async function getStaticProps(context){
   const { params } = context 
   let { slug } = params
   const categoryName = slug[0]
-  
-  let category = await getCategory(categoryName)
+  let existSubCat = null 
 
-  if(!category){
+  let category = await getCategory(categoryName)
+  
+
+  if( !category ){
     return { notFound: true }
   }
 
   const subcategories = category.subcategories
+  const subcategoryName  = (slug.length > 1) ? slug[1] : undefined
 
-  if(slug.length > 1){
-    //se pidio una pagina de una subcategoria
+  if( subcategoryName ){
+     existSubCat = subcategories.find( sub => sub === subcategoryName)
+    
+     if( !existSubCat ){
+       return { notFound: true }
+     }
   }
 
-  const categories = await getCategories()
 
+  
+  const categories = await getCategories()
+  
+  category.isSub = existSubCat
   category.id = categoryName
   category.name =  categoryName.replace('-',' ')
+
+  const consultProducts = {
+    category : existSubCat ? subcategoryName : category.id, 
+    isSub: existSubCat ? true : false
+  }
+
+  const products = await getFirstProductsOfCategory( consultProducts )
+
+  const productsRes = products.map( p => {
+
+    let timestamp = p.timestamp
+
+    timestamp = timestamp.toDate().toString()
+    return { ...p , timestamp }
+    
+  })
+
+  console.log({productsRes})
 
   return {
     props: { 
       category,
-      categories
+      categories,
+      products : productsRes
     },
     revalidate: 200,
   }

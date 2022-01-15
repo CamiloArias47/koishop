@@ -19,3 +19,24 @@ export const getFirstTwentyProductsPaths = async () => {
 
     return paths
 }
+
+
+
+export const getFirstProductsOfCategory = async ({category, isSub = false}) => {
+    let productsResponse = []
+
+    const queryBy = isSub ? 'subcategory' : 'category'
+
+    const productsRef = firestore.collection('products');
+    const products = await productsRef
+                                .where(queryBy,'==',category)
+                                .orderBy('timestamp', 'desc')
+                                .limit(21)
+                                .get();
+
+    products.forEach(doc => {
+        productsResponse.push( { ...doc.data(), id : doc.id } )
+    });
+
+    return productsResponse
+}

@@ -58,12 +58,6 @@ export default css`
     color:${fontColor.important}
 }
 
-.cards-grid{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.8rem;
-}
-
 .custom-shape-divider-top-1626050420 {
     position: absolute;
     top: 0;
@@ -108,13 +102,9 @@ footer{
 }
 
 /** */
-@media (min-width: 760px){
+@media (min-width: 768px){
     .info-page .info-page-card .info-page-content{
         top:30%;
-    }
-
-    .cards-grid{
-        grid-template-columns: 1fr 1fr 1fr;
     }
 }
 

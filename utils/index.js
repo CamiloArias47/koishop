@@ -17,3 +17,7 @@ export function formatDate(seconds){
 export function createProductPath(name){
     return name.replace(/\s/g,'-')
 }
+
+export function cleanGionsInName(name){
+    return name.replace('-',' ')
+}

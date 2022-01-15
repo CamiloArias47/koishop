@@ -2,6 +2,7 @@ import React, { useCallback, useMemo }  from 'react'
 import { useBuyForm } from "components/BuyformContext"
 import { setBill, updateBill } from "firebaseApi/firestoreDB/bill"
 import useBill from "hooks/useBill"
+import { cleanGionsInName } from 'utils'
 
 const initialState = {
     categories : [],
@@ -37,7 +38,7 @@ function commerceReducer(state, action){
     switch(action.type){
         case 'set-categories' : {
             let categories = action.payload
-            categories = categories.map(cat => ( {name : cat.id.replace('-',' '), ...cat} ) )
+            categories = categories.map(cat => ( {...cat, name : cleanGionsInName(cat.id) } ) )
 
             return {
                 ...state,

@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import styleHome from 'styles/style-home'
 import CategorySlider from 'components/commons/categorySlider'
-import ProductCard from 'components/commons/ProductCard'
+import ProductsGrid from 'components/commons/ProductsGrid'
 import { useCommerce } from 'components/CommerceContext'
 import welcomeImage from 'public/images/welcomeImage.jpg'
 import { useEffect } from 'react'
@@ -9,12 +9,7 @@ import { useEffect } from 'react'
 import pic1 from 'public/images/pic.jpg'
 import pic2 from 'public/images/pic2.jpg'
 import salePic from 'public/images/sale.jpg'
-import producto1 from 'public/images/producto1.jpg'
-import producto7 from 'public/images/producto7.jpg'
-import producto8 from 'public/images/producto8.jpg'
-import producto9 from 'public/images/producto9.jpg'
-import producto10 from 'public/images/producto10.jpg'
-import producto11 from 'public/images/producto11.jpg'
+
 
 export default function Home({categories, products}) {
 
@@ -23,8 +18,6 @@ export default function Home({categories, products}) {
   useEffect( ()=>{
     setCategories(categories)
   },[])
-
-  const highlights = products.map( prod => <ProductCard key={prod.id} name={prod.name} img={prod.photo} price={`$${prod.price}`}/> )
   
   return (
     <div>
@@ -66,25 +59,7 @@ export default function Home({categories, products}) {
         <section className="products-container">
           <div className="products-section">
             <h2>Destacados</h2>
-            <div className="cards-grid">
-                { highlights }
-                <ProductCard name="Corrector De Alta Cobertura" img={producto1} price="$12.500"/>
-                <ProductCard name="Brochas Rosaly" img={producto7} price="$12.500"/>
-                <ProductCard name="Polvo Compacto Khol" img={producto8} price="$12.500"/>
-                <ProductCard name="Primer Facial Skin Perfect" img={producto9} price="$12.500"/>
-                <ProductCard name="Polvo Compacto Khol" img={producto10} price="$12.500"/>
-                <ProductCard name="Brochas Rosaly" img={producto11} price="$12.500"/>
-                <ProductCard name="Corrector Flawless Collection" img={producto1} price="$12.500"/>
-                <ProductCard name="Brochas Rosaly" img={producto7} price="$12.500"/>
-                <ProductCard name="Polvo Compacto Khol" img={producto8} price="$12.500"/>
-                <ProductCard name="Brochas Rosaly" img={producto9} price="$12.500"/>
-                <ProductCard name="Polvo Compacto Khol" img={producto10} price="$12.500"/>
-                <ProductCard name="Brochas Rosaly" img={producto11} price="$12.500"/>
-                <ProductCard name="Polvo Compacto Khol" img={producto1} price="$12.500"/>
-                <ProductCard name="Brochas Rosaly" img={producto7} price="$12.500"/>
-                <ProductCard name="Polvo Compacto Khol" img={producto8} price="$12.500"/>
-                <ProductCard name="Brochas Rosaly" img={producto9} price="$12.500"/>
-            </div>
+            <ProductsGrid products={products}/>
           </div>
         </section>
 

@@ -26,7 +26,7 @@ const ProductPage = (props) => {
           openSidebarFromRight
          } = useUI()
   
-  const { id, name, photo, description, price, category, subcategory, amount} = props.product
+  const { id, name, photo, description, price, category, subcategory, amount, timestamp} = props.product
   const formatedPrice = formatPrice(price)
 
   useEffect( () => {
@@ -161,27 +161,31 @@ export async function getStaticProps(context) {
   let { product_name } = params
   product_name = replaceAll(product_name,'-',' ')
 
-  return firestore
-    .collectionGroup("products")
-    .where('name','==',product_name)
-    .get()
-    .then((querySnapshot) => {
-        let product = {}
-        querySnapshot.forEach( doc => {
-            product = {id: doc.id, ...doc.data()}
-        });
+  let products = await firestore
+                        .collectionGroup("products")
+                        .where('name','==',product_name)
+                        .get()
+  
+  if( products.empty ){
+    return { notFound: true }
+  }
+  
+   let product = {}
 
-        if(product.name === undefined) return { notFound: true }
+   products.forEach( doc => {
+        let timestamp = doc.data().timestamp
+        timestamp = timestamp.toDate().toString()
+        let data = { ...doc.data(), timestamp, id: doc.id }
+        
+        product = data
+    });
 
-        return {
-          props: {product},
-          revalidate: 200,
-        }
-    })
-    .catch(error => {
-      return { notFound: true }
-    })
+    if(product.name === undefined) return { notFound: true }
 
+    return {
+      props: {product},
+      revalidate: 200,
+    }
 }
 
 
