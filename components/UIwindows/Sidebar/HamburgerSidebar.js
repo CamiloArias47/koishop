@@ -38,7 +38,7 @@ function SubcategoriesList({subcategories, category }){
     return <ul>
                {
                     subcategories.map(sub => {
-                        return <li>
+                        return <li key={category + '-' + sub}>
                                     <Link href={`/categoria/${category}/${sub}`}>
                                         <a>{sub}</a>
                                     </Link>
