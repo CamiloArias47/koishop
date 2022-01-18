@@ -1,6 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useUI } from "components/UIcontext"
+
+import debounce from 'just-debounce-it'
 
 import { 
   getCategoryPaths, 
@@ -9,9 +11,11 @@ import {
 } from 'firebaseApi/firestoreADMIN/category'
 
 import { getFirstProductsOfCategory } from 'firebaseApi/firestoreADMIN/products'
+import { getSecondPage } from 'firebaseApi/firestoreDB/productsPaginator'
 
 import { NextSeo } from 'next-seo'
 import { useCommerce } from 'components/CommerceContext'
+import  useNearScreen  from 'hooks/useNearScreen'
 
 import CategorySlider from 'components/commons/categorySlider'
 import SubcategoryList from 'components/commons/subcategoryList'
@@ -26,8 +30,14 @@ const CategoryPage = ({category, categories, products}) => {
   const router = useRouter()
   let { slug } = router.query
 
+  const [ addProducts, setAddProducts ] = useState([])
+  const [ numberRender, serNumberRender ] = useState(1)
+  const [ productsState, setProducts ] = useState(products)
+  const [ lastProduct, setLastProduct ] = useState( products[ products.length -1].timestamp )
+
   const { displaySidebar,closeSidebar } = useUI()
   const { setCategories } = useCommerce()
+  const { isNearScreen, fromRef } = useNearScreen( { distance: '50px', once:false } )
 
   slug = (slug) ? slug : [] 
   
@@ -51,6 +61,46 @@ const CategoryPage = ({category, categories, products}) => {
       closeSidebar()
     }
   },[cat])
+
+  // const deboundeFunc = debounce( () => {
+  //   console.log('call products')
+  //   handlerNextPage()
+  // } , 1000)
+
+  const debounceHandlerNextPage =  useCallback( debounce( () => { 
+      handlerNextPage() 
+    } , 500 ) ,[lastProduct])
+    
+  const handlerNextPage = () => {
+
+    let lastPtoStart = typeof lastProduct.timestamp === 'string' 
+                      ? new Date(lastProduct.timestamp)
+                      : lastProduct 
+    console.log({numberRender})
+
+    getSecondPage({ 
+      category: category.id, 
+      startPageAt: lastPtoStart, 
+      isSub : category.isSub,
+      firstReq : numberRender === 1 ? true : false
+    }).then( nextProducts => {
+      if(nextProducts.products.length > 0){
+        // let newProducts = <ProductsGrid key={'ultimo-'+numberRender+'-'+nextProducts.products.at(-1).id} products={nextProducts.products} />
+        // setAddProducts( [...addProducts, newProducts ])
+        setProducts([ ...productsState, ...nextProducts.products ])
+        const lastp = nextProducts.lastVisible
+        setLastProduct( lastp )
+      }
+    })
+    serNumberRender( numberRender + 1 )
+  }
+
+
+  useEffect( () => {
+    if( isNearScreen ){
+      debounceHandlerNextPage()
+    }
+  }, [isNearScreen, debounceHandlerNextPage])
   
   return <div>
             <Seo name={nameToShow} config={config} photo={category.photo}/>
@@ -63,10 +113,15 @@ const CategoryPage = ({category, categories, products}) => {
                     <div className='float'>
                       <h1>{category.name}</h1>
                       <SubcategoryList cid={category.id} subcategories={category.subcategories} />
+        
                     </div>
                   </div>
                   <div className='wraper-list'>
-                      <ProductsGrid products={products} />
+                      <ProductsGrid products={productsState} />
+                      
+                      <div ref={ fromRef } >
+                        Elemento sapito 🐸
+                      </div>
                   </div>
               </div>
 
@@ -155,8 +210,6 @@ export async function getStaticProps(context){
     return { ...p , timestamp }
     
   })
-
-  console.log({productsRes})
 
   return {
     props: { 

@@ -31,7 +31,7 @@ export const getFirstProductsOfCategory = async ({category, isSub = false}) => {
     const products = await productsRef
                                 .where(queryBy,'==',category)
                                 .orderBy('timestamp', 'desc')
-                                .limit(21)
+                                .limit(2) //21 pro
                                 .get();
 
     products.forEach(doc => {
