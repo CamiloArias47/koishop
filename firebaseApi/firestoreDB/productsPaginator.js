@@ -12,35 +12,40 @@ import {
 
 import db from './db'
 
-export async function getSecondPage({category, startPageAt, isSub = false, firstReq = false}){
+export async function getSecondPage({category, startPageAt, isSub = false, firstReq = false, getFromStart = false}){
 
     const products = []
-
-    //console.log({startPageAt})
     
     const queryBy = isSub ? 'subcategory' : 'category'
+    const search = isSub ?? category
 
     const productsRef = collection(db, "products");
 
     let q 
 
+    console.log('pedir productos')
+    console.log({category, startPageAt})
 
     if(firstReq){
-        console.log('es el primero')
         startPageAt = new Date(startPageAt)
-        console.log(typeof startPageAt)
-        console.log({startPageAt})
-         q = query(productsRef,
-                        where(queryBy,'==',category ) ,
+        q = getFromStart 
+                ?
+                    query(productsRef,
+                        where(queryBy,'==',search ) ,
+                        orderBy('timestamp', 'desc'),
+                        limit(2), //21 prod
+                        )
+                :
+                    query(productsRef,
+                        where(queryBy,'==',search ) ,
                         orderBy('timestamp', 'desc'), 
                         startAfter(startPageAt),
                         limit(2), //21 prod
-                        );
+                        )
     }
     else{
-        console.log('mayor de un scroll')
         q = query(productsRef,
-            where(queryBy,'==',category ) ,
+            where(queryBy,'==',search ) ,
             orderBy('timestamp', 'desc'), 
             startAfter(startPageAt),
             limit(2) //21 prod
@@ -54,8 +59,6 @@ export async function getSecondPage({category, startPageAt, isSub = false, first
     });
 
     const lastVisible = first.docs[first.docs.length-1];
-
-    console.log({products})
 
     return {products, lastVisible}
 }

@@ -1,39 +1,48 @@
 import { useEffect, useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useUI } from "components/UIcontext"
-
 import debounce from 'just-debounce-it'
-
+import useGetCategoryProducts from 'hooks/useGetcategoryProducts'
 import { 
   getCategoryPaths, 
   getCategory,
   getCategories
 } from 'firebaseApi/firestoreADMIN/category'
-
 import { getFirstProductsOfCategory } from 'firebaseApi/firestoreADMIN/products'
 import { getSecondPage } from 'firebaseApi/firestoreDB/productsPaginator'
-
 import { NextSeo } from 'next-seo'
 import { useCommerce } from 'components/CommerceContext'
 import  useNearScreen  from 'hooks/useNearScreen'
-
 import CategorySlider from 'components/commons/categorySlider'
 import SubcategoryList from 'components/commons/subcategoryList'
 import ProductsGrid from 'components/commons/ProductsGrid'
-
 import { config } from 'components/commons/Head'
 import BreadCrum from 'components/commons/breadcrum'
 import style from 'styles/style-category'
 
 
+
+
+
 const CategoryPage = ({category, categories, products}) => {
+
   const router = useRouter()
   let { slug } = router.query
+  const [ firstLoad, setFirstLoad ] = useState(true)
+  const thereIsProducts = products.length > 0 ? true : false 
+  const dateLastProduct = thereIsProducts ? products[ products.length -1].timestamp : ''
 
-  const [ addProducts, setAddProducts ] = useState([])
-  const [ numberRender, serNumberRender ] = useState(1)
-  const [ productsState, setProducts ] = useState(products)
-  const [ lastProduct, setLastProduct ] = useState( products[ products.length -1].timestamp )
+  let configusePaginate = {
+    cid : category.id, 
+    startAt : dateLastProduct, 
+    subCat : category.isSub, 
+    firstProducts : products
+  }
+
+  const { productsState, 
+          lastProduct,
+          paginate,
+          clearProducts } = useGetCategoryProducts(configusePaginate)
 
   const { displaySidebar,closeSidebar } = useUI()
   const { setCategories } = useCommerce()
@@ -53,6 +62,7 @@ const CategoryPage = ({category, categories, products}) => {
                           : [ category.id ]
 
   useEffect( ()=>{
+    setFirstLoad(false)
     setCategories(categories)
   },[])
 
@@ -60,44 +70,23 @@ const CategoryPage = ({category, categories, products}) => {
     if(displaySidebar){
       closeSidebar()
     }
-  },[cat])
+    if(!firstLoad){
+      console.log('pedir nuevos productos')
+      clearProducts()
+      paginate({getFromStart:true})
+    }
+  },[cat, subcat])
 
-  // const deboundeFunc = debounce( () => {
-  //   console.log('call products')
-  //   handlerNextPage()
-  // } , 1000)
 
-  const debounceHandlerNextPage =  useCallback( debounce( () => { 
-      handlerNextPage() 
-    } , 500 ) ,[lastProduct])
+
+
+  const debounceHandlerNextPage = useCallback( 
+    debounce( () => { paginate({getFromStart:false}) } , 500 ), 
+  [lastProduct])
     
-  const handlerNextPage = () => {
-
-    let lastPtoStart = typeof lastProduct.timestamp === 'string' 
-                      ? new Date(lastProduct.timestamp)
-                      : lastProduct 
-    console.log({numberRender})
-
-    getSecondPage({ 
-      category: category.id, 
-      startPageAt: lastPtoStart, 
-      isSub : category.isSub,
-      firstReq : numberRender === 1 ? true : false
-    }).then( nextProducts => {
-      if(nextProducts.products.length > 0){
-        // let newProducts = <ProductsGrid key={'ultimo-'+numberRender+'-'+nextProducts.products.at(-1).id} products={nextProducts.products} />
-        // setAddProducts( [...addProducts, newProducts ])
-        setProducts([ ...productsState, ...nextProducts.products ])
-        const lastp = nextProducts.lastVisible
-        setLastProduct( lastp )
-      }
-    })
-    serNumberRender( numberRender + 1 )
-  }
-
 
   useEffect( () => {
-    if( isNearScreen ){
+    if( isNearScreen && thereIsProducts ){
       debounceHandlerNextPage()
     }
   }, [isNearScreen, debounceHandlerNextPage])
@@ -153,9 +142,7 @@ function Seo({name, config, photo}){
 
 
 export async function getStaticPaths() {
-
   const paths = await getCategoryPaths()
-
   return { 
     paths, 
     fallback: 'blocking'
