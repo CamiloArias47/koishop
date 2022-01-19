@@ -9,7 +9,6 @@ import {
   getCategories
 } from 'firebaseApi/firestoreADMIN/category'
 import { getFirstProductsOfCategory } from 'firebaseApi/firestoreADMIN/products'
-import { getSecondPage } from 'firebaseApi/firestoreDB/productsPaginator'
 import { NextSeo } from 'next-seo'
 import { useCommerce } from 'components/CommerceContext'
 import  useNearScreen  from 'hooks/useNearScreen'
@@ -27,8 +26,10 @@ import style from 'styles/style-category'
 const CategoryPage = ({category, categories, products}) => {
 
   const router = useRouter()
+  const { asPath } = router
   let { slug } = router.query
   const [ firstLoad, setFirstLoad ] = useState(true)
+  const [ oldRote , setOldRoute ] = useState(asPath)
   const thereIsProducts = products.length > 0 ? true : false 
   const dateLastProduct = thereIsProducts ? products[ products.length -1].timestamp : ''
 
@@ -81,15 +82,18 @@ const CategoryPage = ({category, categories, products}) => {
 
   const debounceHandlerNextPage = useCallback( 
     throttle( () => { 
-      console.log('Me dispare en debounce') 
-      paginate({getFromStart:false, categoria: category.id}) 
+        console.log('Me dispare en debounce') 
+        paginate({getFromStart:false, categoria: category.id}) 
     } , 5000, {leading: true} ), 
   [lastProduct,category])
     
 
   useEffect( () => {
-    if( isNearScreen && thereIsProducts ){
+    if( (isNearScreen && thereIsProducts) && asPath === oldRote ){
       debounceHandlerNextPage()
+    }
+    if(asPath != oldRote){
+      setOldRoute(asPath)
     }
   }, [isNearScreen, debounceHandlerNextPage])
   
