@@ -88,6 +88,12 @@ footer{
     .wraper-degradado div{
         width:50%;
     }
+    .sociales ul{
+        justify-content: center;
+    }
+    .sociales ul li{
+        padding: 0 1rem;
+    }
     .sociales span{
         font-size: 1.1rem;
     }

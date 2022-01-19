@@ -10,6 +10,7 @@ import { NextSeo } from 'next-seo'
 import Image from 'next/image'
 
 import BreadCrum from 'components/commons/breadcrum'
+import Footer from 'components/commons/footer'
 import { config } from 'components/commons/Head'
 import { ShoppingBagIcon, Spinner } from 'components/icons'
 import { colors } from 'styles/theme'
@@ -81,7 +82,8 @@ const ProductPage = (props) => {
                       : <ShoppingBagIcon width="32" height="32" color="#fff"/> 
   
 
-return <section className="product-page-section wraper">
+return <>
+        <section className="product-page-section wraper">
             <NextSeo
               title={name+' | '+config.title}
               description={description}
@@ -140,9 +142,10 @@ return <section className="product-page-section wraper">
               }
 
             </div>
-
             <style jsx>{style}</style>
          </section>
+         <Footer/>
+      </>
 }
 
 

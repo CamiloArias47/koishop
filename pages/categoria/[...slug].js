@@ -15,6 +15,7 @@ import  useNearScreen  from 'hooks/useNearScreen'
 import CategorySlider from 'components/commons/categorySlider'
 import SubcategoryList from 'components/commons/subcategoryList'
 import ProductsGrid from 'components/commons/ProductsGrid'
+import Footer from 'components/commons/footer'
 import { config } from 'components/commons/Head'
 import BreadCrum from 'components/commons/breadcrum'
 import style from 'styles/style-category'
@@ -103,7 +104,7 @@ const CategoryPage = ({category, categories, products}) => {
 
               <div className='wraper-subcats-list'>
                   <div className='wraper-subcats'>
-                    <div className='float'>
+                    <div>
                       <h1>{category.name}</h1>
                       <SubcategoryList cid={category.id} subcategories={category.subcategories} />
         
@@ -113,12 +114,12 @@ const CategoryPage = ({category, categories, products}) => {
                       <ProductsGrid products={productsState} />
                       
                   </div>
-                  <div ref={ fromRef } className='elemento-sapito'>
-                    Elemento sapito 🐸
-                  </div>
+                  
+                  <div ref={ fromRef } className='elemento-sapito'></div>
               </div>
 
             </section>
+            <Footer />
             <style jsx>{style}</style>
          </div>
 }

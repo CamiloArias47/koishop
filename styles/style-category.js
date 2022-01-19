@@ -31,7 +31,8 @@ export default css`
     }
 
     .wraper-subcats-list{
-        flex-direction : row;
+        flex-direction: row;
+        flex-wrap: wrap;
     }
 
     .wraper-subcats{
@@ -46,7 +47,6 @@ export default css`
     }
 
     .float{
-        position: fixed;
         width: 16%;
         height: 20rem;
         overflow-x: hidden;

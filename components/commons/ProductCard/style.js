@@ -19,6 +19,7 @@ export default css`
 
 .product-card-details{
     padding:.5rem ;
+    padding-bottom: 1rem;
 }
 
 .product-card-details > .product-name{
