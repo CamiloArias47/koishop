@@ -7,6 +7,7 @@ export default css`
 
 .wraper-subcats-list{
     display:flex;
+    flex-direction:column;
 }
 
 .wraper-subcats{
@@ -15,6 +16,11 @@ export default css`
 
 .wraper-list{
     width: 100%;
+    min-height: 25rem;
+}
+
+.elemento-sapito{
+    width:100%
 }
 
 @media (min-width: 768px){
@@ -36,6 +42,7 @@ export default css`
 
     .wraper-list{
         width: 80%;
+        
     }
 
     .float{

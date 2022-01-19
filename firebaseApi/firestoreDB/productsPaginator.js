@@ -23,9 +23,6 @@ export async function getSecondPage({category, startPageAt, isSub = false, first
 
     let q 
 
-    console.log('pedir productos')
-    console.log({category, startPageAt})
-
     if(firstReq){
         startPageAt = new Date(startPageAt)
         q = getFromStart 
@@ -33,14 +30,14 @@ export async function getSecondPage({category, startPageAt, isSub = false, first
                     query(productsRef,
                         where(queryBy,'==',search ) ,
                         orderBy('timestamp', 'desc'),
-                        limit(2), //21 prod
+                        limit(2) //21 prod
                         )
                 :
                     query(productsRef,
                         where(queryBy,'==',search ) ,
                         orderBy('timestamp', 'desc'), 
                         startAfter(startPageAt),
-                        limit(2), //21 prod
+                        limit(2) //21 prod
                         )
     }
     else{

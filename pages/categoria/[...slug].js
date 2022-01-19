@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useUI } from "components/UIcontext"
-import debounce from 'just-debounce-it'
+import throttle from 'just-throttle';
 import useGetCategoryProducts from 'hooks/useGetcategoryProducts'
 import { 
   getCategoryPaths, 
@@ -67,22 +67,24 @@ const CategoryPage = ({category, categories, products}) => {
   },[])
 
   useEffect( ()=>{
+
+    debounceHandlerNextPage.cancel()
+
     if(displaySidebar){
       closeSidebar()
     }
     if(!firstLoad){
       console.log('pedir nuevos productos')
-      clearProducts()
       paginate({getFromStart:true})
     }
   },[cat, subcat])
 
-
-
-
   const debounceHandlerNextPage = useCallback( 
-    debounce( () => { paginate({getFromStart:false}) } , 500 ), 
-  [lastProduct])
+    throttle( () => { 
+      console.log('Me dispare en debounce') 
+      paginate({getFromStart:false, categoria: category.id}) 
+    } , 5000, {leading: true} ), 
+  [lastProduct,category])
     
 
   useEffect( () => {
@@ -108,9 +110,9 @@ const CategoryPage = ({category, categories, products}) => {
                   <div className='wraper-list'>
                       <ProductsGrid products={productsState} />
                       
-                      <div ref={ fromRef } >
-                        Elemento sapito 🐸
-                      </div>
+                  </div>
+                  <div ref={ fromRef } className='elemento-sapito'>
+                    Elemento sapito 🐸
                   </div>
               </div>
 
