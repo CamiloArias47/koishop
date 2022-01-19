@@ -13,7 +13,7 @@ export default function Footer(){
                             <span>Visita nuestas redes sociales</span>
                             <ul>
                                 <li>
-                                    <a href='https://www.facebook.com/KOI-Makeup-106154205135658' target="_blank" >
+                                    <a href='https://www.facebook.com/KOI-Makeup-106154205135658' target="_blank" rel="noreferrer">
                                         <Image 
                                             src={facebookIcon}
                                             alt="visita nuestro perfil de Facebook"
@@ -22,7 +22,7 @@ export default function Footer(){
                                     </a>
                                 </li>
                                 <li>
-                                    <a href='https://www.instagram.com/koiimakeup/' target="_blank" >
+                                    <a href='https://www.instagram.com/koiimakeup/' target="_blank" rel="noreferrer">
                                         <Image 
                                             src={instagramIcon}
                                             alt="visita nuestro perfil de Instagram"
@@ -31,7 +31,7 @@ export default function Footer(){
                                     </a>
                                 </li>
                                 <li>
-                                    <a href='https://www.tiktok.com/@koi_makeup' target="_blank" >
+                                    <a href='https://www.tiktok.com/@koi_makeup' target="_blank" rel="noreferrer">
                                         <Image 
                                             src={tiktokIcon}
                                             alt="visita nuestro perfil de Tiktok"
@@ -40,7 +40,7 @@ export default function Footer(){
                                     </a>
                                 </li>
                                 <li>
-                                    <a href='https://wa.me/573153828317' target="_blank" >
+                                    <a href='https://wa.me/573153828317' target="_blank" rel="noreferrer">
                                         <Image 
                                             src={whatsappIcon}
                                             alt="Escribenos en Whatsapp"
