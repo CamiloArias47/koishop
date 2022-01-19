@@ -1,4 +1,5 @@
 import css from 'styled-jsx/css'
+import { colors } from 'styles/theme'
 
 export default css`
 
@@ -10,19 +11,42 @@ footer{
 
 .degradado{
     width:100%;
-    height:150px;
+    /* height:150px; */
     background: rgb(255,255,255);
     background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(207,150,150,0.7987570028011204) 61%, rgba(207,150,150,1) 100%);
 }
 
 .wraper-degradado{
-    padding:1rem;
+    padding:3rem 1rem 0.5rem;
     display:flex;
+    flex-direction:column;
 }
 
 .wraper-degradado div{
-    width:50%;
     text-align: center;
+}
+
+.sociales span{
+    display:block;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: ${ colors.white };
+    padding-bottom: 0.5rem;
+}
+
+.sociales ul{
+    display:flex;
+    list-style:none;
+    padding: 0;
+    margin: 0;
+    justify-content: space-evenly;
+}
+
+.heart{
+    color: white;
+    font-weight: 500;
+    font-size: 1.1rem;
+    padding: 2rem 0;
 }
 
 .custom-shape-divider-top-1626050420 {
@@ -32,6 +56,7 @@ footer{
     width: 100%;
     overflow: hidden;
     line-height: 0;
+    background-color: #ead1d1;
 }
 
 .custom-shape-divider-top-1626050420 svg {
@@ -54,5 +79,18 @@ footer{
         width: calc(138% + 1.3px);
         height: 67px;
     }
+}
+
+@media (min-width: 767px) {
+    .wraper-degradado{
+        flex-direction:row;
+    }
+    .wraper-degradado div{
+        width:50%;
+    }
+    .sociales span{
+        font-size: 1.1rem;
+    }
+
 }
 `
