@@ -2,15 +2,17 @@ import {
     collection, 
     query, 
     orderBy, 
-    startAt,
     where,
     startAfter, 
-    endBefore,
-    endAt,
     limit, 
     getDocs } from "firebase/firestore";
 
 import db from './db'
+
+export const LIMIT = {
+    category : 2
+}
+
 
 export async function getSecondPage({category, startPageAt, isSub = false, firstReq = false, getFromStart = false}){
 
@@ -30,14 +32,14 @@ export async function getSecondPage({category, startPageAt, isSub = false, first
                     query(productsRef,
                         where(queryBy,'==',search ) ,
                         orderBy('timestamp', 'desc'),
-                        limit(2) //21 prod
+                        limit( LIMIT.category ) 
                         )
                 :
                     query(productsRef,
                         where(queryBy,'==',search ) ,
                         orderBy('timestamp', 'desc'), 
                         startAfter(startPageAt),
-                        limit(2) //21 prod
+                        limit( LIMIT.category) 
                         )
     }
     else{
@@ -45,7 +47,7 @@ export async function getSecondPage({category, startPageAt, isSub = false, first
             where(queryBy,'==',search ) ,
             orderBy('timestamp', 'desc'), 
             startAfter(startPageAt),
-            limit(2) //21 prod
+            limit( LIMIT.category ) 
             );
     }
 
@@ -60,19 +62,3 @@ export async function getSecondPage({category, startPageAt, isSub = false, first
     return {products, lastVisible}
 }
 
-
-
-// // Query the first page of docs
-// const first = query(collection(db, "cities"), orderBy("population"), limit(25));
-// const documentSnapshots = await getDocs(first);
-
-// // Get the last visible document
-// const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
-// console.log("last", lastVisible);
-
-// // Construct a new query starting at this document,
-// // get the next 25 cities.
-// const next = query(collection(db, "cities"),
-//     orderBy("population"),
-//     startAfter(lastVisible),
-//     limit(25));

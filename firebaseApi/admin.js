@@ -19,8 +19,6 @@ try {
   if (admin.apps.length === 0) {
     admin.initializeApp({ credential: admin.credential.cert(firebaseConfig)})
   }
-  //console.log({adminAntes: admin.INTERNAL.apps_.lenght})
-  //console.log({adminDespues: admin.INTERNAL.apps_.lenght})
 } catch (e) {
   console.log({e})
 }

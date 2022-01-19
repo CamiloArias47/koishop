@@ -49,7 +49,7 @@ export default css`
 }
 
 .products-container{
-    padding:4rem .5rem;
+    padding:4rem .5rem 0 .5rem;
     background-color: #ffffff;
     color:${fontColor.general};
 }
@@ -58,50 +58,6 @@ export default css`
     color:${fontColor.important}
 }
 
-.custom-shape-divider-top-1626050420 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    line-height: 0;
-}
-
-.custom-shape-divider-top-1626050420 svg {
-    position: relative;
-    display: block;
-    margin-top: -1px;
-    width: calc(100% + 1.3px);
-    height: 120px;
-    transform: rotateY(180deg);
-}
-
-.custom-shape-divider-top-1626050420 .shape-fill {
-    fill: #CF9696;
-}
-
-.disponible{
-    width:100%;
-    height:400px;
-    background: rgb(255,255,255);
-    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(207,150,150,0.7987570028011204) 61%, rgba(207,150,150,1) 100%);
-}
-
-footer{
-    position: relative;
-    padding-top: 7rem;
-    width: 100%;
-}
-
-/** For mobile devices **/
-@media (max-width: 767px) {
-    .custom-shape-divider-top-1626050420 svg {
-        width: calc(138% + 1.3px);
-        height: 67px;
-    }
-}
-
-/** */
 @media (min-width: 768px){
     .info-page .info-page-card .info-page-content{
         top:30%;

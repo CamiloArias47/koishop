@@ -8,7 +8,7 @@ import {
   getCategory,
   getCategories
 } from 'firebaseApi/firestoreADMIN/category'
-import { getFirstProductsOfCategory } from 'firebaseApi/firestoreADMIN/products'
+import { getFirstProductsOfCategory, formatTimestampSSR } from 'firebaseApi/firestoreADMIN/products'
 import { NextSeo } from 'next-seo'
 import { useCommerce } from 'components/CommerceContext'
 import  useNearScreen  from 'hooks/useNearScreen'
@@ -75,14 +75,12 @@ const CategoryPage = ({category, categories, products}) => {
       closeSidebar()
     }
     if(!firstLoad){
-      console.log('pedir nuevos productos')
       paginate({getFromStart:true})
     }
   },[cat, subcat])
 
   const debounceHandlerNextPage = useCallback( 
     throttle( () => { 
-        console.log('Me dispare en debounce') 
         paginate({getFromStart:false, categoria: category.id}) 
     } , 5000, {leading: true} ), 
   [lastProduct,category])
@@ -195,14 +193,7 @@ export async function getStaticProps(context){
 
   const products = await getFirstProductsOfCategory( consultProducts )
 
-  const productsRes = products.map( p => {
-
-    let timestamp = p.timestamp
-
-    timestamp = timestamp.toDate().toString()
-    return { ...p , timestamp }
-    
-  })
+  const productsRes = formatTimestampSSR({products})
 
   return {
     props: { 

@@ -1,6 +1,28 @@
 import { firestore } from "firebaseApi/admin"
 import { createProductPath } from 'utils'
 
+export const LIMIT = {
+    category : 2, //21 pro
+    home : 21 
+}  
+
+export const getProdustsHome = async () => {
+    let productsResponse = []
+
+    const productsRef = firestore.collection('products');
+    const products = await productsRef
+                            .orderBy('timestamp', 'desc')
+                            .limit( LIMIT.home )
+                            .get();
+
+    products.forEach(doc => {
+        productsResponse.push( { ...doc.data(), id : doc.id } )
+    });
+
+    return productsResponse
+}
+
+
 export const getFirstTwentyProductsPaths = async () => {
     let paths = []
 
@@ -21,7 +43,6 @@ export const getFirstTwentyProductsPaths = async () => {
 }
 
 
-
 export const getFirstProductsOfCategory = async ({category, isSub = false}) => {
     let productsResponse = []
 
@@ -31,7 +52,7 @@ export const getFirstProductsOfCategory = async ({category, isSub = false}) => {
     const products = await productsRef
                                 .where(queryBy,'==',category)
                                 .orderBy('timestamp', 'desc')
-                                .limit(2) //21 pro
+                                .limit( LIMIT.category ) 
                                 .get();
 
     products.forEach(doc => {
@@ -39,4 +60,15 @@ export const getFirstProductsOfCategory = async ({category, isSub = false}) => {
     });
 
     return productsResponse
+}
+
+
+export const formatTimestampSSR = ({products}) => {
+    const productsRes = products.map( p => {
+        let timestamp = p.timestamp
+        timestamp = timestamp.toDate().toString()
+        return { ...p , timestamp }
+    })
+
+    return productsRes
 }
