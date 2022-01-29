@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useUI, SIDEBAR_VIEWS } from "components/UIcontext"
 import { useCommerce } from "components/CommerceContext"
 import { useCart } from "hooks/useCart"
-import { authChanged } from 'firebaseApi/client'
+import { authChanged } from 'firebaseApi/auth/userState'
 import  Link  from 'next/link'
 
 import Image from 'next/image'

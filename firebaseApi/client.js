@@ -13,37 +13,7 @@ import { getAuth,
          FacebookAuthProvider,
          signOut } from "firebase/auth";
 
-import { getUser }  from "firebaseApi/firestoreDB/user"
-
-
 const auth = getAuth(firebaseApp);
-
-
-export const authChanged = (onChange) => {
-    onAuthStateChanged(auth, user => {
-        if(user){
-            getUser(user.uid)
-                .then( resp => {
-                    return {
-                        ...user,
-                        ...resp
-                    }
-                })
-                .then( udata => {
-                    onChange(udata)
-                })
-                .catch( err => {
-                    console.error({err})
-                    onChange(null)
-                })
-        }
-        else{
-            onChange(null)
-        }
-
-    });
-} 
-
 
 export const login = ({email,password}) =>{
     return signInWithEmailAndPassword(auth, email, password)
@@ -51,7 +21,6 @@ export const login = ({email,password}) =>{
         return userCredential.user;
     })
 }
-
 
 export const logout = () => {
    //return firebase.auth().signOut()

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import withAuth from 'HOC/whitAuth'
 import UserLayout from 'components/commons/UserLayout'
 import style from 'styles/style-user'
 import { revalidateuser, updatePass } from 'firebaseApi/client'
@@ -13,7 +14,7 @@ const STATE_CHANGE = {
     SUCCESS : 3
 }
 
-export default function ChangePassword(){
+const ChangePassword = () => {
 
     const [ password, setPassword] = useState('')
     const [ newPassword, setNewPassword] = useState('')
@@ -100,3 +101,5 @@ export default function ChangePassword(){
         </UserLayout>
     )
 }
+
+export default withAuth(ChangePassword)

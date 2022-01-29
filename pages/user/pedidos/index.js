@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
+import withAuth from 'HOC/whitAuth'
 import Link from 'next/link'
 import { useUI } from 'components/UIcontext'
 import { getBillsByUser } from 'firebaseApi/firestoreDB/bill'
 import UserLayout from 'components/commons/UserLayout'
 
-export default function Pedidos(){
+const Pedidos = () => {
 
     const [pedidos, setPedidos] = useState([])
     const { uid } = useUI()
@@ -34,3 +35,5 @@ export default function Pedidos(){
         </UserLayout>
     )
 }
+
+export default withAuth(Pedidos)
