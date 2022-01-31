@@ -22,6 +22,11 @@ export default css`
     color: ${colors.primary};
 }
 
+.category-sidebar :global(.category-item){
+    display: flex;
+    justify-content: space-between;
+}
+
 @media (min-width: 760px){
     .hidde-in-desktop{
         display:none

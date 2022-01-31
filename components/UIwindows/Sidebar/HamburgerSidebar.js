@@ -1,49 +1,62 @@
+import { useState } from 'react'
 import { useCommerce } from 'components/CommerceContext'
 import Link from 'next/link'
-import { useState } from 'react'
+import { RowIcon } from 'components/icons'
 import style from './style-user'
 
 export const HamburgerViewSidebar = () => {
 
     const { categories } = useCommerce()
 
-    const list = categories.map( cat => {
-        return <li key={cat.id}>
-                 <Link href={`/categoria/${cat.id}`}>
-                    <a>{cat.name}</a>
-                 </Link>
-                 {
-                     cat.subcategories 
-                        ? <SubcategoriesList 
-                            subcategories={cat.subcategories} 
-                            category={cat.id}/>
-                        : ''
-                 }
-               </li>
-    })
-
     return(
         <div>
             <ul className='category-sidebar'>
-                {list}
+                { categories.map( category => <CategoriesList category={category} key={ category.id } />) }
             </ul>
             <style jsx>{style}</style>
         </div>
     )
 }
 
-function SubcategoriesList({subcategories, category }){
+function CategoriesList({category}){
     const [show, setShow ] = useState(false)
 
-    return <ul>
-               {
-                    subcategories.map(sub => {
-                        return <li key={category + '-' + sub}>
-                                    <Link href={`/categoria/${category}/${sub}`}>
-                                        <a>{sub}</a>
-                                    </Link>
-                                </li>
-                    })
-               }
-           </ul>
+    const handlerShow = event => {
+        setShow(!show)
+    }
+
+    return <li key={category.id}>
+                <div className='category-item'>
+                    <Link href={`/categoria/${category.id}`}>
+                    <a>{category.name}</a>
+                    </Link>
+                    {
+                        category.subcategories 
+                        ? 
+                          <button data-cid={category.id} onClick={ handlerShow }>
+                            <RowIcon height={32} width={32}/>
+                          </button>
+                        : ''
+                    }
+                </div>
+                { show && category.subcategories 
+                    ? <ul>
+                            {
+                                category.subcategories.map(sub => <SubcategoriesList cat={category.id} sub={sub} key={sub+'-'+category.id}/>)
+                            }
+                        </ul>
+                    : ''
+                }
+            </li>
+}
+
+function SubcategoriesList({cat, sub }){
+    return(
+            <li key={cat + '-' + sub}>
+                <Link href={`/categoria/${cat}/${sub}`}>
+                    <a>{sub}</a>
+                </Link>
+            </li>
+    )
+        
 }

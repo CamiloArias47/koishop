@@ -1,5 +1,4 @@
 import UserLayout from 'components/commons/UserLayout'
-import withAuth from 'HOC/whitAuth'
 import { useUI } from "components/UIcontext"
 import { LoadingPedido } from 'components/icons'
 import BillDetails from 'components/commons/BillDetails'
