@@ -17,14 +17,45 @@ export default css`
 }
 
 .category-sidebar :global(li:hover),
+.category-sidebar :global(li.active),
 .ul-user-sidebar li:hover{
     border-left: 2px solid ${colors.primary};
     color: ${colors.primary};
+    background-color: ${ colors.primaryUltraDim };
 }
 
 .category-sidebar :global(.category-item){
     display: flex;
     justify-content: space-between;
+}
+
+.category-sidebar :global(.category-item button){
+    border: none;
+    background-color: transparent;
+    transition: transform 300ms ease 0ms;
+    transform: rotate(270deg);
+}
+
+.category-sidebar :global(.category-item button.row-up){
+    transform: rotate(90deg);
+}
+
+.category-sidebar :global(.category-item button:hover){
+    color: ${colors.primary};
+}
+
+.category-sidebar :global(.subcategory-list){
+    background-color: ${ colors.primaryUltraDim };
+}
+
+.social-wraper{
+    background-color: ${ colors.primary };
+    width: 110%;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    margin-bottom: -1rem;
+    margin-top: 3rem;
+    padding: 2rem 0;
 }
 
 @media (min-width: 760px){
