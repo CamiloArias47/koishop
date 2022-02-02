@@ -4,6 +4,7 @@ import { useBuyForm, useDeliveryActions } from "components/BuyformContext"
 import { getAddressesBy } from 'firebaseApi/firestoreDB/addresses'
 import DeliveryDeatils from './EnvioDetails'
 import {Loadingtext} from 'components/icons'
+import { departments } from 'utils/departments'
 
 import style from './style'
 
@@ -11,6 +12,7 @@ export default function EnvioTab({handlerNext}){
     
     const [addressChose, setAddressChose] = useState({})
     const [selectorState, setSelectorState] = useState('loading')
+    const [cities, setCities ] = useState([])
     const namesRef = useRef(null)
     const cedulaRef = useRef(null)
     const telefonoRef = useRef(null)
@@ -97,7 +99,13 @@ export default function EnvioTab({handlerNext}){
 
     const handlerAddressForm = e =>{
         if(e.target.name === 'departamento'){
-            setDepartment(e.target.value)
+            const depSelected = e.target.value
+            const cius = depSelected === '' 
+                         ?  {ciudades:[]} 
+                         : departments.find( dep => dep.departamento === depSelected)
+
+            setDepartment(depSelected)
+            setCities( cius.ciudades )
             if(departamentoWrong) setDepartamentoWrong(false)
         } 
         if(e.target.name === 'ciudad'){
@@ -165,9 +173,7 @@ export default function EnvioTab({handlerNext}){
                             <label htmlFor="departamento">Departamento*</label>   
                             <select className="input input-primary" name="departamento" id="departamento"  value={department} onChange={handlerAddressForm} required>
                                 <option value="">Departamento</option>
-                                <option value="valle">Valle</option>
-                                <option value="Antioquia">Antioquia</option>
-                                <option value="Cauca">Cauca</option>
+                                { departments.map( dep => <option key={dep.id} value={dep.departamento}>{dep.departamento}</option>) }
                             </select>
                         </div>
 
@@ -175,9 +181,7 @@ export default function EnvioTab({handlerNext}){
                             <label htmlFor="ciudad">Ciudad / Municipio*</label>   
                             <select className="input input-primary" name="ciudad" id="ciudad"  value={city} onChange={handlerAddressForm} required>
                                 <option value="">Ciudad</option>
-                                <option value="Cali">Cali</option>
-                                <option value="Palmira">Palmira</option>
-                                <option value="Jamundi">Jamundi</option>
+                                { cities.map( city => <option key={city} value={city}>{city}</option> ) }
                             </select>
                         </div>
 
