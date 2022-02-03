@@ -1,12 +1,18 @@
-import UserLayout from 'components/commons/UserLayout'
+import { useEffect } from 'react'
 import { useUI } from "components/UIcontext"
+import UserLayout from 'components/commons/UserLayout'
 import { LoadingPedido } from 'components/icons'
 import BillDetails from 'components/commons/BillDetails'
 import style from 'styles/style-bid'
 
 export default function DetailBill({bill}){
 
-    const { uid } = useUI()
+    const { uid, closeDisplayBlockWindow } = useUI()
+
+    useEffect( () => {
+        closeDisplayBlockWindow()
+    },[])
+
     let content
 
     if(uid === ''){

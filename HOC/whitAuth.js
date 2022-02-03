@@ -12,6 +12,7 @@ const withAuth = (WrappedComponent) => {
     useEffect(async () => {
         authChanged( user => {
             if(user){
+              console.log({user})
                 setUser(user)
                 setVerified(true)
             }

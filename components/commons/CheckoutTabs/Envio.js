@@ -16,7 +16,7 @@ export default function EnvioTab({handlerNext}){
     const namesRef = useRef(null)
     const cedulaRef = useRef(null)
     const telefonoRef = useRef(null)
-    const { uid, userName, phoneNumber, ucedula  } = useUI() 
+    const { uid, userName, phoneNumber, ucedula, openDisplayBlockWindow, closeDisplayBlockWindow } = useUI() 
 
     const {render,
            names,
@@ -141,13 +141,14 @@ export default function EnvioTab({handlerNext}){
 
     const handlerSubmit = e => {
         e.preventDefault()
+        openDisplayBlockWindow()
 
         validateAndSave()
-            .then( resp => {
-                console.log({respValiateAndSave: resp})
-                handlerNext()
+            .then( () => handlerNext() )
+            .catch( err => {
+                console.error({err})
+                closeDisplayBlockWindow()
             })
-            .catch( err => console.error({err}) )
     }
 
     // console.log('🔥🔥🔥🔥🔥')

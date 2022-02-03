@@ -17,8 +17,6 @@ export const AuthFacebookGooogle = () =>{
         user.then( res => {
             if(!res){
                 //verificar el res paa setia en el setuser
-                console.log({user_firebase: res})
-                console.log({user_before: result.user })
                 setUser({user:result.user})
             }
         })
@@ -28,15 +26,8 @@ export const AuthFacebookGooogle = () =>{
 
     const handlerGoogleLogin = ()=>{
         loginGoogle()
-            .then( result => { successLogin(result) })
-            .catch( error => {
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                var email = error.email;
-                var credential = error.credential;
-                console.log({errorCode, errorMessage, email, credential})
-                setStateLogin(error)
-            })
+            .then( successLogin )
+            .catch( setStateLogin )
     }
 
     const handlerFacebookLogin = ()=>{

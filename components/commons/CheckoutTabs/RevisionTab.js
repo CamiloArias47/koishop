@@ -1,5 +1,6 @@
 import { useCommerce, 
         useSaveCart } from "components/CommerceContext"
+import { useUI } from "components/UIcontext"
 import useBill from "hooks/useBill"
 import { formatPrice } from "utils"
 
@@ -15,15 +16,16 @@ export default function RevisionTab({handlerNext, uid}){
     const { validateBillId} = useBill()
 
     const {saveCart} = useSaveCart()
+
+    const { openDisplayBlockWindow, closeDisplayBlockWindow } = useUI()
     
     const saveDetailsBill = ()=>{
+        openDisplayBlockWindow()
 
-         saveCart(uid).then( (data) => {
-             console.log(data)
-             handlerNext()
-         })
+         saveCart(uid).then( () => handlerNext() )
          .catch(err => {
              console.error({err})
+             closeDisplayBlockWindow()
          })
     }
 

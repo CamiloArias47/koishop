@@ -128,7 +128,6 @@ export default function PagarPage(){
          .then( () => {
             quitAllProducts()
             router.push(`/user/pedidos/${reference}`)
-            closeDisplayBlockWindow()
          })
     }
 
@@ -149,8 +148,7 @@ export default function PagarPage(){
                                 : checkoutStep < prev ? prev : prev+1
             })
 
-            if(checkoutStep === CHECKOUT_STEP.pago){
-                 
+            if(checkoutStep === CHECKOUT_STEP.pago){                 
 
                 if(discountCode === ''){
                     showWompyModal()
@@ -177,6 +175,7 @@ export default function PagarPage(){
                 
             }
 
+            closeDisplayBlockWindow()
             window.scrollTo(0,0)
         }
     }
@@ -188,6 +187,8 @@ export default function PagarPage(){
 
         if(mostStep === CHECKOUT_STEP.revision) return false
 
+        openDisplayBlockWindow()
+
         if(mostStep === CHECKOUT_STEP.envio){
             moveTo = userWantGoTo <= CHECKOUT_STEP.envio ? userWantGoTo : checkoutStep
         } 
@@ -196,20 +197,17 @@ export default function PagarPage(){
 
         //si estoy en revisión y me muevo a otro lado, actualizar carrito en base de datos 
         if(checkoutStep === CHECKOUT_STEP.revision){
-            saveCart(uid).then( resp => {
-                console.log({saveFromTabs: resp})
-                setCheckoutStep(moveTo)
-            })
+            saveCart(uid).then( () => setCheckoutStep(moveTo) )
+            closeDisplayBlockWindow()
         }
         //si estoy en envio y me muevo a otro lado guardar los datos en la base de datos
         else if(checkoutStep === CHECKOUT_STEP.envio){
-            validateAndSave().then( resp => {
-                console.log({valiateAndSave_fromTab: resp})
-                setCheckoutStep(moveTo)
-            })
+            validateAndSave().then( () => setCheckoutStep(moveTo) )
+            closeDisplayBlockWindow()
         }
         else{
             setCheckoutStep(moveTo)
+            closeDisplayBlockWindow()
         }
     }
 
