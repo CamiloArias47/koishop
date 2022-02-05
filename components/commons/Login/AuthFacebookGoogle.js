@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { loginGoogle, loginFacebook } from 'firebaseApi/client'
+import { loginGoogle, loginFacebook } from 'firebaseApi/auth/loginGoogleFacebook'
 import { getUser, setUser } from 'firebaseApi/firestoreDB/user'
 import { useUI } from "components/UIcontext"
 import Image from "next/image"

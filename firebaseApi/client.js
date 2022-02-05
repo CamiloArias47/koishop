@@ -1,16 +1,9 @@
 import { firebaseApp } from './init'
-import { getAuth, 
-         onAuthStateChanged,
+import { getAuth,
          signInWithEmailAndPassword, 
          createUserWithEmailAndPassword,
          sendEmailVerification,
          sendPasswordResetEmail,
-         reauthenticateWithCredential,
-         EmailAuthProvider,
-         updatePassword,
-         GoogleAuthProvider,
-         signInWithPopup,
-         FacebookAuthProvider,
          signOut } from "firebase/auth";
 
 const auth = getAuth(firebaseApp);
@@ -45,28 +38,5 @@ export const verifyEmail = ()=> {
 
 export const resetPassword = (email) =>{
     return sendPasswordResetEmail(auth, email)
-}
-
-
-export const revalidateuser = (password) =>{
-    const user = auth.currentUser;
-    var credential = EmailAuthProvider.credential(user.email, password);
-    return reauthenticateWithCredential(user, credential)
-}
-
-export const updatePass = newPass =>{
-    const user = auth.currentUser;
-    return updatePassword(user, newPass)
-}
-
-
-export const loginGoogle = ()=>{
-    const provider = new GoogleAuthProvider();
-    return signInWithPopup(auth, provider)
-}
-
-export const loginFacebook = () =>{
-    let provider = new FacebookAuthProvider();
-    return signInWithPopup(auth, provider)
 }
 

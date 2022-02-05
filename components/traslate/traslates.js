@@ -8,5 +8,6 @@ export const traslates = {
     "auth/too-many-requests" : "Demasiados intentos, la cuenta ha sido deshabilitada temporalmente. Puedes acceder inmediatamente restableciendo tu contraseña",
     "auth/account-exists-with-different-credential" : "Ya existe una cuenta con este correo",
     "auth/popup-closed-by-user" : "Se ha cerrado la ventana de inicio de sesión",
-    "auth/invalid-credential-or-provider-id" : "Credenciales invalidas"
+    "auth/invalid-credential-or-provider-id" : "Credenciales invalidas",
+    "auth/requires-recent-login" : "Inicia sesión nuevamente"
 }
