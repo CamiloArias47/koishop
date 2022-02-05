@@ -13,7 +13,8 @@ const STATE_CHANGE = {
     NONE : 0,
     SENDING : 1,
     FAIL : 2,
-    SUCCESS : 3
+    SUCCESS : 3,
+    RELOGIN : 4
 }
 
 const TYPE_FORM = {
@@ -88,6 +89,8 @@ const ChangePassword = () => {
         .catch( error => {
             console.log({error})
             if(error.code === 'auth/requires-recent-login'){
+                setCreatePassword('')
+                setCreatePassConfirm('')
                 if( provider.current === 'google.com'){
                     reloginGoogle()
                 }
@@ -112,11 +115,15 @@ const ChangePassword = () => {
     }
 
     const reloginGoogle = () => {
-        loginGoogle().catch( error => setState({code:error.code}) )
+        loginGoogle()
+            .then(() => setState(STATE_CHANGE.RELOGIN))
+            .catch( error => setState({code:error.code}) )
     }
 
     const reloginFacebook = () => {
-        loginFacebook().catch( error => setState({code:error.code}) )
+        loginFacebook()
+            .then(() => setState(STATE_CHANGE.RELOGIN))
+            .catch( error => setState({code:error.code}) )
     }
 
     const errorText = (state.code !== undefined) 
@@ -132,6 +139,14 @@ const ChangePassword = () => {
                 ¡Contraseña actualizada!
             </div>)
             : null
+
+    const reloginSuccessMessage = state === STATE_CHANGE.RELOGIN 
+    ? (
+        <div className="success-message">
+            Ahora puedes crear tu nueva contraseña.
+        </div>
+    )
+    : null
     
     
     if(typeOfForm === TYPE_FORM.loading){
@@ -184,6 +199,7 @@ const ChangePassword = () => {
 
                         { errorText }
                         { successMesage }
+                        { reloginSuccessMessage }
 
                         <button className="btn btn-primary" disabled={disableButton}>
                             Cambiar { showSpinner }
