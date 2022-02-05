@@ -127,7 +127,7 @@ return`
         <meta name="x-apple-disable-message-reformatting"> 
         <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
         <meta content="telephone=no" name="format-detection"> 
-        <title>New Template</title> 
+        <title>Compra exitosa - Koi Makeup</title> 
         <!--[if (mso 16)]>
         <style type="text/css">
             a {text-decoration: none;}
@@ -345,7 +345,7 @@ return`
                         <td align="left" style="padding:0;Margin:0;width:560px"> 
                         <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
                             <tr> 
-                            <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">¿tienes dudas? Escribenos a&nbsp;koimaquillaje@gmail.com</p></td> 
+                            <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">¿tienes dudas? Escríbenos a&nbsp;koimaquillaje@gmail.com</p></td> 
                             </tr> 
                         </table></td> 
                         </tr> 
@@ -377,7 +377,12 @@ return`
                                       <a href="https://www.instagram.com/koiimakeup/" target="_blank">
                                         <img title="Instagram" src="https://ktvrhz.stripocdn.email/content/assets/img/social-icons/logo-black/instagram-logo-black.png" alt="Inst" width="32" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic">
                                       </a>
-                                    </td> 
+                                    </td>
+                                    <td align="center" valign="top" style="padding:0;Margin:0;padding-right:40px">
+                                        <a href="https://wa.me/573153828317" target="_blank">
+                                          <img title="Whatsapp" src="https://firebasestorage.googleapis.com/v0/b/koishop-dev.appspot.com/o/logos%2Fwhatsapp-logo-black.png?alt=media&token=c7892601-81be-40cf-a44a-58fa6213a12c" alt="Inst" width="24" height="24" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;margin-top: 0.3rem;">
+                                        </a>
+                                    </td>  
                                   </tr> 
                               </table>
                             </td> 

@@ -116,7 +116,7 @@ const ChangePassword = () => {
     }
 
     const reloginFacebook = () => {
-        loginFacebook.catch( error => setState({code:error.code}) )
+        loginFacebook().catch( error => setState({code:error.code}) )
     }
 
     const errorText = (state.code !== undefined) 
@@ -135,7 +135,7 @@ const ChangePassword = () => {
     
     
     if(typeOfForm === TYPE_FORM.loading){
-        return 'Cargando...'
+        return <UserLayout><h1>'Cargando...'</h1></UserLayout>
     }
     else if(typeOfForm === TYPE_FORM.change){
         return(
