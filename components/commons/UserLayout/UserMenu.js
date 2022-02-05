@@ -24,8 +24,13 @@ export default function UserMenu(){
             </div>
             <div className="user-options-list">
                 <ul>
+                    <Link href="/user">
+                        <li className={router.pathname === '/user'  ? 'active' : ''}>
+                                <a>Mi cuenta</a>
+                        </li>
+                    </Link>
                     <Link href="/user/pedidos">
-                        <li className={router.pathname.indexOf('/user/pedidos') >= 0  ? 'active' : ''}>
+                        <li className={router.pathname === '/user/pedidos' ? 'active' : ''}>
                                 <a>Pedidos</a>
                         </li>
                     </Link>

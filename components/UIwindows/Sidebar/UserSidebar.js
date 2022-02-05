@@ -27,7 +27,10 @@ export const UserSidebar = () => {
         <div className="user-view-sidebar">
             <ul className='ul-user-sidebar'>
                 <li>
-                    <a onClick={()=>{handlerClick('/user/pedidos')} }>Pedidos</a>
+                    <a onClick={()=>{handlerClick('/user')} }>Mi Cuenta</a>
+                </li>
+                <li>
+                    <a onClick={()=>{handlerClick('/user/pedidos')} }>Mis Pedidos</a>
                 </li>
                 <li className='hidde-in-desktop'>
                     <a onClick={()=>{handlerClick('/user/password')} }>Cambiar contraseña</a>

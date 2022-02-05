@@ -20,6 +20,10 @@ export default css`
 }
 
 @media (min-width : 760px){
+    :global(body){
+        background:${colors.dimGray};
+    }
+
     :global(.main-section){
         background:${colors.dimGray};
         padding-bottom:2rem;
