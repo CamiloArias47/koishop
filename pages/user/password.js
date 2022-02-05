@@ -135,7 +135,7 @@ const ChangePassword = () => {
     
     
     if(typeOfForm === TYPE_FORM.loading){
-        return <UserLayout><h1>'Cargando...'</h1></UserLayout>
+        return <UserLayout><h1>Cargando...</h1></UserLayout>
     }
     else if(typeOfForm === TYPE_FORM.change){
         return(
