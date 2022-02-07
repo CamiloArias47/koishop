@@ -143,7 +143,7 @@ const ChangePassword = () => {
     const reloginSuccessMessage = state === STATE_CHANGE.RELOGIN 
     ? (
         <div className="success-message">
-            Ahora puedes crear tu nueva contraseña.
+            Ya iniciaste sesión, no olvides crear tu contraseña.
         </div>
     )
     : null
