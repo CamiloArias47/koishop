@@ -1,17 +1,28 @@
+import Image from 'next/image'
+import BtnDropDown from 'components/commons/button-drop-down'
 import Social from 'components/commons/social-icons'
+import whatsappIcon from 'public/images/logos/whatsapp-black.svg'
 import style from './style'
+import { useState } from 'react'
 
 export default function Footer(){
+    const [ showContact, setShowContact] = useState(false)
+    const [ showHowAreWe, setShowHowAreWe] = useState(false)
+    const [ showHelp, setShowHelp] = useState(false)
+
+    const handlerShow = event => {
+        console.log({clicked: event.target})
+        const btn = event.target.dataset.btn
+        console.log({btn})
+        if (btn === 'contact') setShowContact( prev => !prev)
+        if (btn === 'howarewe') setShowHowAreWe( prev => !prev)
+        if (btn === 'help') setShowHelp( prev => !prev)
+    }
+
     return <footer>
                 <section className="degradado">
                     <div className='wraper-degradado'>
-                        <div className='sociales'>
-                            <span>Visita nuestas redes sociales</span>
-                            <Social />
-                        </div>
-                        <div className='heart'>
-                            Hecho en Cali - Colombia con 🧡
-                        </div>
+                        
                     </div>
                 </section>
                 <div style={{position:'relative'}}>
@@ -23,8 +34,67 @@ export default function Footer(){
                         </svg>
                     </div>
                 </div>
-                <div>
-                    
+                <div className='footer'>
+                    <div className='wraper-info-footer'>
+                            <div className='contact'>
+                                <span>
+                                    CONTACTO 
+                                    <BtnDropDown 
+                                        handlerClick={handlerShow} 
+                                        show={ showContact } 
+                                        data-btn="contact"
+                                    />
+                                </span>
+                                <ul className={ showContact ? 'show-height' : ''}>
+                                    <li className='whatsapp-li'>
+                                        <a href='https://wa.me/573153828317' target="_blank" rel="noreferrer">
+                                            <Image src={whatsappIcon} width="22" height="22"/> 
+                                            <span>315 3828317</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        Escribenos:<br/>
+                                        koimaquillaje@gmail.com
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className='quienes-somos'> 
+                                <span>
+                                    QUIENES SOMOS
+                                    <BtnDropDown 
+                                        handlerClick={handlerShow} 
+                                        show={ showHowAreWe } 
+                                        data-btn="howarewe"
+                                    />
+                                </span>
+                                <ul className={ showHowAreWe ? 'show-height' : ''}>
+                                    <li>Conócenos</li>
+                                </ul>
+                            </div>
+                            <div className='ayuda'> 
+                                <span>
+                                    AYUDA
+                                    <BtnDropDown 
+                                        handlerClick={handlerShow} 
+                                        show={ showHelp } 
+                                        data-btn="help"
+                                    />
+                                </span>
+                                <ul className={ showHelp ? 'show-height' : ''}>
+                                    <li>Envíos</li>
+                                    <li>Cambios y garantías </li>
+                                    <li>Términos y condiciones</li>
+                                    <li>Política de privacidad</li>
+                                </ul>
+                            </div>
+                            <div className='sociales'>
+                                <span>SIGUENOS</span>
+                                <Social color='gray'iconSize={22} showWhatsapp={false}/>
+                            </div>
+                            <div className='heart'>
+                                Hecho en Cali - Colombia con 🧡
+                            </div>
+                    </div>
                 </div>
                 <style jsx>{ style }</style>
            </footer>

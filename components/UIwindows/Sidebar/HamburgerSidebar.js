@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useCommerce } from 'components/CommerceContext'
 import Link from 'next/link'
-import { RowIcon } from 'components/icons'
+import BtnDropDown from 'components/commons/button-drop-down'
 import Social from 'components/commons/social-icons'
 import style from './style-user'
 
@@ -37,9 +37,10 @@ function CategoriesList({category}){
                     {
                         category.subcategories 
                         ? 
-                          <button onClick={ handlerShow } className={ show ? 'row-up' : ''}>
-                            <RowIcon height={32} width={32}/>
-                          </button>
+                          <BtnDropDown 
+                            handlerClick={handlerShow} 
+                            show={ show } 
+                        />
                         : ''
                     }
                 </div>

@@ -1,5 +1,5 @@
 import css from 'styled-jsx/css'
-import { colors } from 'styles/theme'
+import { colors, fontColor } from 'styles/theme'
 
 export default css`
 
@@ -11,43 +11,97 @@ footer{
 
 .degradado{
     width:100%;
-    /* height:150px; */
+    color: ${ fontColor.important };
     background: rgb(255,255,255);
     background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(207,150,150,0.7987570028011204) 61%, rgba(207,150,150,1) 100%);
 }
 
 .wraper-degradado{
     padding:3rem 1rem 0.5rem;
-    display:flex;
-    flex-direction:column;
 }
 
-.wraper-degradado div{
+.footer{
+    background-color: #ead1d1;
+}
+
+.wraper-info-footer{
+    display:flex;
+    flex-flow: row wrap;
+    padding-top: 5rem;
+    margin :  auto;
+    width : 95%;
+}
+
+.wraper-info-footer div{
+    width:100%;
     text-align: center;
 }
 
-.sociales span{
-    display:block;
-    font-size: 1.5rem;
+.wraper-info-footer span{
+    display:flex;
+    font-size: 1rem;
     font-weight: 500;
-    color: ${ colors.white };
+    color: ${ fontColor.important };
     padding-bottom: 0.5rem;
+    align-items: center;
+    justify-content: center;
 }
 
-.sociales ul{
-    display:flex;
+.wraper-info-footer button{
+    display: inline-block;
+    border: none;
+    background: transparent;
+    transform: rotate(270deg);
+}
+
+.wraper-info-footer button svg{
+}
+
+.wraper-info-footer ul{
     list-style:none;
     padding: 0;
     margin: 0;
+    height:0;
+    overflow: hidden;
+    transition: height .6s ease;
+}
+
+.wraper-info-footer ul.show-height{
+    height:100px;
+}
+
+.wraper-info-footer > ul{
+    display:flex;
     justify-content: space-evenly;
 }
 
 .heart{
-    color: white;
     font-weight: 500;
-    font-size: 1.1rem;
-    padding: 2rem 0;
+    font-size: .8rem;
+    text-align : center;
+    padding: 2rem 0 .3rem;
+    width: 100% !important;
 }
+
+.contact ul{
+    text-align: center;
+}
+
+.contact ul li{
+    padding: .3rem 0;
+}
+
+.whatsapp-li a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.whatsapp-li a span{
+    padding-left:.2rem;
+    padding-bottom:0;
+}
+
 
 .custom-shape-divider-top-1626050420 {
     position: absolute;
@@ -82,11 +136,31 @@ footer{
 }
 
 @media (min-width: 767px) {
-    .wraper-degradado{
+    .wraper-info-footer{
         flex-direction:row;
+        width: 80%;
+        padding-top: 9rem;
     }
-    .wraper-degradado div{
-        width:50%;
+    .wraper-info-footer div{
+        width: 25%;
+        text-align: left;
+    }
+    .wraper-info-footer :global(button){
+        display: none;
+    }
+    .heart{
+        font-size: 1rem;
+        text-align : right;
+    }
+    .contact ul{
+        text-align: left;
+    }
+    .wraper-info-footer ul{
+        display: block;
+        height:auto;
+    }
+    .whatsapp-li a{
+        justify-content: left;
     }
 }
 `

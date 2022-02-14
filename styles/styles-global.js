@@ -21,6 +21,13 @@ export const globalStyles = css.global`
     visibility:hidden !important;
 }
 
+.show{
+    visibility:visible !important;
+}
+.show-block{
+    display : block !important;
+}
+
 .alert-message{
     border: 1px solid ${colors.alertDark};
     border-radius: 10px;

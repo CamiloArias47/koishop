@@ -29,21 +29,6 @@ export default css`
     justify-content: space-between;
 }
 
-.category-sidebar :global(.category-item button){
-    border: none;
-    background-color: transparent;
-    transition: transform 300ms ease 0ms;
-    transform: rotate(270deg);
-}
-
-.category-sidebar :global(.category-item button.row-up){
-    transform: rotate(90deg);
-}
-
-.category-sidebar :global(.category-item button:hover){
-    color: ${colors.primary};
-}
-
 .category-sidebar :global(.subcategory-list){
     background-color: ${ colors.primaryUltraDim };
 }

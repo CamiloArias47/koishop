@@ -15,6 +15,7 @@ function RowIcon(props) {
           stroke="currentColor"
           strokeLinecap="round"
           strokeLinejoin="round"
+          {...props}
         />
       </svg>
     )
