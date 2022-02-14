@@ -58,19 +58,6 @@ export default function Footer(){
                                     </li>
                                 </ul>
                             </div>
-                            <div className='quienes-somos'> 
-                                <span>
-                                    QUIENES SOMOS
-                                    <BtnDropDown 
-                                        handlerClick={handlerShow} 
-                                        show={ showHowAreWe } 
-                                        data-btn="howarewe"
-                                    />
-                                </span>
-                                <ul className={ showHowAreWe ? 'show-height' : ''}>
-                                    <li>Conócenos</li>
-                                </ul>
-                            </div>
                             <div className='ayuda'> 
                                 <span>
                                     AYUDA
@@ -87,6 +74,20 @@ export default function Footer(){
                                     <li>Política de privacidad</li>
                                 </ul>
                             </div>
+                            <div className='quienes-somos'> 
+                                <span>
+                                    QUIENES SOMOS
+                                    <BtnDropDown 
+                                        handlerClick={handlerShow} 
+                                        show={ showHowAreWe } 
+                                        data-btn="howarewe"
+                                    />
+                                </span>
+                                <ul className={ showHowAreWe ? 'show-height' : ''}>
+                                    <li>Conócenos</li>
+                                </ul>
+                            </div>
+                            
                             <div className='sociales'>
                                 <span>SIGUENOS</span>
                                 <Social color='gray'iconSize={22} showWhatsapp={false}/>

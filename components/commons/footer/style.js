@@ -34,7 +34,7 @@ footer{
 
 .wraper-info-footer div{
     width:100%;
-    text-align: center;
+    text-align: left;
 }
 
 .wraper-info-footer span{
@@ -44,7 +44,7 @@ footer{
     color: ${ fontColor.important };
     padding-bottom: 0.5rem;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .wraper-info-footer button{
@@ -64,6 +64,8 @@ footer{
     height:0;
     overflow: hidden;
     transition: height .6s ease;
+    color : ${ fontColor.general };
+    border-bottom:1px solid ${ colors.primaryUltraDim };
 }
 
 .wraper-info-footer ul.show-height{
@@ -78,13 +80,13 @@ footer{
 .heart{
     font-weight: 500;
     font-size: .8rem;
-    text-align : center;
+    text-align : center !important;
     padding: 2rem 0 .3rem;
     width: 100% !important;
 }
 
 .contact ul{
-    text-align: center;
+    text-align: left;
 }
 
 .contact ul li{
@@ -94,12 +96,26 @@ footer{
 .whatsapp-li a{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
 }
 
 .whatsapp-li a span{
     padding-left:.2rem;
     padding-bottom:0;
+    color : ${ fontColor.general };
+}
+
+.sociales span{
+    justify-content:center;
+    padding-top: 2rem;
+}
+
+.sociales :global(ul){
+    justify-content:center;
+}
+
+.sociales :global(ul li){
+    padding : 0 1rem;
 }
 
 
@@ -150,7 +166,7 @@ footer{
     }
     .heart{
         font-size: 1rem;
-        text-align : right;
+        text-align : right !important;
     }
     .contact ul{
         text-align: left;
@@ -158,9 +174,13 @@ footer{
     .wraper-info-footer ul{
         display: block;
         height:auto;
+        border-bottom:none;
     }
     .whatsapp-li a{
         justify-content: left;
+    }
+    .sociales span{
+        padding-top:0;
     }
 }
 `
