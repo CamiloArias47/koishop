@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import BtnDropDown from 'components/commons/button-drop-down'
 import Social from 'components/commons/social-icons'
 import whatsappIcon from 'public/images/logos/whatsapp-black.svg'
@@ -11,9 +12,7 @@ export default function Footer(){
     const [ showHelp, setShowHelp] = useState(false)
 
     const handlerShow = event => {
-        console.log({clicked: event.target})
         const btn = event.target.dataset.btn
-        console.log({btn})
         if (btn === 'contact') setShowContact( prev => !prev)
         if (btn === 'howarewe') setShowHowAreWe( prev => !prev)
         if (btn === 'help') setShowHelp( prev => !prev)
@@ -69,7 +68,11 @@ export default function Footer(){
                                 </span>
                                 <ul className={ showHelp ? 'show-height' : ''}>
                                     <li>Envíos</li>
-                                    <li>Cambios y garantías </li>
+                                    <li>
+                                        <Link href="/garantias">
+                                            <a>Cambios y garantías </a>
+                                        </Link>
+                                    </li>
                                     <li>Términos y condiciones</li>
                                     <li>Política de privacidad</li>
                                 </ul>
