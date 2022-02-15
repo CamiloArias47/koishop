@@ -73,7 +73,11 @@ export default function Footer(){
                                             <a>Cambios y garantías </a>
                                         </Link>
                                     </li>
-                                    <li>Términos y condiciones</li>
+                                    <li>
+                                        <Link href="/terminos-y-condiciones">
+                                            Términos y condiciones
+                                        </Link>
+                                    </li>
                                     <li>Política de privacidad</li>
                                 </ul>
                             </div>
