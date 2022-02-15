@@ -9,7 +9,7 @@ export default function TerminosCondiciones({site = 'koi Makeup', siteName = 'Ko
                 <h1>TÉRMINOS, CONDICIONES Y POLÍTICA DE PRIVACIDAD</h1>
                 <p>
                     Las siguientes Condiciones Generales, Condiciones de venta y Política de tratamiento 
-                    de la información regulan el uso del sitio { site } (en adelante "sitio web"), 
+                    de la información regulan el uso del sitio { site } (en adelante &apos;sitio web&apos;), 
                     del que { siteName } con NIT 1113043109-1 
                     y domicilio en Cali - Valle, es titular.
                 </p>
@@ -17,7 +17,7 @@ export default function TerminosCondiciones({site = 'koi Makeup', siteName = 'Ko
                     A través de { site }, { siteName } entrega información acerca de sus productos y ofrece
                     la posibilidad de comprarlos. Las personas que quieran realizar compras deben registrarse para 
                     de esta forma adquirir la condición de “Cliente”. Algunas secciones del sitio web son accesibles
-                    a personas que no están registradas (en adelante, "Usuarios"). En este sentido, los Clientes y Usuarios 
+                    a personas que no están registradas (en adelante, &apos;Usuarios&apos;). En este sentido, los Clientes y Usuarios 
                     aceptan los términos y condiciones recogidos en este documento, 
                     en la medida que ello les pueda ser de aplicación.
                 </p>
@@ -119,7 +119,7 @@ export default function TerminosCondiciones({site = 'koi Makeup', siteName = 'Ko
                 <p>
                     { siteName } realiza los envíos utilizando los servicios de ???????. 
                     El pedido realizado será entregado en un plazo que depende de la ubicación del Cliente, publicado en la sección 
-                    "Tiempos y costos de envío"
+                    &apos;Tiempos y costos de envío&apos;
                 </p>
 
                 <p>Clic aquí para ver tiempo de entrega y costo para cada población.</p>
