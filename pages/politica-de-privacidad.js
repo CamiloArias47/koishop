@@ -16,17 +16,17 @@ export default function PoliticaPrivacidad({site = 'koi Makeup', siteName = 'Koi
                     protocolo SSL (Secure Socket Layer). El servidor seguro establece una conexión que asegura que sólo sea inteligible 
                     para el ordenador del Cliente y el del E-Commerce. De esta forma, al utilizar el protocolo SSL se garantiza:
 
-                    <ul>
-                        <li>
-                            Que el Cliente está comunicando sus datos únicamente al centro servidor de { siteName }.
-                        </li>
-                        <li>
-                            Que entre el Cliente y el centro servidor de { siteName } los datos se transmiten cifrados, evitando su posible 
-                            lectura o manipulación por terceros.
-                        </li>
-                    </ul> 
                 </p>
 
+                <ul>
+                    <li>
+                        Que el Cliente está comunicando sus datos únicamente al centro servidor de { siteName }.
+                    </li>
+                    <li>
+                        Que entre el Cliente y el centro servidor de { siteName } los datos se transmiten cifrados, evitando su posible 
+                        lectura o manipulación por terceros.
+                    </li>
+                </ul> 
                 
                 <p>
                     Desde { site }, { siteName } no captura, almacena ni transmite datos transaccionales, ya que cuenta con la pasarela 
@@ -95,22 +95,23 @@ export default function PoliticaPrivacidad({site = 'koi Makeup', siteName = 'Koi
                 
                 <p>
                     Asimismo, { siteName } no será responsable en ningún caso cuando se produzcan: 
-                    <ul>
-                        <li>
-                            Errores o retrasos en el acceso al sitio web por parte del Cliente a la hora de introducir sus datos en el 
-                            formulario de pedido, la lentitud o imposibilidad de recepción por parte de los Clientes de la confirmación 
-                            del pedido o cualquier anomalía que pueda surgir cuando estas incidencias sean debidas a problemas en la red 
-                            Internet, causas de fuerza mayor y cualquier otra contingencia imprevisible ajena a la buena fe de { siteName }.
-                        </li>
-                        <li>
-                            Fallos o incidencias que pudieran producirse en las comunicaciones, borrado o transmisiones incompletas, 
-                            de manera que no se garantiza que los servicios del sitio web estén constantemente operativos.
-                        </li>
-                        <li>
-                            De errores o daños producidos al sitio web por un uso del servicio ineficiente y de mala fe por parte del Cliente.
-                        </li>
-                    </ul>
                 </p>
+
+                <ul>
+                    <li>
+                        Errores o retrasos en el acceso al sitio web por parte del Cliente a la hora de introducir sus datos en el 
+                        formulario de pedido, la lentitud o imposibilidad de recepción por parte de los Clientes de la confirmación 
+                        del pedido o cualquier anomalía que pueda surgir cuando estas incidencias sean debidas a problemas en la red 
+                        Internet, causas de fuerza mayor y cualquier otra contingencia imprevisible ajena a la buena fe de { siteName }.
+                    </li>
+                    <li>
+                        Fallos o incidencias que pudieran producirse en las comunicaciones, borrado o transmisiones incompletas, 
+                        de manera que no se garantiza que los servicios del sitio web estén constantemente operativos.
+                    </li>
+                    <li>
+                        De errores o daños producidos al sitio web por un uso del servicio ineficiente y de mala fe por parte del Cliente.
+                    </li>
+                </ul>
 
                 <h2>POLÍTICA DE TRATAMIENTO DE LA INFORMACIÓN </h2>
 
@@ -119,21 +120,22 @@ export default function PoliticaPrivacidad({site = 'koi Makeup', siteName = 'Koi
                     integral de esta política de privacidad y de datos es indispensable para la utilización del mismo. La presente política 
                     se acepta en los siguientes casos: 
 
-                    <ul>
-                        <li>
-                            Cuando se suministre información para el registro en el sitio web
-                        </li>
-                        <li>
-                            Cuando se consulta cualquier contenido o información contenido en el sitio web
-                        </li>
-                        <li>
-                            Cuando se utiliza alguno de los servicios disponibles en el sitio web
-                        </li>
-                        <li>
-                            Los demás casos que establezca { siteName }
-                        </li>
-                    </ul>
                 </p>
+
+                <ul>
+                    <li>
+                        Cuando se suministre información para el registro en el sitio web
+                    </li>
+                    <li>
+                        Cuando se consulta cualquier contenido o información contenido en el sitio web
+                    </li>
+                    <li>
+                        Cuando se utiliza alguno de los servicios disponibles en el sitio web
+                    </li>
+                    <li>
+                        Los demás casos que establezca { siteName }
+                    </li>
+                </ul>
 
                 <p>
                     Para la principal actividad de la empresa, la cual se basa en la comercialización de cosmeticos; { siteName } requiere acceso 
@@ -190,21 +192,21 @@ export default function PoliticaPrivacidad({site = 'koi Makeup', siteName = 'Koi
                 <p>
                     Los derechos de los Titulares de la Información podrán ejercerse por las siguientes personas, siempre y cuando se acredite 
                     la calidad correspondiente por medio de documentos idóneos: 
-                    <ul>
-                        <li>
-                            Por el Titular
-                        </li>
-                        <li>
-                            Por sus causahabientes, quienes deberán presentar el documento de identidad, registro civil de defunción 
-                            del Titular, documento que acredite la calidad en que actúa y el número del documento de identidad del 
-                            Titular.
-                        </li>
-                        <li>
-                            Por el representante y/o apoderado del Titular, quien deberá presentar documento de identidad válido, documento que acredite 
-                            la calidad en la que actúa (poder) y el número del documento de identidad del Titular.
-                        </li>
-                    </ul>
                 </p>
+                <ul>
+                    <li>
+                        Por el Titular
+                    </li>
+                    <li>
+                        Por sus causahabientes, quienes deberán presentar el documento de identidad, registro civil de defunción 
+                        del Titular, documento que acredite la calidad en que actúa y el número del documento de identidad del 
+                        Titular.
+                    </li>
+                    <li>
+                        Por el representante y/o apoderado del Titular, quien deberá presentar documento de identidad válido, documento que acredite 
+                        la calidad en la que actúa (poder) y el número del documento de identidad del Titular.
+                    </li>
+                </ul>
 
                 <h2>DATOS SENSIBLES Y DATOS DE MENORES DE EDAD</h2>
 
