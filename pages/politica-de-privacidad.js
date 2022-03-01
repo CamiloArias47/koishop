@@ -40,7 +40,7 @@ export default function PoliticaPrivacidad({site = 'koi Makeup', siteName = 'Koi
                 <p>
                     Los Clientes y Usuarios son totalmente responsables de su conducta al acceder a la información del sitio web mientras naveguen 
                     en el mismo, así como después de haber accedido. Como consecuencia de lo anterior, los Clientes y Usuarios son los únicos 
-                    responsables ante { sitename } y ante terceros, de las consecuencias que se puedan derivar de una utilización: 
+                    responsables ante { siteName } y ante terceros, de las consecuencias que se puedan derivar de una utilización: 
                 </p>
                 
                 <p>
