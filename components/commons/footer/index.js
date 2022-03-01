@@ -78,7 +78,11 @@ export default function Footer(){
                                             Términos y condiciones
                                         </Link>
                                     </li>
-                                    <li>Política de privacidad</li>
+                                    <li>
+                                        <Link href="/terminos-y-condiciones">
+                                            Política de privacidad
+                                        </Link>
+                                    </li>
                                 </ul>
                             </div>
                             <div className='quienes-somos'> 

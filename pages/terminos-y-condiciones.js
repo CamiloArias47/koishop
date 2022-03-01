@@ -443,9 +443,9 @@ export default function TerminosCondiciones({site = 'koi Makeup', siteName = 'Ko
 
 export async function getStaticProps() {
     return {
-      props: {
-          site: process.env.URL,
-          siteName : process.env.SITE_NAME
-      }, 
+        props: {
+            site: process.env.URL,
+            siteName : process.env.SITE_NAME
+        }, 
     }
-  }
+}
