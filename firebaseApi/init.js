@@ -10,8 +10,6 @@ if(typeof window !== 'undefined'){
   env = (window.location.hostname === 'koishop.vercel.app') ? 'PRODUCTION' : 'development'
 }
 
-console.log({env})
-
 let firebaseConfig
 
 if(env === 'PRODUCTION'){
