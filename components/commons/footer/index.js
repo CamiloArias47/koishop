@@ -21,7 +21,7 @@ export default function Footer(){
     return <footer>
                 <section className="degradado">
                     <div className='wraper-degradado'>
-                        SOlo en dev!
+                        
                     </div>
                 </section>
                 <div style={{position:'relative'}}>
