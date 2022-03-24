@@ -46,6 +46,7 @@ export default css`
 @media (min-width: 760px){
     .proccess-list{
         width:60%;
+        margin: 0 auto;
     }
 }
 

@@ -3,7 +3,7 @@ import { replaceAll } from "utils"
 
 export default (request, response) => {
   const { query } = request
-  const { name } = query
+  let { name } = query
   name = replaceAll(name, '-', ' ')
   console.log({name})
   firestore
