@@ -6,7 +6,7 @@ import { getCategories } from 'firebaseApi/firestoreADMIN/category'
 import CategorySlider from 'components/commons/categorySlider'
 import ProductsGrid from 'components/commons/ProductsGrid'
 import Footer from 'components/commons/footer'
-import welcomeImage from 'public/images/welcomeImage.jpg'
+import welcomeImage from 'public/images/welcome-big.jpg'
 import pic1 from 'public/images/pic.jpg'
 import pic2 from 'public/images/pic2.jpg'
 import salePic from 'public/images/sale.jpg'
@@ -36,6 +36,7 @@ export default function Home({categories, products}) {
             alt="Welcome to Koi"
             placeholder="blur"
             priority
+            layout="responsive"
           />
 
           <div className="info-page">
