@@ -2,7 +2,6 @@ import { firestore } from "firebaseApi/admin"
 
 export const getCategoryPaths = async () => {
     let paths = []
-    let slugs = []
 
     const categoryPaths = firestore.collection('categories');
     const categories = await categoryPaths.get();
@@ -12,10 +11,9 @@ export const getCategoryPaths = async () => {
     }
 
     categories.forEach(doc => {
-        slugs.push(doc.id)
+        paths.push( { params: { slug: [doc.id] } } )
     });
     
-    paths.push( { params: { slug: slugs } } )
     return paths
 } 
 
