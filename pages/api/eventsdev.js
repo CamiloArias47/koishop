@@ -5,7 +5,7 @@ import sgMail from '@sendgrid/mail'
 import mailOrderConfirmed from 'components/mails/order-confirmation'
 import { handlerDiscount, centsToPesos } from 'components/CommerceContext'
 
-const DEV = process.env.ENVIRONMENT === 'development' ? true : false
+const ENV = process.env.ENVIRONMENT === 'development' ? true : false
 
 const WOPMPI_EVENTS = {
   transactionUpdate : 'transaction.updated',
