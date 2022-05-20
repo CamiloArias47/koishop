@@ -5,6 +5,8 @@ import sgMail from '@sendgrid/mail'
 import mailOrderConfirmed from 'components/mails/order-confirmation'
 import { handlerDiscount, centsToPesos } from 'components/CommerceContext'
 
+const DEV = process.env.ENVIRONMENT === 'development' ? true : false
+
 const WOPMPI_EVENTS = {
   transactionUpdate : 'transaction.updated',
   nequiTokenUpdate : 'nequi_token.updated'
@@ -134,7 +136,7 @@ export default async (request, response) => {
 
 function validate({signature,data,timestamp}){
   let concat = ''
-  const secret = process.env.WOMPISECRET
+  const secret = ENV ? process.env.WOMPISECRET : process.env.WOMPISECRETTEST
 
   return new Promise( (resolve, reject) => {
 
@@ -150,7 +152,8 @@ function validate({signature,data,timestamp}){
       resolve(true)
     }
     else{
-      reject(false)
+      const message = `env: ${ENV}, secret: ${secret}, concat ${concat}, checksum: ${signature.checksum}, hasDigest: ${hashDigest}`
+      reject(message)
     }
 
   })
