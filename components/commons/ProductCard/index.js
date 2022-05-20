@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { formatPrice } from "utils"
 
 import { createProductPath } from 'utils'
 
@@ -20,7 +21,7 @@ const Cardcategory = ({name, img, price})=>{
                                 alt={name}
                                 unoptimized={process.env.ENVIRONMENT !== "PRODUCTION"}
                             />
-                            <span className="product-price">{price}</span>
+                            <span className="product-price">{formatPrice(price)}</span>
                         </div>
                         <div className="product-card-details">
                             <span className="product-name">{name}</span>

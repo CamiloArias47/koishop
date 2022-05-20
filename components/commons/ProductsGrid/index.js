@@ -6,7 +6,7 @@ export default function ProductsGrid({products}){
                 products.map( prod => <ProductCard key={prod.id} 
                                                     name={prod.name} 
                                                     img={prod.photo} 
-                                                    price={`$${prod.price}`}/> )
+                                                    price={prod.price}/> )
             }
             <style jsx>{style}</style>
            </div>
