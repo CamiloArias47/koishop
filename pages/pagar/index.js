@@ -71,7 +71,7 @@ export default function PagarPage(){
             reference: reference,
             //publicKey: 'pub_prod_bOQshOzmaqsaYQ8tzsHPUP7G3K2A1EqN',
             publicKey: 'pub_test_XdVuxWTudRKlUmJf5zwVO71K2I3pQRsO', 
-            redirectUrl: 'https://koishop.vercel.app/success', // Opcional
+            redirectUrl: 'https://koimakeup.com/success', // Opcional
             taxInCents: { // Opcional
               vat: 1900,
               consumption: 800

@@ -127,6 +127,7 @@ return <>
                       id="cantidad-buy"  
                       className="input input-basic" 
                       value={buyAmount}
+                      min="1"
                       onChange={handlerAmount}
                       required/>
                   </div>

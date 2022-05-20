@@ -5,6 +5,8 @@ export default css`
 
 .product-card-img-container{
     position:relative;
+    display: flex;
+    justify-content: center;
 }
 
 .product-card-img-container > .product-price{

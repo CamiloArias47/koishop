@@ -7,7 +7,7 @@ if(process.env.ENVIRONMENT !== undefined){
 }
 
 if(typeof window !== 'undefined'){
-  env = (window.location.hostname === 'koishop.vercel.app') ? 'PRODUCTION' : 'development'
+  env = (window.location.hostname === 'koimakeup.com') ? 'PRODUCTION' : 'development'
 }
 
 console.log({env})
