@@ -112,7 +112,7 @@ const Navbar = ()=>{
                     {
                         displaySidebarRight 
                         ? <CloseIcon width="42" height="42"/>
-                        : <div>
+                        : <div className="shoppingbag-btn">
                             <ShoppingBagIcon width="42" height="42"/> 
                             <span className="counter-shoppingbag">
                                 {totalProductsInCart === 0 ? '' : totalProductsInCart}

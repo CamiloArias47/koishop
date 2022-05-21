@@ -5,7 +5,7 @@ export default css`
 .slidebar-container{
     width:100%;
     position: fixed;
-    top: 49px;
+    top: 59px;
     bottom: 0;
     -webkit-backdrop-filter: blur( 4px );
     backdrop-filter: blur( 4px );
@@ -52,6 +52,12 @@ export default css`
     .sidebar::-webkit-scrollbar-thumb {
         background-color: darkgrey;
         border-radius: 20px;
+    }
+}
+
+@media (min-width: 1200px){
+    .sidebar{
+        width: 24%;
     }
 }
 `
