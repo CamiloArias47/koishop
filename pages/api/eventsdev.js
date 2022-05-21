@@ -152,7 +152,7 @@ function validate({signature,data,timestamp}){
       resolve(true)
     }
     else{
-      const message = `env: ${DEV}, secret: ${secret}, concat ${concat}, checksum: ${signature.checksum}, hasDigest: ${hashDigest}`
+      const message = `env: ${DEV}, concat ${concat}, checksum: ${signature.checksum}, hasDigest: ${hashDigest}`
       reject(message)
     }
 

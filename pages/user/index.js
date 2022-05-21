@@ -1,10 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useUI } from 'components/UIcontext'
 import withAuth from 'HOC/whitAuth'
 import { getAddressesBy } from 'firebaseApi/firestoreDB/addresses'
 import UserLayout from 'components/commons/UserLayout'
 import style from 'styles/style-user-page'
-import { useState } from 'react/cjs/react.development'
+
 
 function UserPage() {
     const [ addresses, setAddresses ] = useState([])
