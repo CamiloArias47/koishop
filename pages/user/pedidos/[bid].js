@@ -21,7 +21,7 @@ export default function DetailBill({bill}){
                   </div>
     }
     else{
-        content = (uid !== bill.data.uid) 
+        content = (uid !== bill?.data.uid) 
                 ? 'Pedido no encontrado'
                 : <BillDetails bill={bill}/>
     }
