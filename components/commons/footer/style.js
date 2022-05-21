@@ -183,4 +183,10 @@ footer{
         padding-top:0;
     }
 }
+
+@media (min-width: 1200px){
+    .wraper-info-footer{
+        width: 60%;
+    }
+}
 `

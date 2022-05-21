@@ -14,6 +14,7 @@ nav{
     border-bottom: 1px solid rgba( 255, 255, 255, 0.18 );
     z-index:10;
     color: #353535;
+    padding: 5px;
 }
 
 nav .logo-container{
@@ -42,20 +43,22 @@ nav .logo-container :global(.logo){
     min-height: 42px !important;
 }
 
+.shoppingbag-btn{
+    position: relative;
+}
+
 .counter-shoppingbag{ 
     position: absolute;
-    top: 12px;
-    right: 2px;
-    width: 42px;
-    height: 30px;
-    text-align: center;
-    display: flex;
-    -ms-flex-pack: center;
-    justify-content: center;
-    align-items: center;
+    top: 35%;
+    right: 40%;
     font-weight: 600;
     font-size: 1rem;
     color: ${colors.red};
 }
 
+@media (min-width: 1020px){
+    nav{
+        padding: 5px;
+    }
+}
 `
