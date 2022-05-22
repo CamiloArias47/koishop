@@ -9,7 +9,7 @@ const withAuth = (WrappedComponent) => {
     const { setUser } = useUI()
     const [verified, setVerified] = useState(false);
 
-    useEffect(async () => {
+    useEffect( () => {
         authChanged( user => {
             if(user){
                 setUser(user)

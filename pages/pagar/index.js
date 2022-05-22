@@ -16,6 +16,7 @@ import RevisionTab from "components/commons/CheckoutTabs/RevisionTab"
 import EnvioTab from 'components/commons/CheckoutTabs/Envio'
 import CheckoutTab from 'components/commons/CheckoutTabs/CheckoutTab'
 
+import { enviroment } from 'utils'
 import style from 'styles/style-pago'
 
 export const CHECKOUT_STEP = {
@@ -25,11 +26,12 @@ export const CHECKOUT_STEP = {
 }
 
 export default function PagarPage(){
-
+    
     const router = useRouter()
     const {quitAllProducts} = useCart()
     const [ checkoutStep, setCheckoutStep ] = useState(CHECKOUT_STEP.revision)
     const [ mostStep, setMostStep ] = useState(CHECKOUT_STEP.revision)
+    const env = enviroment()
     
     const { reference, 
             cedula, 
@@ -69,8 +71,7 @@ export default function PagarPage(){
             currency: 'COP',
             amountInCents: subtotalToPay+'00',
             reference: reference,
-            publicKey: 'pub_prod_bOQshOzmaqsaYQ8tzsHPUP7G3K2A1EqN',
-            //publicKey: 'pub_test_XdVuxWTudRKlUmJf5zwVO71K2I3pQRsO', 
+            publicKey: env ? 'pub_test_XdVuxWTudRKlUmJf5zwVO71K2I3pQRsO' : 'pub_prod_bOQshOzmaqsaYQ8tzsHPUP7G3K2A1EqN',
             redirectUrl: 'https://koimakeup.com/success', // Opcional
             taxInCents: { // Opcional
               vat: 1900,

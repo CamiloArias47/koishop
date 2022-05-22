@@ -1,16 +1,7 @@
 import { initializeApp } from "firebase/app"
+import { enviroment } from 'utils'
 
-let env
-
-if(process.env.ENVIRONMENT !== undefined){
-  env = process.env.ENVIRONMENT
-}
-
-if(typeof window !== 'undefined'){
-  env = (window.location.hostname === 'koimakeup.com') ? 'PRODUCTION' : 'development'
-}
-
-console.log({env})
+let env = enviroment()
 
 let firebaseConfig
 
