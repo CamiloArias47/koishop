@@ -5,11 +5,12 @@ export default css`
 .cart-container{
     display:flex;
     flex-direction:column;
+    height: 80vh;
 }
 
 
 .cart-container .cart-list{
-    height: 27rem;
+    height: 80vh;
     overflow: scroll;
     overflow-x: hidden;
     border-bottom: 3px solid ${colors.primary}
@@ -46,6 +47,10 @@ export default css`
     .cart-list::-webkit-scrollbar-thumb {
         background-color: darkgrey;
         border-radius: 20px;
+    }
+
+    .cart-container{
+        height: 85vh;
     }
 }
 `

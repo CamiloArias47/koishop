@@ -1,4 +1,5 @@
 import css from 'styled-jsx/css'
+import { fontColor } from 'styles/theme'
 
 export default css`
 .category-wrapper{
@@ -12,6 +13,11 @@ export default css`
 
 .wraper-subcats{
     display: none;
+}
+
+.wraper-subcats h1{
+    color : ${ fontColor.primary };
+    margin-bottom: 0;
 }
 
 .wraper-list{
@@ -43,13 +49,21 @@ export default css`
 
     .wraper-list{
         width: 80%;
-        
     }
 
     .float{
         width: 16%;
         height: 20rem;
         overflow-x: hidden;
+    }
+}
+
+@media (min-width: 1020px){
+    .category-wrapper{
+        width: 60%;
+    }
+    .wraper-list{
+        width: 70%;
     }
 }
 
