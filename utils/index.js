@@ -21,3 +21,17 @@ export function createProductPath(name){
 export function cleanGionsInName(name){
     return name.replace('-',' ')
 }
+
+export function enviroment(){
+    let env
+
+    if(process.env.ENVIRONMENT !== undefined){
+        env = process.env.ENVIRONMENT
+    }
+
+    if(typeof window !== 'undefined'){
+        env = (window.location.hostname === 'koimakeup.com') ? 'PRODUCTION' : 'development'
+    }
+
+    return env
+}
