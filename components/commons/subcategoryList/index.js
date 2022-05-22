@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import style from './style'
 import { cleanGionsInName } from 'utils'
 
 export default function SubcategoryList( {cid, subcategories} ){
@@ -14,5 +15,8 @@ export default function SubcategoryList( {cid, subcategories} ){
           }) 
     }
 
-    return <ul>{list}</ul>
+    return <ul className='subcategory-list'>
+            {list}
+            <style jsx>{style}</style>
+           </ul>
 }

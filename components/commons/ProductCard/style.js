@@ -32,6 +32,7 @@ export default css`
 .product-card-details > .product-name{
     display:block;
     font-size:1.2rem;
+    color:${fontColor.general};
 }
 
 
