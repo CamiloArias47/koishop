@@ -32,6 +32,7 @@ export default function PagarPage(){
     const [ checkoutStep, setCheckoutStep ] = useState(CHECKOUT_STEP.revision)
     const [ mostStep, setMostStep ] = useState(CHECKOUT_STEP.revision)
     const env = enviroment()
+    const dev = env === 'PRODUCTION' ? false : true
     
     const { reference, 
             cedula, 
@@ -71,7 +72,7 @@ export default function PagarPage(){
             currency: 'COP',
             amountInCents: subtotalToPay+'00',
             reference: reference,
-            publicKey: env ? 'pub_test_XdVuxWTudRKlUmJf5zwVO71K2I3pQRsO' : 'pub_prod_bOQshOzmaqsaYQ8tzsHPUP7G3K2A1EqN',
+            publicKey: dev ? 'pub_test_XdVuxWTudRKlUmJf5zwVO71K2I3pQRsO' : 'pub_prod_bOQshOzmaqsaYQ8tzsHPUP7G3K2A1EqN',
             redirectUrl: 'https://koimakeup.com/success', // Opcional
             taxInCents: { // Opcional
               vat: 1900,
