@@ -273,7 +273,7 @@ function sendMail({data, products, discount, subtotal, totalInPesos}){
   const name = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
   const createMail = mailOrderConfirmed({
-    reference: data.transaction.reference, 
+    reference: data.transaction.code || data.transaction.reference, 
     name, 
     date: data.transaction.finalized_at, 
     paymetod: data.transaction.payment_method.type, 
@@ -291,7 +291,7 @@ function sendMail({data, products, discount, subtotal, totalInPesos}){
     to: data.transaction.customer_email, 
     from: 'koimaquillaje@gmail.com', 
     subject: '¡Hemos recibido tu pedido en Koi Makeup!',
-    text: `Hola ${name} Hemos recibido tu pedido ${data.transaction.reference}, y ahora se está procesando, recuerda que el tiempo de llegada es de 1 semana después del pago, 3-5 días hábiles de lunes a viernes sin contar sábados, domingos ni festivos. Tan pronto el número de guia para tu envio sea generado te lo enviaremós para que puedas consultar el estado de tu envío. ¡Gracias por confiar en nosotros! Estamos trabajando para cumplirte lo más pronto posible.`,
+    text: `Hola ${name} Hemos recibido tu pedido ${data.transaction.code || data.transaction.reference}, y ahora se está procesando, recuerda que el tiempo de llegada es de 1 semana después del pago, 3-5 días hábiles de lunes a viernes sin contar sábados, domingos ni festivos. Tan pronto el número de guia para tu envio sea generado te lo enviaremós para que puedas consultar el estado de tu envío. ¡Gracias por confiar en nosotros! Estamos trabajando para cumplirte lo más pronto posible.`,
     html: createMail
   }
 
@@ -299,7 +299,7 @@ function sendMail({data, products, discount, subtotal, totalInPesos}){
     to: 'camillo47@gmail.com', 
     from: 'koimaquillaje@gmail.com', 
     subject: '¡Hemos recibido tu pedido en Koi Makeup!',
-    text: `Hola ${name} Hemos recibido tu pedido ${data.transaction.reference}, y ahora se está procesando, recuerda que el tiempo de llegada es de 1 semana después del pago, 3-5 días hábiles de lunes a viernes sin contar sábados, domingos ni festivos. Tan pronto el número de guia para tu envio sea generado te lo enviaremós para que puedas consultar el estado de tu envío. ¡Gracias por confiar en nosotros! Estamos trabajando para cumplirte lo más pronto posible.`,
+    text: `Hola ${name} Hemos recibido tu pedido ${data.transaction.code || data.transaction.reference}, y ahora se está procesando, recuerda que el tiempo de llegada es de 1 semana después del pago, 3-5 días hábiles de lunes a viernes sin contar sábados, domingos ni festivos. Tan pronto el número de guia para tu envio sea generado te lo enviaremós para que puedas consultar el estado de tu envío. ¡Gracias por confiar en nosotros! Estamos trabajando para cumplirte lo más pronto posible.`,
     html: createMail
   }
 
