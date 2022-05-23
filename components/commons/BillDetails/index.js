@@ -79,7 +79,7 @@ export default function BillDetails({bill}){
                         </a>
                     </Link>
                 </div>
-                <h1>Pedido: {data.id}</h1>
+                <h1>Pedido: {data.code || data.id}</h1>
              </div>
              <span className="date">{date}</span>
         
