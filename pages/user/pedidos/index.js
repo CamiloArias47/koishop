@@ -7,7 +7,7 @@ import UserLayout from 'components/commons/UserLayout'
 import { formatPrice } from 'utils'
 import {TRANSACTION_STATUS_SHOW_NAME} from 'components/CommerceContext'
 import style from 'styles/global-table'
-import stylepage from './style'
+import stylepage from 'styles/style-user-bills'
 
 const Pedidos = () => {
 
