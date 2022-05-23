@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo }  from 'react'
 import { useBuyForm } from "components/BuyformContext"
-import { setBill, updateBill } from "firebaseApi/firestoreDB/bill"
+import { saveBill, updateBill } from "firebaseApi/firestoreDB/bill"
 import useBill from "hooks/useBill"
 import { cleanGionsInName } from 'utils'
 
@@ -19,6 +19,13 @@ export const TRANSACTION_STATUS = {
     fail: 'DECLINED',
     incomplete: 'incomplete'
 }
+
+export const TRANSACTION_STATUS_SHOW_NAME = {
+    APPROVED : 'Aprobado',
+    DECLINED : 'Pago rechazado',
+    incomplete: 'En carrito'
+}
+
 
 export const CoomerceContext = React.createContext(initialState)
 CoomerceContext.displayName = CoomerceContext
@@ -177,13 +184,13 @@ export const useSaveCart = () => {
         }
     
         if(reference === undefined){
-            return setBill(bill)
-            .then( resp => {
-                    const dataResp = {msg:'saved',resp}
-                    setReference(resp.bid)
-                    setBillId(resp.bid)
-                    return  dataResp
-                })
+            return saveBill(bill)
+                   .then( resp => {
+                        const dataResp = {msg:'saved',resp}
+                        setReference(resp.bid)
+                        setBillId(resp.bid)
+                        return  dataResp
+                    })
         }
         else{
             bill.bid = reference
