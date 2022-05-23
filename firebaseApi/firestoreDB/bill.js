@@ -1,7 +1,9 @@
 import db from './db'
 import {doc, collection, addDoc,
         updateDoc, serverTimestamp, 
-        arrayUnion, query, where, getDocs, orderBy} from "firebase/firestore"
+        arrayUnion, query, where, getDocs, orderBy,
+        runTransaction 
+      } from "firebase/firestore"
 
 export const setBill = async ({uid, cart, status}) => {
     const docRef = await addDoc(collection(db, "bill"), {
@@ -113,4 +115,36 @@ export const getBillsByUserAndPromoCode = async ({uid, promoCode}) => {
 
   return bills
 }
+
+export const saveBill = ({uid, cart, status}) =>{
+  const billCountRef = doc(db, "counters", "bills");
+  const newBillRef = doc(collection(db, "bill"));
+  return new Promise( async (resolve, reject) => {
+    try {
+        await runTransaction(db, async (transaction) => {
+            const billCountDoc = await transaction.get(billCountRef);
+            if (!billCountDoc.exists()) {
+                throw "Counter does not exist!";
+            }
+        
+            const newTotal = billCountDoc.data().totalbills + 1 
+            const newCode = billCountDoc.data().codeseries + 1 
+            const bill = {
+                uid,
+                products: cart,
+                status,
+                code : newCode,
+                timestamp: serverTimestamp()
+            }
+  
+            transaction.update(billCountRef, { totalbills: newTotal, codeseries:newCode });
+            transaction.set(newBillRef, bill)
+            const data = {bid: newBillRef.id, uid, cart, status}
+            resolve(data)
+        });
+    } catch (e) {
+        reject("Transaction failed: ", e)
+    }
+  })
+} 
 

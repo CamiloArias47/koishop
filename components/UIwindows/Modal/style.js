@@ -45,4 +45,10 @@ export default css`
         width:40%;
     }
 }
+
+@media (min-width: 1200px){
+    .modal{
+        width:30%;
+    }
+}
 `
