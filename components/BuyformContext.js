@@ -9,6 +9,7 @@ import {
 
 const initialState = {
     reference : undefined,
+    code : undefined,
     render : 0,
     names : '',
     cedula: '',
@@ -68,6 +69,9 @@ function reducer(state, action){
         }
         case 'reference' : {
             return{...state, reference : action.payload}
+        }
+        case 'code' : {
+            return{...state, code : action.payload}
         }
         case 'namesWrong' : {
             return{...state, namesWrong : action.payload}
@@ -196,6 +200,12 @@ export const BuyFormProvider = ({...props}) => {
         [dispatch]
     )
 
+    const setCode = useCallback(
+        payload => { 
+            dispatch({type:'code', payload}) },
+        [dispatch]
+    )
+
     const setNamesWrong = useCallback(
         payload => { 
             dispatch({type:'namesWrong', payload}) },
@@ -277,6 +287,7 @@ export const BuyFormProvider = ({...props}) => {
             setNeighborhood,
             setNextToAddress,
             setReference,
+            setCode,
             setNamesWrong,
             setCedulaWrong,
             setTelefonoWrong,
