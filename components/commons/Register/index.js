@@ -43,7 +43,6 @@ export const Register = () =>{
 
         register({email:mail,password})
             .then(user => {
-                console.log({user})
                 if(!user.emailVerified){
                     verifyEmail().then( () => {
                         setState(STATES.SUCCESS)
@@ -54,7 +53,6 @@ export const Register = () =>{
                 }
             })
             .catch(error=>{
-                console.log({error})
                 setErr(error)
                 setState(STATES.NONE)
             }) 

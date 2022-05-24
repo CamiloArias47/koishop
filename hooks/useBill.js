@@ -4,19 +4,24 @@ import { useCommerce } from "components/CommerceContext"
 import { useUI } from "components/UIcontext"
 
 export default function useBill(){
-    const { setReference } = useBuyForm()
+    const { setReference, setCode } = useBuyForm()
 
     const setBillId = (bid) => {
         const now = new Date() 
-        const miLocal = window.localStorage;
-        console.log({setbillId:bid})
+        const miLocal = window.localStorage
         miLocal.setItem('billId',bid)
-        miLocal.setItem('billId-timestamp',now)
+        miLocal.setItem('billId-timestamp',now) 
+    }
+
+    const setBillCode = (bcode) => {
+        const miLocal = window.localStorage
+        miLocal.setItem('billCode',bcode)
     }
     
     const validateBillId = () => {
     
         const [localBillId, setBillIdLocal] = useState(null)
+        const [localBillCode, setBillCodeLocal] = useState(null)
 
         //revisar si hay una referencia en el localstorage (si el usuario inicio un proceso de compra)
         //esto evita que el usuario cree más de una factura en la base de datos para una sola compra
@@ -25,8 +30,10 @@ export default function useBill(){
         useEffect( ()=>{
             const miLocal = window.localStorage;
             const bid = miLocal.getItem('billId')
+            const bcode = miLocal.getItem('billCode')
             setBillIdLocal(bid)
-            console.log({localBillId})
+            setBillCodeLocal(bcode)
+
             if(localBillId !== null){
                 const createdBill =  new Date(getBillIdTimestamp()).getTime()
                 const now =  Date.now() 
@@ -34,15 +41,17 @@ export default function useBill(){
                 //Si no ha pasado más de un dia retomamos la factura creada
                 if(diff <= 86400){
                     setReference(localBillId)
+                    setCode(localBillCode)
                 }
                 else{
                     deleteBill()
                     deleteBillTime()
+                    deleteLocalCode()
                 }
             }
-        },[localBillId])
+        },[localBillId, localBillCode])
     
-        return localBillId
+        return localBillId, localBillCode
     }
 
     const getBillIdTimestamp = () => {
@@ -56,6 +65,11 @@ export default function useBill(){
         miLocal.removeItem('billId')
     }
 
+    const deleteLocalCode = () => {
+        const miLocal = window.localStorage;
+        miLocal.removeItem('billCode')
+    }
+
     const deleteBillTime = () => {
         const miLocal = window.localStorage;
         miLocal.removeItem('billId-timestamp')
@@ -65,17 +79,16 @@ export default function useBill(){
         const { discountCode } = useCommerce()
         const { reference } = useBuyForm()
         const { uid } = useUI()
-
-        
-
     }
 
     return {
         setBillId,
+        setBillCode,
         validateBillId,
         getBillIdTimestamp,
         deleteBill,
-        deleteBillTime
+        deleteBillTime,
+        deleteLocalCode
     }
 }
 

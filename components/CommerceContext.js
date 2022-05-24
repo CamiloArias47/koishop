@@ -90,7 +90,6 @@ function commerceReducer(state, action){
             }
         }
         case 'set-discount' : {
-            console.log('descuento 🔥🔥🔥')
             const {discount, type, code} = action.payload
             let discountValue = 0
             let discountCode = type === 'no discount' ? '' : code
@@ -162,8 +161,8 @@ export const useCommerce = () => {
 
 export const useSaveCart = () => {
     const context = useCommerce()
-    const {reference, setReference} = useBuyForm()
-    const {setBillId} = useBill()
+    const {reference, setReference, setCode} = useBuyForm()
+    const {setBillId, setBillCode} = useBill()
 
     const saveCart = (uid) =>{
         const {cart} = context 
@@ -189,6 +188,8 @@ export const useSaveCart = () => {
                         const dataResp = {msg:'saved',resp}
                         setReference(resp.bid)
                         setBillId(resp.bid)
+                        setCode(resp.code)
+                        setBillCode(resp.code)
                         return  dataResp
                     })
         }

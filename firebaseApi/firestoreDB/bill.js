@@ -139,7 +139,7 @@ export const saveBill = ({uid, cart, status}) =>{
   
             transaction.update(billCountRef, { totalbills: newTotal, codeseries:newCode });
             transaction.set(newBillRef, bill)
-            const data = {bid: newBillRef.id, uid, cart, status}
+            const data = {bid: newBillRef.id, uid, cart, status, code: newCode}
             resolve(data)
         });
     } catch (e) {

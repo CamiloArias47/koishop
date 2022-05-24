@@ -5,7 +5,7 @@ import useBill from 'hooks/useBill'
 
 export function useCart(){
 
-    const { deleteBill, deleteBillTime } = useBill()
+    const { deleteBill, deleteBillTime, deleteLocalCode } = useBill()
     const { setProductCart, setProductsCart } = useCommerce()
     const { canIUseLocalStorage } = useLocalStorage()
     
@@ -63,6 +63,7 @@ export function useCart(){
         miCart.removeItem('cart')
         deleteBill() 
         deleteBillTime()
+        deleteLocalCode()
     }
 
     return {

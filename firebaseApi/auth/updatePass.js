@@ -17,7 +17,6 @@ export const revalidateuser = ({provider = 'password', password = '', accessToke
     if(provider === 'password') credential = EmailAuthProvider.credential(user.email, password)
     if(provider === 'google.com'){
         credential = GoogleAuthProvider.credential(null, accessToken)
-        console.log({credential})
         return signInWithCredential(auth,credential)
     } 
         

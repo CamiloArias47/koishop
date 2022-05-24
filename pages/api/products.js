@@ -13,7 +13,6 @@ export default (request, response) => {
         response.json(products)
     })
     .catch(error => {
-      console.log({error})
       response.status(404).end()
     })
 }
