@@ -127,8 +127,6 @@ export default async (request, response) => {
       return response.status(200).json({succes:result, sendMailToUser})
     })
     .catch( (e) => {
-      console.log('fallo...')
-      console.log({e})
       return response.status(500).json({error:'Petición fraudulenta', message:e})
     })
 

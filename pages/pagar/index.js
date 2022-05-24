@@ -69,10 +69,10 @@ export default function PagarPage(){
     },[userName])
 
     const showWompyModal = () => {
-        var checkout = new WidgetCheckout({
+        let configWompi = {
             currency: 'COP',
             amountInCents: subtotalToPay+'00',
-            reference: code,
+            reference: String(code),
             publicKey: dev ? 'pub_test_XdVuxWTudRKlUmJf5zwVO71K2I3pQRsO' : 'pub_prod_bOQshOzmaqsaYQ8tzsHPUP7G3K2A1EqN',
             redirectUrl: 'https://koimakeup.com/success', // Opcional
             taxInCents: { // Opcional
@@ -94,7 +94,9 @@ export default function PagarPage(){
               region: department,
               country: "CO"
             }
-          })
+          }
+          
+        var checkout = new WidgetCheckout(configWompi)
 
         checkout.open( result  => {
 
@@ -114,8 +116,6 @@ export default function PagarPage(){
     }
 
     const handlerPayApproved = ({result}) => {
-        console.log({result})
-
         const amountInCents = result.transaction.amountInCents
 
         const price = centsToPesos({amountInCents})
@@ -172,7 +172,6 @@ export default function PagarPage(){
                             closeDisplayBlockWindow()
                             setDiscount({discount:0, type:'no discount',code:''})
                             openToast({title:'No se puede aplicar este código',msg:'Acabas de usar este codigo en otra compra'})
-                            console.log({e})
                         })
                 }
                 

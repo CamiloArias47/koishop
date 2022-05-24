@@ -358,7 +358,6 @@ export const useDeliveryActions = () => {
 
     const saveAddres = async () => {
         if(addressId === ''){ 
-            console.log('(1) Guardar la nueva dirección')
             const newAddress = await setAdrress({address,
                                            addresscomplement:addressComplement, 
                                            city, 
@@ -369,7 +368,6 @@ export const useDeliveryActions = () => {
             return newAddress.aid
         }
         else{
-            console.log('(1) es una dirección ya almacenada:',addressId)
             return addressId
         }
     }

@@ -87,7 +87,6 @@ const ChangePassword = () => {
        updatePass(createPassword)
         .then( updatedPasswordSuccess )
         .catch( error => {
-            console.log({error})
             if(error.code === 'auth/requires-recent-login'){
                 setCreatePassword('')
                 setCreatePassConfirm('')
@@ -105,7 +104,6 @@ const ChangePassword = () => {
     }
 
     const updatedPasswordSuccess = (res) => {
-        console.log({res})
         setState(STATE_CHANGE.SUCCESS)
         setPassword('')
         setNewPassword('')

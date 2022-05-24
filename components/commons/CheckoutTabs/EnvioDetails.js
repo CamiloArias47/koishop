@@ -11,7 +11,6 @@ export default function DeliveryDeatils({currentAddress}){
            //phone,
            nextToAddress,
            uid} = currentAddress
-    //console.log({address})
     return(
         <div>
             <div><b>Departamento: </b>{department}</div>

@@ -8,15 +8,13 @@ export default function useBill(){
 
     const setBillId = (bid) => {
         const now = new Date() 
-        const miLocal = window.localStorage;
-        console.log({setbillId:bid})
+        const miLocal = window.localStorage
         miLocal.setItem('billId',bid)
-        miLocal.setItem('billId-timestamp',now)
+        miLocal.setItem('billId-timestamp',now) 
     }
 
     const setBillCode = (bcode) => {
-        const miLocal = window.localStorage;
-        console.log({setbillCode:bcode})
+        const miLocal = window.localStorage
         miLocal.setItem('billCode',bcode)
     }
     
@@ -36,7 +34,6 @@ export default function useBill(){
             setBillIdLocal(bid)
             setBillCodeLocal(bcode)
 
-            console.log({localBillCode})
             if(localBillId !== null){
                 const createdBill =  new Date(getBillIdTimestamp()).getTime()
                 const now =  Date.now() 
@@ -52,9 +49,9 @@ export default function useBill(){
                     deleteLocalCode()
                 }
             }
-        },[localBillId])
+        },[localBillId, localBillCode])
     
-        return localBillId
+        return localBillId, localBillCode
     }
 
     const getBillIdTimestamp = () => {
@@ -82,9 +79,6 @@ export default function useBill(){
         const { discountCode } = useCommerce()
         const { reference } = useBuyForm()
         const { uid } = useUI()
-
-        
-
     }
 
     return {

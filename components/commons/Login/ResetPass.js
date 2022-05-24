@@ -40,7 +40,6 @@ export const Reset = ({email})=>{
                 setState(STATE_RESET.SUCCESS)
             })
             .catch(error =>{
-                console.log({error})
                 setState(error)
             })
     }

@@ -5,7 +5,6 @@ export default (request, response) => {
   const { query } = request
   let { name } = query
   name = replaceAll(name, '-', ' ')
-  console.log({name})
   firestore
     .collection("products")
     .where('name','==',name)
@@ -18,7 +17,6 @@ export default (request, response) => {
         response.json(product)
     })
     .catch(error => {
-        console.log({error})
         response.status(404).end()
     })
 }

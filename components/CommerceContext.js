@@ -90,7 +90,6 @@ function commerceReducer(state, action){
             }
         }
         case 'set-discount' : {
-            console.log('descuento 🔥🔥🔥')
             const {discount, type, code} = action.payload
             let discountValue = 0
             let discountCode = type === 'no discount' ? '' : code

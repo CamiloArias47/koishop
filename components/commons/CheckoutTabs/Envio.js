@@ -151,9 +151,6 @@ export default function EnvioTab({handlerNext}){
             })
     }
 
-    // console.log('🔥🔥🔥🔥🔥')
-    // console.log({addressChose})
-
     const selector = addresses !== undefined 
                      ? <div className="form-controller">
                             <select value={selectorState} className="input input-primary" 
