@@ -4,7 +4,7 @@ import { useCommerce } from "components/CommerceContext"
 import { useUI } from "components/UIcontext"
 
 export default function useBill(){
-    const { setReference, setCode } = useBuyForm()
+    const { setReference } = useBuyForm()
 
     const setBillId = (bid) => {
         const now = new Date() 
@@ -21,7 +21,6 @@ export default function useBill(){
     const validateBillId = () => {
     
         const [localBillId, setBillIdLocal] = useState(null)
-        const [localBillCode, setBillCodeLocal] = useState(null)
 
         //revisar si hay una referencia en el localstorage (si el usuario inicio un proceso de compra)
         //esto evita que el usuario cree más de una factura en la base de datos para una sola compra
@@ -30,9 +29,7 @@ export default function useBill(){
         useEffect( ()=>{
             const miLocal = window.localStorage;
             const bid = miLocal.getItem('billId')
-            const bcode = miLocal.getItem('billCode')
             setBillIdLocal(bid)
-            setBillCodeLocal(bcode)
 
             if(localBillId !== null){
                 const createdBill =  new Date(getBillIdTimestamp()).getTime()
@@ -41,17 +38,15 @@ export default function useBill(){
                 //Si no ha pasado más de un dia retomamos la factura creada
                 if(diff <= 86400){
                     setReference(localBillId)
-                    setCode(localBillCode)
                 }
                 else{
                     deleteBill()
                     deleteBillTime()
-                    deleteLocalCode()
                 }
             }
-        },[localBillId, localBillCode])
+        },[localBillId])
     
-        return localBillId, localBillCode
+        return localBillId
     }
 
     const getBillIdTimestamp = () => {
