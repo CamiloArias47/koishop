@@ -24,7 +24,7 @@ const Pedidos = () => {
 
     return(
         <UserLayout>
-            <h1>Pedidos</h1>
+            <h1>Mis Pedidos</h1>
             <div className='wraper-table'>
                 <table>
                     <thead>
@@ -44,10 +44,14 @@ const Pedidos = () => {
                                         </Link> 
                                     </td>
                                     <td>
-                                        { ped.total ? formatPrice( ped.total ) : 'Sin pago' }
+                                        <Link  href={`/user/pedidos/${ped.id}`}> 
+                                            <a>{ ped.total ? formatPrice( ped.total ) : 'Sin pago' }</a>
+                                        </Link> 
                                     </td>
                                     <td>
-                                        { TRANSACTION_STATUS_SHOW_NAME[ped.status] }
+                                        <Link  href={`/user/pedidos/${ped.id}`}> 
+                                            <a>{ TRANSACTION_STATUS_SHOW_NAME[ped.status] }</a>
+                                        </Link>
                                     </td>
                                 </tr>
                             )
