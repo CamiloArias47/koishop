@@ -117,6 +117,7 @@ export default async (request, response) => {
       if(result.status && data.transaction.customer_email){ 
         sendMailToUser = await sendMail({
           data, 
+          billCode : result.billCode,
           products : result.prouctsdata,
           discount : result.aplyDiscount,
           subtotal : result.subtotal,
@@ -168,13 +169,13 @@ async function updateBillStatus({event, status, reference, totalPaid}){
           let discountPromo = []
           let aplyDiscount = 0
           let subtotal = totalPaid
+          let billCode = ''
 
           const res = await firestore.runTransaction(async t => {
             const bill = await t.get(billRef);
-            const products = bill.data().products;
-            const discountCode = bill.data().promocode
-            const uid = bill.data().uid
+            const { products, discountCode, uid, code } = bill.data();
             let codeRef
+            billCode = code
 
             if(discountCode){
               codeRef = firestore.collection('codes').doc(discountCode);
@@ -244,7 +245,7 @@ async function updateBillStatus({event, status, reference, totalPaid}){
                       })
                       .then( arrayUpdates => Promise.all(arrayUpdates) )
           });
-          return {status: true, msg:'documentos actualizados', prouctsdata, discountPromo, aplyDiscount, subtotal};
+          return {status: true, msg:'documentos actualizados', prouctsdata, discountPromo, aplyDiscount, subtotal, billCode};
         } catch (e) {
           return {status: false, msg:'fallo actualizacion', e};
         }
@@ -263,7 +264,7 @@ async function updateBillStatus({event, status, reference, totalPaid}){
 }
 
 
-function sendMail({data, products, discount, subtotal, totalInPesos}){
+function sendMail({data, billCode, products, discount, subtotal, totalInPesos}){
   
   sgMail.setApiKey(process.env.SENDGRID_APIKEY)
   
@@ -271,7 +272,7 @@ function sendMail({data, products, discount, subtotal, totalInPesos}){
   const name = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
   const createMail = mailOrderConfirmed({
-    reference: data.transaction.code || data.transaction.reference, 
+    reference: billCode || data.transaction.reference, 
     name, 
     date: data.transaction.finalized_at, 
     paymetod: data.transaction.payment_method.type, 

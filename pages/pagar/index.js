@@ -35,7 +35,6 @@ export default function PagarPage(){
     const dev = env === 'PRODUCTION' ? false : true
     
     const { reference,
-            code, 
             cedula, 
             phone,
             city, 
@@ -72,7 +71,7 @@ export default function PagarPage(){
         let configWompi = {
             currency: 'COP',
             amountInCents: subtotalToPay+'00',
-            reference: String(code),
+            reference: reference,
             publicKey: dev ? 'pub_test_XdVuxWTudRKlUmJf5zwVO71K2I3pQRsO' : 'pub_prod_bOQshOzmaqsaYQ8tzsHPUP7G3K2A1EqN',
             redirectUrl: 'https://koimakeup.com/success', // Opcional
             taxInCents: { // Opcional
