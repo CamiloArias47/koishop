@@ -8,6 +8,7 @@ export const colors = {
     red:'#ad4646',
     white: '#fff',
     whiteBone: '#f6f6f6',
+    veryDimGray: '#fdfdfd',
     dimGray: '#efefef',
     gray: '#e2e2e2',
     green: '#70cca7',

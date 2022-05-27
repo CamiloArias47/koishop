@@ -23,7 +23,7 @@ export const TRANSACTION_STATUS = {
 export const TRANSACTION_STATUS_SHOW_NAME = {
     APPROVED : 'Aprobado',
     DECLINED : 'Pago rechazado',
-    incomplete: 'En carrito'
+    incomplete: 'Cancelado'
 }
 
 
