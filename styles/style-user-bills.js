@@ -2,16 +2,82 @@ import css from 'styled-jsx/css'
 import { fontColor, colors } from 'styles/theme'
 
 export default css`
-    tr > td {
-        padding-left: .5rem;
+    .grid{
+        display:grid;
+        grid-template-columns: 1fr;
+        gap:8px;
     }
-    tbody tr:nth-child(odd){
-        background-color: ${ colors.dimGray };
+    .billcard{
+        background-color: ${ colors.veryDimGray };
+        border: 1px solid ${ colors.gray };
+        border-radius: 10px;
+        padding: 1rem;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
-    td{
-        padding: .8rem 0;
-    }
-    a:hover{
+    .billcard:hover{
+        cursor:pointer;
+        background-color: ${ colors.primaryUltraDim };
         color: ${ fontColor.primary };
+    }
+    .billcard_header{
+        display:flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .billcard_code{
+        font-weight: 500;
+    }
+    .billcard_body{
+        display:flex;
+        flex-direction: column;
+    }
+    .billcard_price{
+        font-weight: 500;
+        font-size: 1.2rem;
+    }
+    .billcard_date{
+        font-size: .8rem;
+    }
+    .billcard_header :global(img){
+        marging-right:6px;
+    }
+    .billcard_footer{
+        display:flex;
+        justify-content: flex-end;
+        font-size: 12px;
+        padding-top:1rem;
+    }
+    .billcard_status::before{
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+        text-align: center;
+        font-size: .3rem;
+        vertical-align:middle;
+        color: #fff;
+        padding: 0.2rem;
+    }
+    
+    .billcard_status.APPROVED::before{
+        content: "✓";
+        background-color: ${ colors.green };
+    }
+    .billcard_status.incomplete::before,
+    .billcard_status.DECLINED::before{
+        content: "x";
+        background-color: ${ colors.red };
+    }
+
+    @media (min-width: 768px){
+        .grid{
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+  
+    @media (min-width: 1200px){
+        .grid{
+            grid-template-columns: repeat(3, 1fr);
+        }
     }
 `
