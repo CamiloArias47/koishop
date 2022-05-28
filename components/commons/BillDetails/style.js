@@ -26,13 +26,54 @@ h1{
     padding-top:2rem;
 }
 
+.ticket{
+    background-color: ${ colors.primaryUltraDim };
+    padding: 1rem;
+    position:relative;
+    overflow:hidden;
+    margin-bottom:2rem;
+}
+.ticket > h1{
+    margin-top:1rem;
+}
+.ticket_border{
+    width: 100%;
+    height: 16px;
+    background:#fff;
+    background-size: 22%;
+    background-repeat: round;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+.ticket_border--top{
+    background-image: url(../../images/logos/border-pink.png);
+    top: 0;
+}
+.ticket_border--bottom{
+    background-image: url(../../images/logos/border-bottom-pink.png);
+    bottom: 0;
+}
+
+.wraper-table{
+    display:none;
+}
+
+.ticket_item{
+    display:flex;
+    flex-direction:column;
+    margin-bottom: 1rem;
+}
+.details-bills{
+    margin-bottom:2rem;
+}
+
 .status{
-    margin-top: 1rem;
+    margin: 1rem 0;
     border: 1px solid ${colors.gray};
     border-radius: 10px;
-    padding:.2rem .5rem;
-    position: absolute;
-    margin-top: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    display: inline-block;
 }
 
 .status.${TRANSACTION_STATUS.ok}{
@@ -41,27 +82,28 @@ h1{
     color: ${colors.white};
 }
 
-/* .status.${TRANSACTION_STATUS.incomplete}{
-    border-color: ${colors.alert};
-    background-color: ${colors.alertDark};
-    color: ${colors.white};
-} */
-
-.status.${TRANSACTION_STATUS.fail},
-.status.${TRANSACTION_STATUS.incomplete}{
+.status.${TRANSACTION_STATUS.fail}{
     border-color: ${colors.red};
     background-color: ${colors.red};
+    color: ${colors.white};
+}
+.status.${TRANSACTION_STATUS.incomplete}{
+    border-color: ${colors.alertDark};
+    background-color: ${colors.alert};
     color: ${colors.white};
 }
 
 .status.${TRANSACTION_STATUS.ok}:after{
     content: ' ✔';
-    color:${colors.greenDark}
+    color:${colors.greenDark };
 }
-.status.${TRANSACTION_STATUS.fail}:after,
-.status.${TRANSACTION_STATUS.incomplete}:after{
+.status.${TRANSACTION_STATUS.fail}:after{
     content: ' ❌';
-    color:${colors.greenDark}
+    color:${colors.alert };
+}
+.status.${TRANSACTION_STATUS.incomplete}:after{
+    content: ' ❕';
+    color:${colors.alert };
 }
 
 .address-details :global(ul),
@@ -75,13 +117,46 @@ h1{
     width:100%;
 }
 
-@media (min-width: 768px){
+@media (min-width: 768px){ 
+    .ticket{
+        padding:2rem;
+    }
+    .ticket_products{
+        display:none;
+    }
+    .wraper-table{
+        display:block;
+    }
     .details-bills{
-        display:flex;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: .8rem;
+    }
+    .ticket_border{
+        background-size: 12%;
+    }
+}
+
+@media (min-width: 1020px){ 
+    .details-bills{
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 1200px){ 
+    .ticket{
+        padding: 1rem;
+    }
+    .ticket_border{
+        background-size: 9%;
+    }
+    .details-bills{
+        flex-direction: row;
     }
     .address-details,
     .user-bill-details{
-        width:50%;
+        width:auto;
     }
 }
 `

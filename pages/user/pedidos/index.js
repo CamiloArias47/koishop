@@ -6,7 +6,7 @@ import { useUI } from 'components/UIcontext'
 import { getBillsByUser } from 'firebaseApi/firestoreDB/bill'
 import UserLayout from 'components/commons/UserLayout'
 import { formatPrice, formatDate } from 'utils'
-import {TRANSACTION_STATUS_SHOW_NAME} from 'components/CommerceContext'
+import {TRANSACTION_STATUS_SHOW_NAME, STATUS_ICON} from 'components/CommerceContext'
 import style from 'styles/global-table'
 import stylepage from 'styles/style-user-bills'
 import paymentInvoiceImg from 'public/images/logos/payments-invoices-32.svg'
@@ -55,6 +55,9 @@ const Pedidos = () => {
                                     </span>
                                 </div>
                                 <div className='billcard_footer'>
+                                    <span className={'billcard_badgestatus ' + ped.status}>
+                                        { STATUS_ICON[ped.status] }
+                                    </span>
                                     <span className={'billcard_status ' + ped.status}>
                                         { TRANSACTION_STATUS_SHOW_NAME[ped.status] }
                                     </span>

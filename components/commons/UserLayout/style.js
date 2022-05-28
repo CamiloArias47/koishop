@@ -4,7 +4,7 @@ import { colors, fontColor } from 'styles/theme'
 export default css`
 
 .user-layout{
-    padding: 0 2rem .3rem 2rem;
+    padding: 0 1rem .3rem 1rem;
     color:${fontColor.general};
     background:${colors.white};
 }

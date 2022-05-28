@@ -48,24 +48,22 @@ export default css`
         font-size: 12px;
         padding-top:1rem;
     }
-    .billcard_status::before{
+    .billcard_badgestatus{
         width: 1rem;
         height: 1rem;
         border-radius: 50%;
         text-align: center;
-        font-size: .3rem;
-        vertical-align:middle;
         color: #fff;
-        padding: 0.2rem;
+        margin-right: 4px;
     }
     
-    .billcard_status.APPROVED::before{
-        content: "✓";
+    .billcard_badgestatus.APPROVED{
         background-color: ${ colors.green };
     }
-    .billcard_status.incomplete::before,
-    .billcard_status.DECLINED::before{
-        content: "x";
+    .billcard_badgestatus.incomplete{
+        background-color: ${ colors.alert };
+    }
+    .billcard_badgestatus.DECLINED{
         background-color: ${ colors.red };
     }
 
