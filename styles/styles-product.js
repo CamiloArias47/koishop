@@ -8,6 +8,16 @@ export default css`
     flex-direction:column;
     padding-bottom: 3rem;
 }
+.product-image{
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+}
+
+.product-image .product-image_main{
+    position:block;
+    width:100%;
+}
 
 .product-page-section .product-image{
     text-align:center;
@@ -83,6 +93,10 @@ h1{
 
     .product-page-section .product-image{
         width: 60%;
+    }
+    .product-image .product-image_main{
+        position:block;
+        width:60%;
     }
 
     .product-details{

@@ -13,6 +13,8 @@ import BreadCrum from 'components/commons/breadcrum'
 import Footer from 'components/commons/footer'
 import { config } from 'components/commons/Head'
 import { ShoppingBagIcon, Spinner } from 'components/icons'
+import ImagePreview from 'components/commons/Product/Product-image-preview'
+
 import { colors } from 'styles/theme'
 import style from 'styles/styles-product'
 
@@ -27,7 +29,7 @@ const ProductPage = (props) => {
           openSidebarFromRight
          } = useUI()
   
-  const { id, name, photo, description, price, category, subcategory, amount, timestamp} = props.product
+  const { id, name, photo, pictures, description, price, category, subcategory, amount, timestamp} = props.product
   const formatedPrice = formatPrice(price)
 
   useEffect( () => {
@@ -105,13 +107,20 @@ return <>
             <BreadCrum links={[category, subcategory]}/>
 
             <div className="product-image">
-              <Image 
-                  src={photo} 
-                  alt={name} 
-                  width='510' 
-                  height='510' 
-                  unoptimized={process.env.ENVIRONMENT !== "PRODUCTION"}
-                  priority />
+              <div className='product-image_main'>
+                <Image 
+                    src={photo} 
+                    alt={name} 
+                    width='510' 
+                    height='510' 
+                    unoptimized={process.env.ENVIRONMENT !== "PRODUCTION"}
+                    layout='responsive'
+                    priority 
+                />
+              </div>
+              {
+                pictures ? <ImagePreview pics={pictures} name={name}/> : ''
+              }
             </div>
             <div className="product-details">
               <h1>{ name }</h1>
