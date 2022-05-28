@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useUI } from 'components/UIcontext'
-import withAuth from 'HOC/whitAuth'
 import { getAddressesBy } from 'firebaseApi/firestoreDB/addresses'
+import withAuth from 'HOC/whitAuth'
+
+import { useUI } from 'components/UIcontext'
 import UserLayout from 'components/commons/UserLayout'
+import AddressCard from 'components/commons/Address-card'
+
 import style from 'styles/style-user-page'
 
 
@@ -24,17 +27,11 @@ function UserPage() {
                 { phoneNumber }
             </p>
             <h3>Libreta de direcciones</h3>
-            {
-                addresses.map( adrs => { 
-                    return <div key={adrs.id}>
-                                <b>{ adrs.address }</b><br/>
-                                { adrs.addresscomplement }<br/>
-                                { adrs.department } - { adrs.city }<br/> 
-                                { adrs.neighborhood } <br/> 
-                                { adrs.nextToAddress } <br/> 
-                           </div>
-                })
-            }
+            <div className='addresslist'>
+                {
+                    addresses.map( adrs => <AddressCard direction={adrs} key={adrs.id}/>)
+                }
+            </div>
 
             <style jsx>{ style }</style>
         </UserLayout>
