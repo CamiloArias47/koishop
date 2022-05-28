@@ -1,9 +1,11 @@
 import { formatDate, formatPrice } from "utils";
 import Link from 'next/link'
 
-import {handlerDiscount, TRANSACTION_STATUS} from 'components/CommerceContext'
+import {handlerDiscount, TRANSACTION_STATUS, TRANSACTION_STATUS_SHOW_NAME} from 'components/CommerceContext'
 import {RowIcon} from 'components/icons'
 import ProductListReview from 'components/commons/ProductList/review-pedido'
+import AddressCard from 'components/commons/Address-card'
+import BillCard from './bill-card'
 
 import style from './style'
 import styleGlobalsTable from 'styles/global-table'
@@ -46,28 +48,9 @@ export default function BillDetails({bill}){
                 ? 'Pago exitoso'
                 : 'Cancelado'
                 
-    if(addressDetails){
-        addressContent = <div>
-                            <h1>Dirección de envio</h1>
-                            <ul>
-                                <li>{addressDetails.department} - {addressDetails.city}</li>
-                                <li>{addressDetails.address} - {addressDetails.addresscomplement}</li>
-                                <li>{addressDetails.neighborhood}</li>
-                                <li>{addressDetails.nextToAddress} </li>
-                            </ul>
-                         </div>
-    }
+    addressContent = addressDetails ? <AddressCard direction={addressDetails} /> : ''
      
-    if(data.name){
-        userBillDetails = <div>
-                                <h1>Facturación</h1>
-                                <ul>
-                                    <li>{data.name}</li>
-                                    <li>{data.cedula}</li>
-                                    <li>{data.phone}</li>
-                                </ul>
-                          </div>
-    }
+    userBillDetails = data.name ? <BillCard data={data}/> : ''
 
     return <div>
              <div className="head-description">
@@ -79,56 +62,76 @@ export default function BillDetails({bill}){
                         </a>
                     </Link>
                 </div>
+             </div>
+
+             <div className="ticket">
+                <div className="ticket_border ticket_border--top"></div>
                 <h1>Pedido: {data.code || data.id}</h1>
-             </div>
-             <span className="date">{date}</span>
-        
-             <span className={'status '+data.status}>{status}</span>
+                <span className="date">{date}</span>
+            
+                <span className={'status '+data.status}>{ TRANSACTION_STATUS_SHOW_NAME[data.status] }</span>
 
-             <div className="wraper-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th className="product-column">Producto</th>
-                            <th>Precio</th>
-                            <th>Cantidad</th>
-                            <th>Subtotal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.products.map( p => <ProductListReview key={p.id} name={p.name} price={p.pricex1} buyAmount={p.amount}/> )}
-                    </tbody>
-                </table>
-             </div>
-
-             <div className="sumary-cont">
-                <div className="anouncements"></div>
-                <div className="total-container">
-                    <div className="detail-field">
-                        <div>Productos: </div>
-                        <div>{ formatPrice(total) }</div>
-                    </div>
-                    <div className="detail-field">
-                        <div>Envio: </div>
-                        <div>Por determinar</div>
-                    </div>
-                    {codeDescription}
-                    <div className="detail-field total">
-                        <div>Total</div>
-                        <div>{ formatPrice(data.total) }</div>
-                    </div>
-                    
+                <div className="wraper-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th className="product-column">Producto</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {data.products.map( p => <ProductListReview key={p.id} name={p.name} price={p.pricex1} buyAmount={p.amount}/> )}
+                        </tbody>
+                    </table>
                 </div>
-             </div>
-             
-             <div className="details-bills">
-                <div className="address-details">
-                    {addressContent}
+
+                <div className="ticket_products">
+                    {
+                        data.products.map( p => 
+                            <div className="ticket_item" key={p.id}>
+                                <span><b>{ p.name } </b></span>
+                                <span>Precio unitario: <b>{ formatPrice(p.pricex1) }</b> </span>
+                                <span>Cantidad: <b>{ p.amount }</b> </span>
+                            </div>
+                        )
+                    }
+                </div>
+
+                <div className="sumary-cont">
+                    <div className="anouncements"></div>
+                    <div className="total-container">
+                        <div className="detail-field">
+                            <div>Productos: </div>
+                            <div>{ formatPrice(total) }</div>
+                        </div>
+                        <div className="detail-field">
+                            <div>Envio: </div>
+                            <div>$0</div>
+                        </div>
+                        {codeDescription}
+                        <div className="detail-field total">
+                            <div>Total</div>
+                            <div>{ formatPrice(data.total) }</div>
+                        </div>
+                        
+                    </div>
                 </div>
                 
-                <div className="user-bill-details">
-                    {userBillDetails}
+                <div className="details-bills">
+                    <div className="address-details">
+                        { addressDetails ? <h1>Dirección de envio</h1> : ''}
+                        {addressContent}
+                    </div>
+                    
+                    <div className="user-bill-details">
+                        { data.name ? <h1>Facturación</h1> : ''}
+                        {userBillDetails}
+                    </div>
                 </div>
+
+                <div className="ticket_border ticket_border--bottom"></div>
              </div>
 
 

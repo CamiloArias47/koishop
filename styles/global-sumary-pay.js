@@ -4,9 +4,11 @@ import { colors, fontColor } from './theme'
 export default css.global`
 
 .total-container{
-    margin-top: 2rem;
     padding-top:1rem;
-    border-top: 2px solid ${colors.primary}
+}
+
+.sumary-cont{
+    border-top: 2px dashed ${colors.primary}
 }
 
 .detail-field{
@@ -37,10 +39,10 @@ export default css.global`
         display:flex;
     }
     .anouncements{
-        width:40%;
+        width:0%;
     }
     .total-container{
-        width:60%;
+        width:100%;
     }
 }
 `
