@@ -23,6 +23,7 @@ const ProductPage = (props) => {
   const router = useRouter()
   const [ buyAmount, setBuyAmount ] = useState(1)
   const [ adding, setAdding ] = useState(false)
+  const [ mainpicture, setMainpicture ] = useState(props.product.photo)
   const { addProduct } = useCart()
   const { openToast, 
           setSidebarView,
@@ -80,9 +81,12 @@ const ProductPage = (props) => {
   }
 
   const iconBtn = adding 
-                      ? <Spinner width="38" height="38" color={colors.primaryDark} /> 
-                      : <ShoppingBagIcon width="32" height="32" color="#fff"/> 
+                ? <Spinner width="38" height="38" color={colors.primaryDark} /> 
+                : <ShoppingBagIcon width="32" height="32" color="#fff"/> 
   
+  const changeMainImage = (url) => {
+    setMainpicture(url)
+  }
 
 return <>
         <section className="product-page-section wraper">
@@ -109,7 +113,7 @@ return <>
             <div className="product-image">
               <div className='product-image_main'>
                 <Image 
-                    src={photo} 
+                    src={mainpicture} 
                     alt={name} 
                     width='510' 
                     height='510' 
@@ -119,7 +123,7 @@ return <>
                 />
               </div>
               {
-                pictures ? <ImagePreview pics={pictures} name={name}/> : ''
+                pictures ? <ImagePreview pics={pictures} name={name} changeImage={ changeMainImage }/> : ''
               }
             </div>
             <div className="product-details">

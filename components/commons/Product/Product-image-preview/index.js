@@ -1,19 +1,20 @@
 import Image from 'next/image'
 import style from './style'
 
-export default function ImagePreview({pics, name}){
+export default function ImagePreview({pics, name, changeImage}){
     return(
         <div className='preview'>
             {
                 pics.map( pic => {
-                    return <div key={pic} className="preview__element">
+                    return <button key={pic} className="preview__element" onClick={() => { changeImage(pic) }}>
                                 <Image 
                                     src={pic}
                                     alt={name}
                                     width={42}
                                     height={42}
+                                    layout='responsive'
                                 />
-                           </div>
+                           </button>
                 })
             }
             <style jsx>{ style }</style>
