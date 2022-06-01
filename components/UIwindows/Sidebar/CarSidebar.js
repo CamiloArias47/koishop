@@ -28,12 +28,6 @@ export const CarSidebar = () => {
                 )}
             </ul>
             <div className="pay-resume">
-                <div>
-                    <span>Subtotal:</span><span>{ formatPrice(subtotalToPay) }</span> 
-                </div>
-                <div>
-                    <span>Envio:</span><span>Por definir</span>
-                </div>
                 <div className="pay-resume-total">
                     <span>Total:</span><span>{ formatPrice(subtotalToPay) }</span>
                 </div>

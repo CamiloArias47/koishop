@@ -27,18 +27,33 @@ export default css`
 .preview__element :global(img){
     aspect-ratio: 1;
 }
+.preview__element :global(img){
+    border: 3px solid ${ colors.dimGray } !important;
+}
+.preview__element.active :global(img){
+    border: 3px solid ${ colors.primary } !important;
+}
+
 @media (min-width: 1020px){
     .preview{
-        width:19.5%;
+        width:10%;
         flex-direction:column;
     } 
     .preview__element{
         width: 100%;
+        padding: 0.8rem;
+        background-color: transparent;
+    }
+    .preview > .preview__element{
+        padding-top:0;
+    }
+    .preview__element:last-child{
+        padding-right:0.8rem;
     }
 }
 @media (min-width: 1200px){
     .preview{
-        width: 14.8%;
+        width: 10%;
     }
 }
 `
