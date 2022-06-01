@@ -7,6 +7,7 @@ li{
     flex-flow: row nowrap;
     color:${fontColor.general};
     align-items: center;
+    margin-bottom: 0.5rem;
 }
 
 .item-car-image{

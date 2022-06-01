@@ -123,7 +123,7 @@ return <>
                 />
               </div>
               {
-                pictures ? <ImagePreview pics={pictures} name={name} changeImage={ changeMainImage }/> : ''
+                pictures ? <ImagePreview pics={[photo, ...pictures]} name={name} changeImage={ changeMainImage }/> : ''
               }
             </div>
             <div className="product-details">

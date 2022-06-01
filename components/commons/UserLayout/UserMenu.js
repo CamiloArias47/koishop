@@ -30,7 +30,7 @@ export default function UserMenu(){
                         </li>
                     </Link>
                     <Link href="/user/pedidos">
-                        <li className={router.pathname === '/user/pedidos' ? 'active' : ''}>
+                        <li className={router.pathname.includes('/user/pedidos') ? 'active' : ''}>
                                 <a>Pedidos</a>
                         </li>
                     </Link>
