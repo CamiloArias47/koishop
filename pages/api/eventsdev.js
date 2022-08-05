@@ -94,7 +94,7 @@ export default async (request, response) => {
 
   let sendMailToUser = 'initial state'
   
-  const res = await firestore.collection('webhooks').add(webhook);
+  const res = await firestore.collection('webhooks').doc(data.transaction.id).set(webhook);
 
   if(!res.id){
     response.status(500).json({error:'no se almaceno el webhook'})
