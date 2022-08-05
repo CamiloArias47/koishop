@@ -18,7 +18,8 @@ export const colors = {
 export const fontColor = {
     important:'#353535',
     general:'#6f6f6f',
-    primary: colors.primary
+    primary: colors.primary,
+    white: colors.white
 }
 
 export const glass = {

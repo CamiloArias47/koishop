@@ -73,7 +73,7 @@ export default function PagarPage(){
             amountInCents: subtotalToPay+'00',
             reference: reference,
             publicKey: dev ? 'pub_test_XdVuxWTudRKlUmJf5zwVO71K2I3pQRsO' : 'pub_prod_bOQshOzmaqsaYQ8tzsHPUP7G3K2A1EqN',
-            redirectUrl: 'https://koimakeup.com/success', // Opcional
+            redirectUrl: 'https://koimakeup.com/user/pedidos/success', // Opcional
             taxInCents: { // Opcional
               vat: 1900,
               consumption: 800
