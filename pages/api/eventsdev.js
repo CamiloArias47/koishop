@@ -1,5 +1,4 @@
 import { firestore } from "firebaseApi/admin"
-import { FieldValue } from 'firebase-admin'
 import sha256 from 'crypto-js/sha256';
 import sgMail from '@sendgrid/mail'
 import mailOrderConfirmed from 'components/mails/order-confirmation'
@@ -94,25 +93,21 @@ export default async (request, response) => {
 
   let sendMailToUser = 'initial state'
   
-  const res = await firestore.collection('webhooks').doc(data.transaction.id).set(webhook);
-
-  if(!res.id){
-    response.status(500).json({error:'no se almaceno el webhook'})
-    return
-  }
-
+  
+  
   const amountInCents = data.transaction.amount_in_cents
   const totalInPesos = centsToPesos({amountInCents})
-
+  
   const updateBillData = {
     event, 
     status : data.transaction.status, 
     reference : data.transaction.reference, 
     totalPaid : totalInPesos
   }
-
-   validate({signature, data, timestamp}) 
-    .then( (result) => updateBillStatus(updateBillData) )
+  
+  firestore.collection('webhooks').doc(data.transaction.id).set(webhook)
+    .then( () => validate({signature, data, timestamp}) )
+    .then( () => updateBillStatus(updateBillData) )
     .then( async result => {
       if(result.status && data.transaction.customer_email){ 
         sendMailToUser = await sendMail({
@@ -127,10 +122,9 @@ export default async (request, response) => {
 
       return response.status(200).json({succes:result, sendMailToUser})
     })
-    .catch( (e) => {
-      return response.status(500).json({error:'Petición fraudulenta', message:e})
+    .catch( err => {
+      return response.status(500).json({err})
     })
-
 }
 
 function validate({signature,data,timestamp}){
@@ -151,7 +145,7 @@ function validate({signature,data,timestamp}){
       resolve(true)
     }
     else{
-      const message = `env: ${DEV}, concat ${concat}, checksum: ${signature.checksum}, hasDigest: ${hashDigest}`
+      const message = `Petición fraudulenta = env: ${DEV}, concat ${concat}, checksum: ${signature.checksum}, hasDigest: ${hashDigest}`
       reject(message)
     }
 
