@@ -1,5 +1,8 @@
 import { useState } from "react"
-import { useUI } from "components/UIcontext"
+import { 
+    useUI,
+    MODAL_VIEWS
+} from "components/UIcontext"
 import { AuthFacebookGooogle } from 'components/commons/Login/AuthFacebookGoogle' 
 import { register, verifyEmail } from 'firebaseApi/client'
 import Success from './Success'
@@ -85,7 +88,7 @@ export const Register = () =>{
             <AuthFacebookGooogle/>
 
             <div className="goto-login-section">
-                <button className="btn btn-info" onClick={() => setModalView('login') }>Ya tengo cuenta</button>
+                <button className="btn btn-info" onClick={() => setModalView(MODAL_VIEWS.LOGIN_VIEW) }>Ya tengo cuenta</button>
             </div>
 
             <style jsx>{style}</style>

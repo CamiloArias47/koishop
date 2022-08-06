@@ -1,5 +1,6 @@
 import { useUI, 
-         SIDEBAR_VIEWS } from 'components/UIcontext'
+         SIDEBAR_VIEWS,
+         MODAL_VIEWS } from 'components/UIcontext'
 import { Sidebar } from './Sidebar'
 import { Modal } from './Modal'
 import { Toast } from './Toast'
@@ -27,8 +28,8 @@ const ModalView = () => {
 
     return displayModal ? (
         <Modal> 
-            { modalView === 'login' && <Login /> }
-            { modalView === 'registro' && <Register/> }
+            { modalView === MODAL_VIEWS.LOGIN_VIEW && <Login /> }
+            { modalView === MODAL_VIEWS.REGISTER_VIEW && <Register/> }
         </Modal>
     ) : null
 }

@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo }  from 'react'
 import { useBuyForm } from "components/BuyformContext"
-import { saveBill, updateBill } from "firebaseApi/firestoreDB/bill"
+import { saveBill, updateBill, getBill } from "firebaseApi/firestoreDB/bill"
 import useBill from "hooks/useBill"
 import { cleanGionsInName } from 'utils'
 
@@ -208,7 +208,27 @@ export const useSaveCart = () => {
         }
     }
 
-    return {saveCart}
+    const billNotPayed = () => {
+        return new Promise((resolve, reject) => {
+            if(reference){
+                getBill(reference)
+                 .then( result => {
+                    console.log({result})
+                    if(result.status === 'APPROVED'){
+                        reject({type:'referencia pagada'})
+                    } 
+                    else{
+                        resolve(true)
+                    }
+                 })
+            }
+            else{
+                resolve(true)
+            }
+        })
+    }
+
+    return {saveCart, billNotPayed}
 }
 
 /**

@@ -9,24 +9,33 @@ import style from 'styles/style-pago'
 import styleGlobalsTable from 'styles/global-table'
 import styleSumary from 'styles/global-sumary-pay'
 
+//import { Modal } from './Modal'
+
 export default function RevisionTab({handlerNext, uid}){
 
     const { cart, subtotalToPay } = useCommerce()
 
     const { validateBillId} = useBill()
 
-    const {saveCart} = useSaveCart()
+    const {saveCart, billNotPayed} = useSaveCart()
 
     const { openDisplayBlockWindow, closeDisplayBlockWindow } = useUI()
     
     const saveDetailsBill = ()=>{
         openDisplayBlockWindow()
 
-         saveCart(uid).then( () => handlerNext() )
-         .catch(err => {
-             console.error({err})
-             closeDisplayBlockWindow()
-         })
+        billNotPayed()
+            .then( () => saveCart(uid) )
+            .then( () => handlerNext() )
+            .catch(err => {
+                console.error({err})
+                if(typeof err === 'object'){
+                    if( err?.type && err.type === 'referencia pagada'){
+                        alert('referencia ya pagada')
+                    }
+                }
+                closeDisplayBlockWindow()
+            })
     }
 
     const butonNext = cart.length === 0 

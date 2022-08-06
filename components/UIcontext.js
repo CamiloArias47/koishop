@@ -2,12 +2,13 @@ import React, { useCallback, useMemo } from 'react'
 import userAvatarLoading from 'public/images/loaders/UserAvatarLoader.svg'
 import userLogo from 'public/images/user.svg'
 
-const MODAL_VIEWS = {
-    'REGISTER_VIEW': 'registro',
-    'LOGIN_VIEW': 'login',
-    'FORGOT_VIEW': 'remenber',
-    'NEW_SHIPPING_ADDRESS': 'new-shipping-address',
-    'NEW_PAYMENT_METHOD': 'new-payment-method'
+export const MODAL_VIEWS = {
+    REGISTER_VIEW: 'registro',
+    LOGIN_VIEW: 'login',
+    FORGOT_VIEW: 'remenber',
+    NEW_SHIPPING_ADDRESS: 'new-shipping-address',
+    NEW_PAYMENT_METHOD: 'new-payment-method',
+    COMFIRM_BUY_AGAIN: 'buy-products-again'
 }
 
 export const SIDEBAR_VIEWS = {
