@@ -12,7 +12,6 @@ export async function getWebhook({id}){
 }
 
 export function watchWebhook(id, cb){
-    console.log({id})
     return onSnapshot(doc(db, "webhooks", id), (doc) => {
         cb({'id':doc.id, ...doc.data()});
     });

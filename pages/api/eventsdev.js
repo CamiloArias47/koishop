@@ -97,8 +97,7 @@ export default async (request, response) => {
   const res = await firestore.collection('webhooks').doc(data.transaction.id).set(webhook);
 
   if(!res.id){
-    response.status(500).json({error:'no se almaceno el webhook'})
-    return
+    return response.status(500).json({error:'no se almaceno el webhook'})
   }
 
   const amountInCents = data.transaction.amount_in_cents

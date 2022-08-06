@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Image from 'next/image'
 import UserLayout from 'components/commons/UserLayout'
+import useBill from 'hooks/useBill'
 import SuccessAnimation from 'components/icons/SuccessAnimation'
 import { Spinner } from 'components/icons'
 import { watchWebhook } from 'firebaseApi/firestoreDB/webhook'
@@ -16,13 +17,21 @@ export default function Success(){
     const router = useRouter()
     const { id } = router.query
     const [webhook, setWebhook] = useState({})
+    const { deleteBill, deleteBillTime, deleteLocalCode } = useBill()
 
     useEffect( () => {
         function getterwebhook(){
             let stop = watchWebhook(id, newUpdate => {
-                let { status } = newUpdate.data.transaction
-                if(status === TRANSACTION_STATUS.ok || status === TRANSACTION_STATUS.fail) stop()
-                setWebhook(newUpdate)
+                if(newUpdate.data){
+                    let { status } = newUpdate.data.transaction
+                    if(status === TRANSACTION_STATUS.ok || status === TRANSACTION_STATUS.fail) {
+                        stop()
+                        deleteBill()
+                        deleteBillTime()
+                        deleteLocalCode()
+                    }
+                    setWebhook(newUpdate)
+                }
             })
         } 
 
