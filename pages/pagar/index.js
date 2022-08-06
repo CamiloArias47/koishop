@@ -39,7 +39,8 @@ export default function PagarPage(){
             phone,
             city, 
             address,
-            department } = useBuyForm()
+            department,
+            setReference } = useBuyForm()
     
     const { validateAndSave } = useDeliveryActions()
 
@@ -126,8 +127,10 @@ export default function PagarPage(){
 
         updateStatus({bid:reference, status:TRANSACTION_STATUS.ok, pricePayed:price})
          .then( () => {
+            let refBill = reference
             quitAllProducts()
-            router.push(`/user/pedidos/${reference}`)
+            setReference(undefined)
+            router.push(`/user/pedidos/${refBill}`)
          })
     }
 
