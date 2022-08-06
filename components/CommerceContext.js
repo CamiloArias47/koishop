@@ -17,7 +17,8 @@ const initialState = {
 export const TRANSACTION_STATUS = {
     ok : 'APPROVED',
     fail: 'DECLINED',
-    incomplete: 'incomplete'
+    incomplete: 'incomplete',
+    pending: 'PENDING'
 }
 
 export const TRANSACTION_STATUS_SHOW_NAME = {

@@ -95,17 +95,15 @@ export default function PagarPage(){
             }
           }
           
-        var checkout = new WidgetCheckout(configWompi)
+        let checkout = new WidgetCheckout(configWompi)
 
         checkout.open( result  => {
-
+            let {status} = result.transaction
             openDisplayBlockWindow()
 
-            var transaction = result.transaction
-            if(transaction.status === TRANSACTION_STATUS.ok){
-                handlerPayApproved({result})
-            }
-            else{
+            if( status === TRANSACTION_STATUS.ok) handlerPayApproved({result})
+            if( status === TRANSACTION_STATUS.pending) console.log('pending...')
+            if( status === TRANSACTION_STATUS.fail ){
                 updateStatus({bid:reference,status:TRANSACTION_STATUS.fail})
                     .then( () => {
                         closeDisplayBlockWindow()
