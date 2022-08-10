@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { AuthFacebookGooogle } from './AuthFacebookGoogle' 
-import { useUI } from "components/UIcontext"
+import { useUI, MODAL_VIEWS } from "components/UIcontext"
 import { login } from 'firebaseApi/client'
 import { VerifyEmail } from './VerifyMail'
 import { Reset } from './ResetPass'
@@ -76,7 +76,7 @@ export const Login = () => {
             <AuthFacebookGooogle />
 
             <div className="register-section">
-                <button className="btn btn-info" onClick={() => setModalView('registro') }>Regístrate</button>
+                <button className="btn btn-info" onClick={() => setModalView(MODAL_VIEWS.REGISTER_VIEW) }>Regístrate</button>
             </div>
 
 

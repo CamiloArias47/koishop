@@ -1,9 +1,17 @@
 import db from './db'
 import {doc, collection, addDoc,
         updateDoc, serverTimestamp, 
-        arrayUnion, query, where, getDocs, orderBy,
+        arrayUnion, query, where, getDocs, getDoc, orderBy,
         runTransaction 
       } from "firebase/firestore"
+
+export const getBill = async bid => {
+  const billRef = doc(db, "bill", bid);
+  const bill = await getDoc(billRef);
+  
+  if (bill.exists()) return bill.data()
+  return {}
+}
 
 export const setBill = async ({uid, cart, status}) => {
     const docRef = await addDoc(collection(db, "bill"), {

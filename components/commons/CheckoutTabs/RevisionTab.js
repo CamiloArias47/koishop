@@ -1,6 +1,6 @@
 import { useCommerce, 
         useSaveCart } from "components/CommerceContext"
-import { useUI } from "components/UIcontext"
+import { useUI, MODAL_VIEWS } from "components/UIcontext"
 import useBill from "hooks/useBill"
 import { formatPrice } from "utils"
 
@@ -15,18 +15,33 @@ export default function RevisionTab({handlerNext, uid}){
 
     const { validateBillId} = useBill()
 
-    const {saveCart} = useSaveCart()
+    const {saveCart, billNotPayed} = useSaveCart()
 
-    const { openDisplayBlockWindow, closeDisplayBlockWindow } = useUI()
+    const { 
+        openDisplayBlockWindow, 
+        closeDisplayBlockWindow,
+        openModal,
+        setModalView
+     } = useUI()
     
     const saveDetailsBill = ()=>{
         openDisplayBlockWindow()
 
-         saveCart(uid).then( () => handlerNext() )
-         .catch(err => {
-             console.error({err})
-             closeDisplayBlockWindow()
-         })
+        billNotPayed()
+            .then( () => saveCart(uid) )
+            .then( () => handlerNext() )
+            .catch(err => {
+                console.error({err})
+                if(typeof err === 'object'){
+                    if( err?.type && err.type === 'referencia pagada') handlerAskForNewPay()
+                }
+                closeDisplayBlockWindow()
+            })
+        }
+        
+    const handlerAskForNewPay = () => {
+        setModalView(MODAL_VIEWS.COMFIRM_BUY_AGAIN)
+        openModal()
     }
 
     const butonNext = cart.length === 0 
