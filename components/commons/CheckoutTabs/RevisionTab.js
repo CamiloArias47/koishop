@@ -1,6 +1,6 @@
 import { useCommerce, 
         useSaveCart } from "components/CommerceContext"
-import { useUI } from "components/UIcontext"
+import { useUI, MODAL_VIEWS } from "components/UIcontext"
 import useBill from "hooks/useBill"
 import { formatPrice } from "utils"
 
@@ -8,8 +8,6 @@ import ProductList from "components/commons/ProductList"
 import style from 'styles/style-pago'
 import styleGlobalsTable from 'styles/global-table'
 import styleSumary from 'styles/global-sumary-pay'
-
-//import { Modal } from './Modal'
 
 export default function RevisionTab({handlerNext, uid}){
 
@@ -19,7 +17,12 @@ export default function RevisionTab({handlerNext, uid}){
 
     const {saveCart, billNotPayed} = useSaveCart()
 
-    const { openDisplayBlockWindow, closeDisplayBlockWindow } = useUI()
+    const { 
+        openDisplayBlockWindow, 
+        closeDisplayBlockWindow,
+        openModal,
+        setModalView
+     } = useUI()
     
     const saveDetailsBill = ()=>{
         openDisplayBlockWindow()
@@ -30,12 +33,15 @@ export default function RevisionTab({handlerNext, uid}){
             .catch(err => {
                 console.error({err})
                 if(typeof err === 'object'){
-                    if( err?.type && err.type === 'referencia pagada'){
-                        alert('referencia ya pagada')
-                    }
+                    if( err?.type && err.type === 'referencia pagada') handlerAskForNewPay()
                 }
                 closeDisplayBlockWindow()
             })
+        }
+        
+    const handlerAskForNewPay = () => {
+        setModalView(MODAL_VIEWS.COMFIRM_BUY_AGAIN)
+        openModal()
     }
 
     const butonNext = cart.length === 0 

@@ -17,13 +17,13 @@ function MyApp({ Component, pageProps }) {
       <ManagedCommerceContext>
         <ManagedUIContext>
           <Navbar/>
-          <UiWindows>
             <ManagedBuyFormContext>
-              <section className="main-section">
-                <Component {...pageProps} />
-              </section>
+              <UiWindows>
+                  <section className="main-section">
+                    <Component {...pageProps} />
+                  </section>
+              </UiWindows>
             </ManagedBuyFormContext>
-          </UiWindows>
         </ManagedUIContext>
       </ManagedCommerceContext>
 

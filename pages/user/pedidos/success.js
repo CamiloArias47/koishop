@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import Image from 'next/image'
 import UserLayout from 'components/commons/UserLayout'
 import useBill from 'hooks/useBill'
+import { useCart } from "hooks/useCart"
 import SuccessAnimation from 'components/icons/SuccessAnimation'
+import  FailAnimation from 'components/icons/failCreditCardAnimation'
 import { Spinner } from 'components/icons'
 import { watchWebhook } from 'firebaseApi/firestoreDB/webhook'
 import { TRANSACTION_STATUS } from 'components/CommerceContext'
-import creditCardLeft from 'public/images/card-fail-left.png'
-import creditCardRight from 'public/images/card-fail-right.png'
 import { colors } from 'styles/theme'
+import { useBuyForm } from "components/BuyformContext"
 import style from 'styles/style-success'
 
 export default function Success(){
@@ -18,18 +18,24 @@ export default function Success(){
     const { id } = router.query
     const [webhook, setWebhook] = useState({})
     const { deleteBill, deleteBillTime, deleteLocalCode } = useBill()
+    const { setReference } = useBuyForm()
+    const { quitAllProducts } = useCart()
 
     useEffect( () => {
         function getterwebhook(){
             let stop = watchWebhook(id, newUpdate => {
                 if(newUpdate.data){
                     let { status } = newUpdate.data.transaction
-                    if(status === TRANSACTION_STATUS.ok || status === TRANSACTION_STATUS.fail) {
-                        stop()
+                    if(status === TRANSACTION_STATUS.ok || status === TRANSACTION_STATUS.fail) stop()
+
+                    if(status === TRANSACTION_STATUS.ok){
+                        setReference(undefined)
                         deleteBill()
                         deleteBillTime()
                         deleteLocalCode()
-                    }
+                        quitAllProducts()
+                    } 
+                    
                     setWebhook(newUpdate)
                 }
             })
@@ -48,21 +54,20 @@ export default function Success(){
                             <>
                                 <h1>¡Transacción exitosa!</h1>
                                 <SuccessAnimation/>
+
+                                <Link href="/user/pedidos">
+                                    <a>ir a tus pedidos</a>
+                                </Link>
                             </>
                         : 
                         webhook.data && webhook.data.transaction.status === TRANSACTION_STATUS.fail
                         ?
                             <>
                                 <h1>Transacción rechazada</h1>
-                                <div className='animation'>
-                                    <div className='animation__card animation__card--left'>
-                                        <Image src={creditCardLeft} alt="tarjeta rota" layout="responsive" />
-                                    </div>
-                                    <div className='animation__card animation__card--right'>
-                                        <Image src={creditCardRight} alt="tarjeta rota" layout="responsive" />
-                                    </div>
-                                    <div className='animation__circle'></div>
-                                </div>
+                                <FailAnimation/>
+                                <Link href="/pagar">
+                                    <a alt="usar otro metodo de pago" className='btn btn-primary'>usar otro metodo de pago</a>
+                                </Link>
                             </>
                         :
                             <>
@@ -70,16 +75,6 @@ export default function Success(){
                                 <Spinner width={40} height={40} color={colors.primary}/>
                             </>
                 }
-
-                {
-                    webhook.data && webhook.data.transaction.status != TRANSACTION_STATUS.incomplete
-                     ?
-                        <Link href="/user/pedidos">
-                            <a>ir a tus pedidos</a>
-                        </Link>
-                     : ""
-                }
-
             </section>
             <style jsx>{style}</style>
         </UserLayout>

@@ -6,6 +6,7 @@ import { Modal } from './Modal'
 import { Toast } from './Toast'
 import { Login } from 'components/commons/Login'
 import { Register } from 'components/commons/Register'
+import ModalNewBuy from 'components/commons/CheckoutTabs/modalNewBuy'
 import { UserSidebar } from './Sidebar/UserSidebar'
 import { HamburgerViewSidebar } from './Sidebar/HamburgerSidebar'
 import { CarSidebar } from './Sidebar/CarSidebar'
@@ -30,6 +31,7 @@ const ModalView = () => {
         <Modal> 
             { modalView === MODAL_VIEWS.LOGIN_VIEW && <Login /> }
             { modalView === MODAL_VIEWS.REGISTER_VIEW && <Register/> }
+            { modalView === MODAL_VIEWS.COMFIRM_BUY_AGAIN && <ModalNewBuy/> }  
         </Modal>
     ) : null
 }
