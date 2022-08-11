@@ -16,7 +16,7 @@ const SendedMail = ()=>{
         <div className="modal">
             <SuccessAnimation/>
             <h1>¡Enviado!</h1>
-            <p>Revisa tus mensajes entrantes para restablecer tu contraseña</p>
+            <p>Te hemos enviado un link de recuperación a tu correo</p>
 
             <style jsx>{style}</style>
         </div>
