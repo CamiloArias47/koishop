@@ -28,7 +28,7 @@ const initialState = {
     displayModal: false,
     displayToast: false,
     displayBlockWindow : false,
-    toast:{title:'',msg:''},
+    toast:[],
     modalView: MODAL_VIEWS.LOGIN_VIEW,
     sidebarView: SIDEBAR_VIEWS.CART_VIEW,
     userAvatar: userAvatarLoading,
@@ -101,17 +101,21 @@ function uiReducer(state, action) {
       }
       case 'open-toast': {
         let {title,msg} = action.data
+        let date = Date.now()
+        date += '-'+Math.floor(Math.random() * 400) 
         return {
           ...state,
-          toast:{title,msg},
+          toast:[...state.toast, {date,title,msg}],
           displayToast: true
         }
       }
       case 'close-toast': {
+        let newToast = state.toast.filter(item => item.date != action.posToast) 
+        let showToast = newToast.length > 0
         return {
           ...state,
-          toast:{title:'',msg:''},
-          displayToast: false
+          toast:newToast,
+          displayToast: showToast
         }
       }
       case 'open-block-window' : {
@@ -240,7 +244,7 @@ export const UIProvider = (props) => {
       [dispatch]
     ) 
     const closeToast = useCallback(
-      () => dispatch({type:'close-toast'}), [dispatch]
+      (posToast) => dispatch({type:'close-toast', posToast}), [dispatch]
     )
     const openDisplayBlockWindow = useCallback(
       (data) => dispatch({ type: 'open-block-window', data }),

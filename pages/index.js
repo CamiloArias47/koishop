@@ -11,16 +11,20 @@ import pic1 from 'public/images/pic.jpg'
 import pic2 from 'public/images/pic2.jpg'
 import salePic from 'public/images/sale.jpg'
 import styleHome from 'styles/style-home'
+import useLocalCategories from 'hooks/useLocalCategories'
 
 
 
 export default function Home({categories, products}) {
 
   const { setCategories } = useCommerce()
+  const { useSaveLocalCategory } = useLocalCategories()
 
   useEffect( ()=>{
     setCategories(categories)
   },[])
+
+  useSaveLocalCategory(categories)
   
   return (
     <div>

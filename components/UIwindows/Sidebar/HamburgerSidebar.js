@@ -9,6 +9,8 @@ export const HamburgerViewSidebar = () => {
 
     const { categories } = useCommerce()
 
+    if(categories.length === 0) return null
+
     return(
         <>
             <ul className='category-sidebar'>

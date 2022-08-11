@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import { NextSeo } from 'next-seo'
+import Image from 'next/image'
+
 import { firestore } from "firebaseApi/admin"
 import { getFirstTwentyProductsPaths } from "firebaseApi/firestoreADMIN/products"
 import { replaceAll, formatPrice } from "utils"
 import { useCart } from 'hooks/useCart'
 import { useUI, SIDEBAR_VIEWS } from 'components/UIcontext'
+import useLocalCategories from 'hooks/useLocalCategories'
 
-import { NextSeo } from 'next-seo'
-import Image from 'next/image'
 
 import BreadCrum from 'components/commons/breadcrum'
 import Footer from 'components/commons/footer'
@@ -20,11 +21,11 @@ import style from 'styles/styles-product'
 
 
 const ProductPage = (props) => {
-  const router = useRouter()
   const [ buyAmount, setBuyAmount ] = useState(1)
   const [ adding, setAdding ] = useState(false)
   const [ mainpicture, setMainpicture ] = useState(props.product.photo)
   const { addProduct } = useCart()
+  const { useGetLocalCategories } = useLocalCategories()
   const { openToast, 
           setSidebarView,
           openSidebarFromRight
@@ -38,6 +39,8 @@ const ProductPage = (props) => {
       setBuyAmount(0)
     }
   },[])
+
+  useGetLocalCategories()
 
   const handlerAmount = (event) => {
     const amountToBuy = event.target.value

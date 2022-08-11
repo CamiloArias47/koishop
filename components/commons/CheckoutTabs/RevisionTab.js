@@ -8,6 +8,7 @@ import ProductList from "components/commons/ProductList"
 import style from 'styles/style-pago'
 import styleGlobalsTable from 'styles/global-table'
 import styleSumary from 'styles/global-sumary-pay'
+import { useCart } from 'hooks/useCart'
 
 export default function RevisionTab({handlerNext, uid}){
 
@@ -15,12 +16,15 @@ export default function RevisionTab({handlerNext, uid}){
 
     const { validateBillId} = useBill()
 
-    const {saveCart, billNotPayed} = useSaveCart()
+    const {saveCart, billNotPayed, validateAmount} = useSaveCart()
+
+    const { quitProduct, addProduct } = useCart()
 
     const { 
         openDisplayBlockWindow, 
         closeDisplayBlockWindow,
         openModal,
+        openToast,
         setModalView
      } = useUI()
     
@@ -28,20 +32,47 @@ export default function RevisionTab({handlerNext, uid}){
         openDisplayBlockWindow()
 
         billNotPayed()
+            .then( () => validateAmount() )
             .then( () => saveCart(uid) )
             .then( () => handlerNext() )
             .catch(err => {
-                console.error({err})
                 if(typeof err === 'object'){
-                    if( err?.type && err.type === 'referencia pagada') handlerAskForNewPay()
+                    if(err.type){
+                        if( err.type === 'referencia pagada') handlerAskForNewPay()
+                        if( err.type === 'no stock') handlerNoStock(err.noStock)
+                    }
                 }
                 closeDisplayBlockWindow()
             })
-        }
+    }
         
     const handlerAskForNewPay = () => {
         setModalView(MODAL_VIEWS.COMFIRM_BUY_AGAIN)
         openModal()
+    }
+
+    const handlerNoStock = (productsNoStock) =>{
+        productsNoStock.forEach( product => {
+            let {id, name, price, photo, amount} = product
+            let msg = ""
+
+            if(amount <= 0){
+                msg = `Han comprado la ultima unidad disponible de ${name}`
+                quitProduct(id)
+            }
+
+            if(amount === 1){
+                msg = `Solo queda una unidad disponible de ${name}`
+                addProduct({id, name, price, buyAmount:1, photo, stock:amount})
+            } 
+
+            if(amount > 1){
+                msg = `Solo quedan ${amount} unidades disponibles de ${name}`
+                addProduct({id, name, price, buyAmount:amount, photo, stock:amount})
+            }
+
+            openToast({msg})
+        })
     }
 
     const butonNext = cart.length === 0 
@@ -49,7 +80,7 @@ export default function RevisionTab({handlerNext, uid}){
                         : <button 
                             className="btn btn-primary btn-buy" onClick={saveDetailsBill}  >
                                 Hacer compra
-                        </button>
+                          </button>
 
     //valida si existe un id de factura y su fecha
     validateBillId() 
