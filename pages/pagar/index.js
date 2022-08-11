@@ -6,6 +6,7 @@ import { useBuyForm, useDeliveryActions } from "components/BuyformContext"
 import { updateCodeUsedBy, updateStatus } from "firebaseApi/firestoreDB/bill"
 import { useCart } from "hooks/useCart"
 import { usePromo } from 'hooks/usePromo'
+import useLocalCategories from 'hooks/useLocalCategories'
 
 import { NextSeo } from 'next-seo'
 import { config } from 'components/commons/Head'
@@ -55,9 +56,12 @@ export default function PagarPage(){
             openToast
          } = useUI() 
 
-    const { subtotalToPay, discountCode, setDiscount } = useCommerce()
+    const { subtotalToPay, discountCode, setDiscount} = useCommerce()
     const { saveCart } = useSaveCart()
     const { validateSimultaneousUses } = usePromo()
+    const { useGetLocalCategories } = useLocalCategories()
+
+    useGetLocalCategories()
 
     useEffect( () => {
         closeSidebar()

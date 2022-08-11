@@ -3,26 +3,35 @@ import { fontColor } from 'styles/theme'
 import { glass, shadow } from 'styles/theme'
 
 export default css`
-.toast-transparent-wrapper{
-    width: 100%;
-    display: flex;
+.toast-frame{
     position: fixed;
-    bottom: 3rem;
-    justify-content: center;
+    display: flex;
+    width: 100%;
+    height: min-content;
+    flex-direction: column;
+    justify-content: flex-end;
+    z-index: 1;
+    padding: 1rem;
+    padding-left: 2rem;
+    bottom:0;
 }
+
 .toast-container{
     display:flex;
     justify-content: center;
     bottom: 2rem;
-    position: absolute;
+    width: 100%;
     z-index: 10;
     text-align: center;
+    margin-bottom: .2rem;
+    transform: translateY(8rem);
+    transition: transform 600ms ease-out;
 }
 
 .close-icon{
-    position: absolute;
-    right: 1rem;
-    top: -.5rem;
+    position: relative;
+    right: 1.6rem;
+    top: .3rem;
     padding: 0;
     border: 0px;
     background: #fff;
@@ -43,14 +52,11 @@ export default css`
     ${shadow.card}
     color: ${fontColor.important};
     font-weight: 600;
-    transform: translateY(8rem);
-    transition: transform 600ms ease-out;
 }
 
-@media (min-width: 760px){
-    .toast-transparent-wrapper{
-        left: -6rem;
-        justify-content: flex-end;
+@media (min-width: 768px){
+    .toast-frame{
+        width:35%;
     }
 }
 `

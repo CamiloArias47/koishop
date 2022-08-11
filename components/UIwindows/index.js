@@ -3,7 +3,7 @@ import { useUI,
          MODAL_VIEWS } from 'components/UIcontext'
 import { Sidebar } from './Sidebar'
 import { Modal } from './Modal'
-import { Toast } from './Toast'
+import { ToastFrame, Toast } from './Toast'
 import { Login } from 'components/commons/Login'
 import { Register } from 'components/commons/Register'
 import ModalNewBuy from 'components/commons/CheckoutTabs/modalNewBuy'
@@ -38,10 +38,14 @@ const ModalView = () => {
 
 const ToastView = () => {
     const { displayToast, toast } = useUI();
-     
-    if(!displayToast) return null;
 
-    return <Toast msg={toast.msg} title={toast.title}/>
+    if(!displayToast) return null
+
+    let allToast = toast.map( toastData => {
+        return <Toast key={toastData?.date} msg={toastData?.msg} title={toastData?.title} position={toastData?.date}/>
+    })
+
+    return <ToastFrame>{allToast}</ToastFrame>
 }
 
 const ShowWaitingWindow = () => {

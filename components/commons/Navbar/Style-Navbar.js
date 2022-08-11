@@ -43,6 +43,11 @@ nav .logo-container :global(.logo){
     min-height: 42px !important;
 }
 
+.right-block :global(img:hover){
+    cursor:pointer;
+}
+
+
 .shoppingbag-btn{
     position: relative;
 }

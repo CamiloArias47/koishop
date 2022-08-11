@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo }  from 'react'
 import { useBuyForm } from "components/BuyformContext"
 import { saveBill, updateBill, getBill } from "firebaseApi/firestoreDB/bill"
+import { getProduct } from "firebaseApi/firestoreDB/products"
 import useBill from "hooks/useBill"
 import { cleanGionsInName } from 'utils'
 
@@ -213,7 +214,6 @@ export const useSaveCart = () => {
             if(reference){
                 getBill(reference)
                  .then( result => {
-                    console.log({result})
                     if(result.status === 'APPROVED'){
                         reject({type:'referencia pagada'})
                     } 
@@ -228,7 +228,27 @@ export const useSaveCart = () => {
         })
     }
 
-    return {saveCart, billNotPayed}
+    const validateAmount = async () => {
+        const {cart} = context
+        let consults = []
+        cart.forEach( item => consults.push( getProduct(item.id) ))
+
+        return Promise.all(consults)
+            .then(results => {
+                let noStock = []
+                console.log(results)
+                results.forEach( product => {
+                    let cartCompare = cart.find( itemCart => itemCart.id === product.id)
+                    let {buyAmount} = cartCompare
+                    if(buyAmount > product.amount) noStock.push( {buyAmount, ...product} )
+                } )
+
+                if(noStock.length === 0) return true
+                throw {type:'no stock',noStock}
+            })
+    }
+
+    return {saveCart, billNotPayed, validateAmount}
 }
 
 /**
