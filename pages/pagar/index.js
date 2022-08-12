@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useUI } from "components/UIcontext"
 import { useCommerce, useSaveCart, TRANSACTION_STATUS, centsToPesos } from "components/CommerceContext"
 import { useBuyForm, useDeliveryActions } from "components/BuyformContext"
-import { updateCodeUsedBy, updateStatus } from "firebaseApi/firestoreDB/bill"
+import { updateStatus, addCashPaymentDetails } from "firebaseApi/firestoreDB/bill"
 import { useCart } from "hooks/useCart"
 import { usePromo } from 'hooks/usePromo'
 import useLocalCategories from 'hooks/useLocalCategories'
@@ -106,9 +106,8 @@ export default function PagarPage(){
             let {status} = result.transaction
             openDisplayBlockWindow()
 
-            if( status === TRANSACTION_STATUS.ok || status === TRANSACTION_STATUS.pending){
-                handlerPayApproved({result})
-            }  
+            if( status === TRANSACTION_STATUS.ok) handlerPayApproved(result)
+            if( status === TRANSACTION_STATUS.pending) handlerPending(result)
             if( status === TRANSACTION_STATUS.fail ){
                 updateStatus({bid:reference,status:TRANSACTION_STATUS.fail})
                     .then( () => {
@@ -119,26 +118,39 @@ export default function PagarPage(){
           })
     }
 
-    const handlerPayApproved = ({result}) => {
-        console.log({result})
+    const handlerPayApproved = (result) => {
         const {amountInCents, status} = result.transaction
 
         const price = centsToPesos({amountInCents})
-        
-        if(discountCode !== ''){
-            updateCodeUsedBy({bid:reference,uid,code:discountCode})
-                .catch(err => {
-                    console.log('something when wrong:',err)
-                })
-        }
 
-        updateStatus({bid:reference, status, pricePayed:price})
-         .then( () => {
-            let refBill = reference
-            quitAllProducts()
-            setReference(undefined)
-            router.push(`/user/pedidos/${refBill}`)
-         })
+        let updatDataBill = {bid:reference, status, pricePayed:price}
+        if(discountCode !== '') updatDataBill = {...updatDataBill, promocode:discountCode }
+        
+        updateStatus(updatDataBill)
+        .then( () => handlerCleanCheckout() )
+    }
+
+
+    const handlerPending = (result) => {
+        const {amountInCents, status, paymentMethod} = result.transaction
+        const {businessAgreementCode, paymentIntentionIdentifier} = paymentMethod.extra
+
+        const price = centsToPesos({amountInCents})
+
+        let updateBillData = {bid:reference, status, pricePayed:price, businessAgreementCode, paymentIntentionIdentifier} 
+
+        if(discountCode !== '') updateBillData = {...updateBillData, promocode:discountCode }
+
+        addCashPaymentDetails(updateBillData)
+        .then( () => handlerCleanCheckout() )
+    }
+
+
+    const handlerCleanCheckout = () => {
+        let refBill = reference
+        quitAllProducts()
+        setReference(undefined)
+        router.push(`/user/pedidos/${refBill}`)
     }
 
     const handlerBuyButton = ()=>{

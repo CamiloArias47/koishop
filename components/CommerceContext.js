@@ -258,7 +258,7 @@ export const useSaveCart = () => {
  * @param {type} string | tipo de descuento 
  * @param {discount} string|number valor del descuento
  * @param {total} number | valor al que se le aplica el descuento
- * @returns 
+ * @returns {object}
  */
 export const handlerDiscount = ({type, discount, total}) => {
     let newTotal = total
