@@ -167,14 +167,14 @@ async function updateBillStatus({event, status, reference, totalPaid}){
 
           const res = await firestore.runTransaction(async t => {
             const bill = await t.get(billRef);
-            const { products, discountCode, uid, code } = bill.data();
+            const { products, promocode, uid, code } = bill.data();
             let codeRef
             billCode = code
 
-            if(discountCode){
-              codeRef = firestore.collection('codes').doc(discountCode);
+            if(promocode){
+              codeRef = firestore.collection('codes').doc(promocode);
               discountPromo = await t.get(codeRef);
-              subtotal = products.reduce( (acc, actual) => acc+actual.pricex1*actual.amount, 0)
+              subtotal = products.reduce( (priceAcumulator, currentProduct) => priceAcumulator+currentProduct.pricex1*currentProduct.amount, 0)
               
               let {discountValue} = handlerDiscount({
                  type : discountPromo.data().type,
@@ -215,7 +215,8 @@ async function updateBillStatus({event, status, reference, totalPaid}){
                                               : [{uid:uid,bid:reference}]
       
                           updateCode = t.update(codeRef,{
-                            usedby: newUsedBy
+                            usedby: newUsedBy,
+                            used: discountPromoData.used+1
                           })
                         }
                     
