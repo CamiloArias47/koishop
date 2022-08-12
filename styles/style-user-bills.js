@@ -66,6 +66,9 @@ export default css`
     .billcard_badgestatus.DECLINED{
         background-color: ${ colors.red };
     }
+    .billcard_badgestatus.PENDING{
+        background-color: transparent;
+    }
 
     @media (min-width: 768px){
         .grid{

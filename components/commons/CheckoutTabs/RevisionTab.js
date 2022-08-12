@@ -57,7 +57,7 @@ export default function RevisionTab({handlerNext, uid}){
             let msg = ""
 
             if(amount <= 0){
-                msg = `Han comprado la ultima unidad disponible de ${name}`
+                msg = `Han comprado la última unidad disponible de ${name}`
                 quitProduct(id)
             }
 

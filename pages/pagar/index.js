@@ -120,6 +120,7 @@ export default function PagarPage(){
     }
 
     const handlerPayApproved = ({result}) => {
+        console.log({result})
         const {amountInCents, status} = result.transaction
 
         const price = centsToPesos({amountInCents})
