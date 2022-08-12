@@ -51,28 +51,19 @@ export const updateBillWithPersonAndAddress = async ({bid, name, nationalIdentif
   return {bid,name,nationalIdentification,phone}
 }
 
-export const updateCodeUsedBy = async ({bid, uid, code}) => {
+export const addDiscountCode = async ({bid, code}) => {
   const billRef = doc(db, "bill", bid);
-  const codeRef = doc(db, "codes", code);
-
-  return await updateDoc(billRef, {
-    promocode: code
-  })
-  .then( () => {
-     updateDoc(codeRef, {
-      usedby: arrayUnion({uid,bid})
-    })
-    return {codeUpdated:true}
-  })
-
+  return await updateDoc(billRef, {promocode: code })
 }
 
-export const updateStatus = async ({bid, status, pricePayed=false}) => {
+export const updateStatus = async ({bid, status, pricePayed=false, promocode=''}) => {
   const billRef = doc(db, "bill", bid);
 
-  const data = (pricePayed) 
+  let data = (pricePayed) 
                 ? {status, total:pricePayed}
                 : {status}
+
+  if(promocode) data = {...data, promocode}
 
   const response = await updateDoc(billRef, data);
   return {response}
@@ -155,4 +146,25 @@ export const saveBill = ({uid, cart, status}) =>{
     }
   })
 } 
+
+export const addCashPaymentDetails = async (details) => {
+  const { bid, businessAgreementCode, paymentIntentionIdentifier, status, promocode } = details
+  const billRef = doc(db, "bill", bid);
+
+  const cashPaymentInfo = {
+    bussinesAgeement: businessAgreementCode,
+    cashPaymentRef : paymentIntentionIdentifier
+  }
+
+  const extraData = (details.pricePayed) 
+                ? {status, total:details.pricePayed}
+                : {status}
+
+  let updateData = {...extraData,...cashPaymentInfo}
+
+  if(promocode) updateData = {...updateData, promocode}
+
+  const response = await updateDoc(billRef, updateData);
+  return {response}
+}
 
