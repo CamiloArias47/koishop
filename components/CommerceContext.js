@@ -25,13 +25,15 @@ export const TRANSACTION_STATUS = {
 export const TRANSACTION_STATUS_SHOW_NAME = {
     APPROVED : 'Aprobado',
     DECLINED : 'Pago rechazado',
-    incomplete: 'Abandonado'
+    incomplete: 'Abandonado',
+    PENDING: 'Pago Pendiente',
 }
 
 export const STATUS_ICON = {
     APPROVED : '✓',
     DECLINED : 'x',
-    incomplete: '!'
+    incomplete: '!',
+    PENDING: '⏳'
 }
 
 

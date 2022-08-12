@@ -87,7 +87,8 @@ h1{
     background-color: ${colors.red};
     color: ${colors.white};
 }
-.status.${TRANSACTION_STATUS.incomplete}{
+.status.${TRANSACTION_STATUS.incomplete},
+.status.${TRANSACTION_STATUS.pending}{
     border-color: ${colors.alertDark};
     background-color: ${colors.alert};
     color: ${colors.white};
@@ -103,6 +104,10 @@ h1{
 }
 .status.${TRANSACTION_STATUS.incomplete}:after{
     content: ' ❕';
+    color:${colors.alert };
+}
+.status.${TRANSACTION_STATUS.pending}:after{
+    content: ' ⏳';
     color:${colors.alert };
 }
 
