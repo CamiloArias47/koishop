@@ -106,19 +106,21 @@ export default function PagarPage(){
             let {status} = result.transaction
             openDisplayBlockWindow()
 
-            if( status === TRANSACTION_STATUS.ok) handlerPayApproved({result})
-            if( status === TRANSACTION_STATUS.pending) console.log('pending...')
+            if( status === TRANSACTION_STATUS.ok || status === TRANSACTION_STATUS.pending){
+                handlerPayApproved({result})
+            }  
             if( status === TRANSACTION_STATUS.fail ){
                 updateStatus({bid:reference,status:TRANSACTION_STATUS.fail})
                     .then( () => {
                         closeDisplayBlockWindow()
+                        openToast({title:'Transacción rechazada',msg:'por favor usa otro medio de pago'})
                     })
             }
           })
     }
 
     const handlerPayApproved = ({result}) => {
-        const amountInCents = result.transaction.amountInCents
+        const {amountInCents, status} = result.transaction
 
         const price = centsToPesos({amountInCents})
         
@@ -129,7 +131,7 @@ export default function PagarPage(){
                 })
         }
 
-        updateStatus({bid:reference, status:TRANSACTION_STATUS.ok, pricePayed:price})
+        updateStatus({bid:reference, status, pricePayed:price})
          .then( () => {
             let refBill = reference
             quitAllProducts()
