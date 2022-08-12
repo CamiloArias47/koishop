@@ -132,6 +132,7 @@ export default function PagarPage(){
 
 
     const handlerPending = (result) => {
+        console.log({result})
         const {amountInCents, status, paymentMethod} = result.transaction
         const {businessAgreementCode, paymentIntentionIdentifier} = paymentMethod.extra
 
