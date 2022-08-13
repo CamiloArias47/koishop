@@ -1,4 +1,4 @@
-import { formatDate, formatPrice } from "utils";
+import { formatDate, formatDateWithHour, formatPrice } from "utils";
 import Link from 'next/link'
 
 import {handlerDiscount, TRANSACTION_STATUS, TRANSACTION_STATUS_SHOW_NAME} from 'components/CommerceContext'
@@ -20,6 +20,7 @@ export default function BillDetails({bill}){
     let codeDescription = ''
     let addressContent = ''
     let userBillDetails = ''
+    let waitUntil = ''
 
     if (data.timestampEnvioStep || data.timestamp){
         date = (data.timestampEnvioStep)
@@ -44,9 +45,13 @@ export default function BillDetails({bill}){
     }
 
 
-    let status = (data.status === TRANSACTION_STATUS.ok)
-                ? 'Pago exitoso'
-                : 'Cancelado'
+    if(data.status === TRANSACTION_STATUS.pending){
+        waitUntil = new Date(data.waitSince)
+        let date = waitUntil.getDate()
+        waitUntil.setDate(date+3)
+        waitUntil = formatDateWithHour(waitUntil)
+    }
+
                 
     addressContent = addressDetails ? <AddressCard direction={addressDetails} /> : ''
      
@@ -70,6 +75,15 @@ export default function BillDetails({bill}){
                 <span className="date">{date}</span>
             
                 <span className={'status '+data.status}>{ TRANSACTION_STATUS_SHOW_NAME[data.status] }</span>
+
+                { 
+                    data.status === TRANSACTION_STATUS.pending 
+                        ? <div>
+                            La transacción esta pendiente de pago 
+                            Acércate a un Corresponsal Bancario Bancolombia hasta el <b>{waitUntil}</b> y realiza tu pago.                            
+                          </div> 
+                        : null
+                }
 
                 <div className="wraper-table">
                     <table>

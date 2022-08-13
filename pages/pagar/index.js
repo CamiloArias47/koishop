@@ -132,13 +132,21 @@ export default function PagarPage(){
 
 
     const handlerPending = (result) => {
-        console.log({result})
         const {amountInCents, status, paymentMethod} = result.transaction
         const {businessAgreementCode, paymentIntentionIdentifier} = paymentMethod.extra
 
         const price = centsToPesos({amountInCents})
 
-        let updateBillData = {bid:reference, status, pricePayed:price, businessAgreementCode, paymentIntentionIdentifier} 
+        const now = Date()
+
+        let updateBillData = {
+            bid:reference, 
+            status, 
+            pricePayed:price, 
+            businessAgreementCode, 
+            paymentIntentionIdentifier, 
+            waitSince: now
+        } 
 
         if(discountCode !== '') updateBillData = {...updateBillData, promocode:discountCode }
 

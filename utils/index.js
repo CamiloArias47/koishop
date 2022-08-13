@@ -14,6 +14,25 @@ export function formatDate(seconds){
     return date
 }
 
+export function formatDateObject(date){
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const dateFormated = new Intl.DateTimeFormat('es-CO', options).format(date)
+    return dateFormated
+}
+
+export function formatDateWithHour(date){
+    const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric', 
+        hour: 'numeric', 
+        minute: 'numeric'
+    }
+    const dateFormated = new Intl.DateTimeFormat('es-CO', options).format(date)
+    return dateFormated
+}
+
 export function createProductPath(name){
     return name.replace(/\s/g,'-')
 }
