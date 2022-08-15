@@ -29,18 +29,19 @@ export default function CheckoutTab({handlerNext, uid}){
     },[])
 
     useEffect( () => {
-        console.log('establecer codigo en firestore')
-        const codetoToUpdate = discountValue === 0 ? '':code
-
-        const dataToDiscount = {
-            bid:reference, 
-            code:codetoToUpdate, 
-            discountValue, 
-            totalToPay : subtotalToPay
+        if(discountValue != 0){
+            console.log('establecer codigo en firestore')
+            const codetoToUpdate = discountValue === 0 ? '':code
+    
+            const dataToDiscount = {
+                bid:reference, 
+                code:codetoToUpdate, 
+                discountValue, 
+                totalToPay : subtotalToPay
+            }
+    
+            updateCodeAndPriceToPay(dataToDiscount)
         }
-
-        updateCodeAndPriceToPay(dataToDiscount)
-
     }, [discountValue])
 
     const handlerChange = e => {

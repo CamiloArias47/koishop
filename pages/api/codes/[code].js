@@ -7,9 +7,7 @@ export default async (request, response) => {
 
   const codeRef = firestore.collection('codes').doc(code);
   const doc = await codeRef.get();
-  if (!doc.exists) {
-      response.json({exist:false})
-  } else {
+  if (doc.exists) {
       const data = doc.data()
 
       const validateData = {
@@ -39,6 +37,7 @@ export default async (request, response) => {
           response.json(res)
         })
   }
+  response.json({exist:false})
 }
 
 function validate({code, uid, priceToPay}){
