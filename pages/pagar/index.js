@@ -42,7 +42,9 @@ export default function PagarPage(){
             city, 
             address,
             department,
-            setReference } = useBuyForm()
+            setReference,
+            setCode 
+         } = useBuyForm()
     
     const { validateAndSave } = useDeliveryActions()
 
