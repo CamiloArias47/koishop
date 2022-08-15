@@ -29,7 +29,6 @@ export default function CheckoutTab({handlerNext, uid}){
     },[])
 
     useEffect( () => {
-        if(discountValue != 0){
             console.log('establecer codigo en firestore')
             const codetoToUpdate = discountValue === 0 ? '':code
     
@@ -41,7 +40,6 @@ export default function CheckoutTab({handlerNext, uid}){
             }
     
             updateCodeAndPriceToPay(dataToDiscount)
-        }
     }, [discountValue])
 
     const handlerChange = e => {

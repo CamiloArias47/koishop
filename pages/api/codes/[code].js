@@ -37,7 +37,9 @@ export default async (request, response) => {
           response.json(res)
         })
   }
-  response.json({exist:false})
+  else{
+    response.json({exist:false})
+  }
 }
 
 function validate({code, uid, priceToPay}){
