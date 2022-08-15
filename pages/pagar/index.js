@@ -4,6 +4,7 @@ import { useUI } from "components/UIcontext"
 import { useCommerce, useSaveCart, TRANSACTION_STATUS, centsToPesos } from "components/CommerceContext"
 import { useBuyForm, useDeliveryActions } from "components/BuyformContext"
 import { updateStatus, addCashPaymentDetails } from "firebaseApi/firestoreDB/bill"
+import { addPromoCodeUsedBy } from "firebaseApi/firestoreDB/promocode"
 import { useCart } from "hooks/useCart"
 import { usePromo } from 'hooks/usePromo'
 import useLocalCategories from 'hooks/useLocalCategories'
@@ -132,18 +133,30 @@ export default function PagarPage(){
 
 
     const handlerPending = (result) => {
-        console.log({result})
         const {amountInCents, status, paymentMethod} = result.transaction
         const {businessAgreementCode, paymentIntentionIdentifier} = paymentMethod.extra
 
         const price = centsToPesos({amountInCents})
 
-        let updateBillData = {bid:reference, status, pricePayed:price, businessAgreementCode, paymentIntentionIdentifier} 
+        const now = Date()
+
+        let updateBillData = {
+            bid:reference, 
+            status, 
+            pricePayed:price, 
+            businessAgreementCode, 
+            paymentIntentionIdentifier, 
+            waitSince: now
+        } 
 
         if(discountCode !== '') updateBillData = {...updateBillData, promocode:discountCode }
 
         addCashPaymentDetails(updateBillData)
-        .then( () => handlerCleanCheckout() )
+        .then( () => {
+            if(discountCode !== '') addPromoCodeUsedBy({bid, uid, code})
+            return true
+        })
+        .then(() => handlerCleanCheckout() )
     }
 
 
@@ -151,6 +164,7 @@ export default function PagarPage(){
         let refBill = reference
         quitAllProducts()
         setReference(undefined)
+        if(discountCode !== '') setCode('')
         router.push(`/user/pedidos/${refBill}`)
     }
 

@@ -248,14 +248,47 @@ async function updateBillStatus({event, status, reference, totalPaid}){
       }
       else{
         let billReference = firestore.collection('bill').doc(reference);
-        await billReference.update({status});
-        return {status: false , msg:'transación no aprobada status actualizado en firebase'}
+        let billData = await billReference.get()
+        if(billData.exist){
+          billData = billData.data()
+          let statusBill = billData.status
+          let billUserId = billData.uid
+          let msgpromoCode = ''
+          
+          if(statusBill === 'PENDING' && billData.promocode != ''){
+            msgpromoCode = validateUseCodeCashPayment({promocode, uid:billUserId})
+          }
+
+          await billReference.update({status});
+          const msg = `transación no aprobada, status actualizado en firebase, ${msgpromoCode.msg}`
+          return {status: false , msg:msg}
+        }
+        return {status: false , msg:'transación no aprobada, bill no encontrado, no actualizado'}
       }
     }
     else{
       return {status: false, msg : 'evento Wompi desconocido'}
     }
 
+}
+
+async function validateUseCodeCashPayment({promocode, uid}){
+  let codeRef = firestore.collection('codes').doc(promocode);
+  let code = await codeRef.get()
+  if(code.exist){
+    let { usedby } = code.data()
+    let wasUsed = usedby.find( user => user.uid === uid)
+
+    if(wasUsed){
+      let newUsedBy = usedby.filter(user => user.uid != uid)
+      let updateData = { usedby:newUsedBy, used:FieldValue.increment(-1)}
+      await codeRef.update(updateData)
+      return {msg:'uso de promocode elimando'}
+    }
+
+    return {msg:'No se uso promocode'}
+  }
+  return {msg:'promocode no encontrado'}
 }
 
 

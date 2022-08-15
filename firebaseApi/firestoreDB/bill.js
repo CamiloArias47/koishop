@@ -1,7 +1,7 @@
 import db from './db'
 import {doc, collection, addDoc,
         updateDoc, serverTimestamp, 
-        arrayUnion, query, where, getDocs, getDoc, orderBy,
+        query, where, getDocs, getDoc, orderBy,
         runTransaction 
       } from "firebase/firestore"
 
@@ -147,20 +147,17 @@ export const saveBill = ({uid, cart, status}) =>{
   })
 } 
 
-export const addCashPaymentDetails = async (details) => {
-  const { bid, businessAgreementCode, paymentIntentionIdentifier, status, promocode } = details
+export const addCashPaymentDetails = async ({ bid, businessAgreementCode, paymentIntentionIdentifier, status, promocode, waitSince, pricePayed=null }) => {
   const billRef = doc(db, "bill", bid);
 
-  const cashPaymentInfo = {
-    bussinesAgeement: businessAgreementCode,
-    cashPaymentRef : paymentIntentionIdentifier
+  let updateData = {
+    bussinesAgreement: businessAgreementCode,
+    cashPaymentRef : paymentIntentionIdentifier,
+    status,
+    waitSince
   }
 
-  const extraData = (details.pricePayed) 
-                ? {status, total:details.pricePayed}
-                : {status}
-
-  let updateData = {...extraData,...cashPaymentInfo}
+  if(pricePayed) updateData = {...updateData, total:pricePayed}
 
   if(promocode) updateData = {...updateData, promocode}
 
