@@ -1,7 +1,7 @@
 import db from './db'
 import {doc, collection, addDoc,
         updateDoc, serverTimestamp, 
-        arrayUnion, query, where, getDocs, getDoc, orderBy,
+        query, where, getDocs, getDoc, orderBy,
         runTransaction 
       } from "firebase/firestore"
 
