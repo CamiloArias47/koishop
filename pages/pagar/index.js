@@ -153,7 +153,7 @@ export default function PagarPage(){
 
         addCashPaymentDetails(updateBillData)
         .then( () => {
-            if(discountCode !== '') addPromoCodeUsedBy({bid, uid, code})
+            if(discountCode !== '') addPromoCodeUsedBy({bid:reference, uid, code:discountCode})
             return true
         })
         .then(() => handlerCleanCheckout() )
