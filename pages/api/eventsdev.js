@@ -15,7 +15,8 @@ const WOMPI_STATES = {
   ok : 'APPROVED',
   void: 'VOIDED',
   declined : 'DECLINED',
-  fail: 'ERROR'
+  fail: 'ERROR',
+  pending: 'PENDING'
 }
 
 export default async (request, response) => {
@@ -248,7 +249,7 @@ async function updateBillStatus({event, status, reference, totalPaid}){
           let updateData = {status}
           let msgpromoCode = ''
           
-          if(billData.status === 'PENDING' && billData.promocode != ''){
+          if(billData.promocode != ''){
             updateData = {...updateData, promocode:'', discount:0}
           }
 

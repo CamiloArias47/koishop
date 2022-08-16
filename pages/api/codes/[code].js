@@ -1,5 +1,4 @@
 import { firestore } from "firebaseApi/admin"
-import { TRANSACTION_STATUS } from "components/CommerceContext"
 
 export default async (request, response) => {
   const { query, body } = request
