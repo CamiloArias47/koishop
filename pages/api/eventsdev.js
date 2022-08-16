@@ -209,9 +209,16 @@ async function updateBillStatus({event, status, reference, totalPaid}){
                         let updateStatus = t.update(billRef, dataUpdateBill)
                         
                         if(codeRef){ 
+                          const discountPromoData = discountPromo.data()
+                          const oldUsedBy = discountPromoData.usedby
+                          
+                          const newUsedBy = oldUsedBy 
+                                              ? [...oldUsedBy, {uid:uid,bid:reference}]
+                                              : [{uid:uid,bid:reference}]
+      
                           updateCode = t.update(codeRef,{
-                            usedby: FieldValue.arrayUnion({uid:uid,bid:reference}),
-                            used: FieldValue.increment(1)
+                            usedby: newUsedBy,
+                            used: discountPromoData.used+1
                           })
                         }
                     
@@ -249,7 +256,7 @@ async function updateBillStatus({event, status, reference, totalPaid}){
           let updateData = {status}
           let msgpromoCode = ''
           
-          if(billData.promocode != ''){
+          if( billData.promocode != ''){
             updateData = {...updateData, promocode:'', discount:0}
           }
 
