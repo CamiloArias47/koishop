@@ -165,9 +165,10 @@ async function updateBillStatus({event, status, reference, totalPaid}){
           let subtotal = totalPaid
           let billCode = ''
 
-          const res = await firestore.runTransaction(async t => {
+          await firestore.runTransaction(async t => {
             const bill = await t.get(billRef);
-            const { products, promocode, uid, code } = bill.data();
+            const { products, promocode, uid, code } = bill.data()
+            const stateBill = bill.data().status
             let codeRef
             billCode = code
 
@@ -180,7 +181,7 @@ async function updateBillStatus({event, status, reference, totalPaid}){
                  type : discountPromo.data().type,
                  discount : discountPromo.data().value, 
                  total:subtotal
-                })
+              })
 
               aplyDiscount = discountValue
             }
@@ -206,17 +207,10 @@ async function updateBillStatus({event, status, reference, totalPaid}){
  
                         let updateStatus = t.update(billRef, dataUpdateBill)
                         
-                        if(codeRef){
-                          const discountPromoData = discountPromo.data()
-                          const oldUsedBy = discountPromoData.usedby
-                          
-                          const newUsedBy = oldUsedBy 
-                                              ? [...oldUsedBy, {uid:uid,bid:reference}]
-                                              : [{uid:uid,bid:reference}]
-      
+                        if(codeRef){ 
                           updateCode = t.update(codeRef,{
-                            usedby: newUsedBy,
-                            used: discountPromoData.used+1
+                            usedby: FieldValue.arrayUnion({uid:uid,bid:reference}),
+                            used: FieldValue.increment(1)
                           })
                         }
                     
@@ -251,15 +245,14 @@ async function updateBillStatus({event, status, reference, totalPaid}){
         let billData = await billReference.get()
         if(billData.exist){
           billData = billData.data()
-          let statusBill = billData.status
-          let billUserId = billData.uid
+          let updateData = {status}
           let msgpromoCode = ''
           
-          if(statusBill === 'PENDING' && billData.promocode != ''){
-            msgpromoCode = validateUseCodeCashPayment({promocode, uid:billUserId})
+          if(billData.status === 'PENDING' && billData.promocode != ''){
+            updateData = {...updateData, promocode:'', discount:0}
           }
 
-          await billReference.update({status});
+          await billReference.update(updateData);
           const msg = `transación no aprobada, status actualizado en firebase, ${msgpromoCode.msg}`
           return {status: false , msg:msg}
         }
@@ -270,25 +263,6 @@ async function updateBillStatus({event, status, reference, totalPaid}){
       return {status: false, msg : 'evento Wompi desconocido'}
     }
 
-}
-
-async function validateUseCodeCashPayment({promocode, uid}){
-  let codeRef = firestore.collection('codes').doc(promocode);
-  let code = await codeRef.get()
-  if(code.exist){
-    let { usedby } = code.data()
-    let wasUsed = usedby.find( user => user.uid === uid)
-
-    if(wasUsed){
-      let newUsedBy = usedby.filter(user => user.uid != uid)
-      let updateData = { usedby:newUsedBy, used:FieldValue.increment(-1)}
-      await codeRef.update(updateData)
-      return {msg:'uso de promocode elimando'}
-    }
-
-    return {msg:'No se uso promocode'}
-  }
-  return {msg:'promocode no encontrado'}
 }
 
 

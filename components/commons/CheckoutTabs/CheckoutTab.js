@@ -60,7 +60,8 @@ export default function CheckoutTab({handlerNext, uid}){
 
             const bodyData = {
                 uid, 
-                priceToPay : priceBeforeDiscount
+                priceToPay : priceBeforeDiscount,
+                bid: reference
             }
 
             //no se usa el frontend para validar 
