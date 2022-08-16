@@ -6,7 +6,6 @@ import { useBuyForm, useDeliveryActions } from "components/BuyformContext"
 import { updateStatus, addCashPaymentDetails } from "firebaseApi/firestoreDB/bill"
 import { addPromoCodeUsedBy } from "firebaseApi/firestoreDB/promocode"
 import { useCart } from "hooks/useCart"
-import { usePromo } from 'hooks/usePromo'
 import useLocalCategories from 'hooks/useLocalCategories'
 
 import { NextSeo } from 'next-seo'
@@ -59,9 +58,8 @@ export default function PagarPage(){
             openToast
          } = useUI() 
 
-    const { subtotalToPay, discountCode, setDiscount} = useCommerce()
+    const { subtotalToPay, discountCode } = useCommerce()
     const { saveCart } = useSaveCart()
-    const { validateSimultaneousUses } = usePromo()
     const { useGetLocalCategories } = useLocalCategories()
 
     useGetLocalCategories()
@@ -187,32 +185,8 @@ export default function PagarPage(){
                                 : checkoutStep < prev ? prev : prev+1
             })
 
-            if(checkoutStep === CHECKOUT_STEP.pago){                 
-
-                if(discountCode === ''){
-                    showWompyModal()
-                }
-                else{ //validar el codigo otra vez
-                    openDisplayBlockWindow()
-                    const dataConsult = {
-                        cid: discountCode, 
-                        uid
-                    }
-    
-                    validateSimultaneousUses(dataConsult)
-                        .then( () => {
-                            closeDisplayBlockWindow()
-                            showWompyModal() 
-                        })
-                        .catch( e => {
-                            closeDisplayBlockWindow()
-                            setDiscount({discount:0, type:'no discount',code:''})
-                            openToast({title:'No se puede aplicar este código',msg:'Acabas de usar este codigo en otra compra'})
-                        })
-                }
-                
-            }
-
+            if(checkoutStep === CHECKOUT_STEP.pago) showWompyModal()
+        
             closeDisplayBlockWindow()
             window.scrollTo(0,0)
         }

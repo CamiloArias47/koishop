@@ -1,21 +1,21 @@
 import { firestore } from "firebaseApi/admin"
+import { TRANSACTION_STATUS } from "components/CommerceContext"
 
 export default async (request, response) => {
   const { query, body } = request
   const { code } = query 
-  const { uid, priceToPay } = body
+  const { uid, priceToPay, bid } = body
 
   const codeRef = firestore.collection('codes').doc(code);
   const doc = await codeRef.get();
-  if (!doc.exists) {
-      response.json({exist:false})
-  } else {
-      const data = doc.data()
+  if (doc.exists) {
+      const data = {id:doc.id, ...doc.data()}
 
       const validateData = {
         code:data, 
         uid, 
-        priceToPay
+        priceToPay,
+        bid
       }
 
       validate(validateData)
@@ -39,9 +39,13 @@ export default async (request, response) => {
           response.json(res)
         })
   }
+  else{
+    response.json({exist:false})
+  }
 }
 
-function validate({code, uid, priceToPay}){
+
+function validate({code, uid, priceToPay, bid}){
 
   const validateUses = new Promise( (resolve, reject) => {
     if(code.uses > 0 && code.used >= code.uses){
@@ -54,7 +58,7 @@ function validate({code, uid, priceToPay}){
     const now = new Date()
     const until = code.duration.toDate()
     //const untilR = new Date(new Date(until).setHours(until.getHours() - 5));
-    
+
     if(now.getTime() > until.getTime()){
         reject({status:false, motive:'El código ya ha vencido'})
     }
@@ -69,19 +73,37 @@ function validate({code, uid, priceToPay}){
     resolve(true)
   })
 
-  const validateReUse = new Promise( (resolve, reject) => {
+  const validateReUse = async () => {
     //si el codigo no se puede reusar, validamos que el usuario no lo haya usado ya
-    if(!code.reuse && code.usedby){
-      const usedbyUser = code.usedby.find(u => u.uid === uid) 
-      if(usedbyUser){
-        reject({status:false, motive:'Este código no se puede usar más de una vez'})
+    if(!code.reuse){
+      if(code.usedby){
+        const usedbyUser = code.usedby.find(u => u.uid === uid) 
+        if(usedbyUser) throw Error({status:false, motive:'Este código no se puede usar más de una vez'})
+      }
+
+      const billRef = firestore.collection('bill')
+      const billsResults = await billRef
+                                  .where('uid', '==', uid)
+                                  .where('promocode', '==', code.id)
+                                  .get()
+      if (!billsResults.empty) {
+
+          if(billsResults.size > 1){
+            throw {status:false, motive:'Este código ya se aplicó más de una vez'}
+          }
+
+          if(billsResults.size === 1 ){
+            billsResults.forEach(bill => {
+              if(bill.id !== bid) throw {status:false, motive:'Este código ya se aplicó en otra compra'}
+            }) 
+          }
       }
     }
-    resolve(true)
-  })
+    return true
+  }
 
   return validateUses
     .then( () => validateDate)
     .then( () => validateMinBuy )
-    .then( () => validateReUse )
+    .then( () => validateReUse() )
 }

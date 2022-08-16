@@ -29,18 +29,17 @@ export default function CheckoutTab({handlerNext, uid}){
     },[])
 
     useEffect( () => {
-        console.log('establecer codigo en firestore')
-        const codetoToUpdate = discountValue === 0 ? '':code
-
-        const dataToDiscount = {
-            bid:reference, 
-            code:codetoToUpdate, 
-            discountValue, 
-            totalToPay : subtotalToPay
-        }
-
-        updateCodeAndPriceToPay(dataToDiscount)
-
+            console.log('establecer codigo en firestore')
+            const codetoToUpdate = discountValue === 0 ? '':code
+    
+            const dataToDiscount = {
+                bid:reference, 
+                code:codetoToUpdate, 
+                discountValue, 
+                totalToPay : subtotalToPay
+            }
+    
+            updateCodeAndPriceToPay(dataToDiscount)
     }, [discountValue])
 
     const handlerChange = e => {
@@ -61,7 +60,8 @@ export default function CheckoutTab({handlerNext, uid}){
 
             const bodyData = {
                 uid, 
-                priceToPay : priceBeforeDiscount
+                priceToPay : priceBeforeDiscount,
+                bid: reference
             }
 
             //no se usa el frontend para validar 
