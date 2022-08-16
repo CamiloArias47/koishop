@@ -77,7 +77,7 @@ function validate({code, uid, priceToPay, bid}){
     if(!code.reuse){
       if(code.usedby){
         const usedbyUser = code.usedby.find(u => u.uid === uid) 
-        if(usedbyUser) throw Error({status:false, motive:'Este código no se puede usar más de una vez'})
+        if(usedbyUser) throw {status:false, motive:'Este código no se puede usar más de una vez'}
       }
 
       const billRef = firestore.collection('bill')
