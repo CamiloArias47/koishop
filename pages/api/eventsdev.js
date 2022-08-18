@@ -252,8 +252,8 @@ async function updateBillStatus({event, status, reference, totalPaid}){
         console.log({reference})
         let billReference = firestore.collection('bill').doc(reference);
         let billData = await billReference.get()
-        console.log({exist:billData.exist})
-        if(billData.exist){
+        console.log({exists:billData.exists})
+        if(billData.exists){
           billData = billData.data()
           let updateData = {status}
           let msgpromoCode = ''
