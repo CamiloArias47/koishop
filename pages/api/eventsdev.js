@@ -173,17 +173,12 @@ async function updateBillStatus({event, status, reference, totalPaid}){
             let codeRef
             billCode = code
 
-            console.log({codeRef})
-            console.log({promocode})
             if(promocode){
-              console.log('entre a promocode')
               codeRef = firestore.collection('codes').doc(promocode);
               discountPromo = await t.get(codeRef);
               subtotal = products.reduce( (priceAcumulator, currentProduct) => priceAcumulator+currentProduct.pricex1*currentProduct.amount, 0)
               let {type, value} = discountPromo.data()
-              console.log({type})
-              console.log({value})
-              console.log({subtotal})
+
               let {discountValue} = handlerDiscount({
                  type,
                  discount : value, 
@@ -191,7 +186,6 @@ async function updateBillStatus({event, status, reference, totalPaid}){
               })
 
               aplyDiscount = discountValue
-              console.log({aplyDiscount})
             }
 
             let productsObjs =  products.map( async product => {
@@ -216,15 +210,12 @@ async function updateBillStatus({event, status, reference, totalPaid}){
                         let updateStatus = t.update(billRef, dataUpdateBill)
                         
                         if(codeRef){
-                          console.log('entre a codRef') 
                           const discountPromoData = discountPromo.data()
                           const oldUsedBy = discountPromoData.usedby
                           
                           const newUsedBy = oldUsedBy 
                                               ? [...oldUsedBy, {uid:uid,bid:reference}]
                                               : [{uid:uid,bid:reference}]
-                          console.log({newUsedBy})
-                          console.log({used:discountPromoData.used})
                           updateCode = t.update(codeRef,{
                             usedby: newUsedBy,
                             used: discountPromoData.used+1
@@ -258,10 +249,8 @@ async function updateBillStatus({event, status, reference, totalPaid}){
         
       }
       else{
-        console.log({reference})
         let billReference = firestore.collection('bill').doc(reference);
         let billData = await billReference.get()
-        console.log({exists:billData.exists})
         if(billData.exists){
           billData = billData.data()
           let updateData = {status}
