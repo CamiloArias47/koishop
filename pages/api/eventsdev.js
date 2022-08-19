@@ -265,14 +265,9 @@ async function updateBillStatus({event, status, reference, totalPaid}){
         if(billData.exists){
           billData = billData.data()
           let updateData = {status}
-          let msgpromoCode = ''
           
-          if( billData.promocode != ''){
-            updateData = {...updateData, promocode:'', discount:0}
-          }
-
           await billReference.update(updateData);
-          const msg = `transación no aprobada, status actualizado en firebase, ${msgpromoCode.msg}`
+          const msg = "transación no aprobada, status actualizado en firebase"
           return {status: false , msg:msg}
         }
         return {status: false , msg:'transación no aprobada, bill no encontrado, no actualizado'}
