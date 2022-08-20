@@ -45,7 +45,7 @@ export default function BillDetails({bill}){
     }
 
 
-    if(data.status === TRANSACTION_STATUS.pending){
+    if(data.status === TRANSACTION_STATUS.pending && data.waitSince){
         waitUntil = new Date(data.waitSince)
         let date = waitUntil.getDate()
         waitUntil.setDate(date+3)
@@ -80,7 +80,9 @@ export default function BillDetails({bill}){
                     data.status === TRANSACTION_STATUS.pending 
                         ? <div>
                             La transacción esta pendiente de pago 
-                            Acércate a un Corresponsal Bancario Bancolombia hasta el <b>{waitUntil}</b> y realiza tu pago.                            
+                            Acércate a un Corresponsal Bancario Bancolombia hasta el <b>{waitUntil}</b> y realiza tu pago.<br/>
+                            Referencia de pago: <b>{data?.paymentIntentionIdentifier}</b> <br/>                          
+                            Número de convenio: <b>{data?.businessAgreementCode}</b> 
                           </div> 
                         : null
                 }

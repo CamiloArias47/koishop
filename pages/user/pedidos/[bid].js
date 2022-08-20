@@ -44,7 +44,7 @@ export async function getServerSideProps(context) {
 
     if(requestBill.ok){
         bill = await requestBill.json()
-        bill.data.id = bid
+        bill.data = {...bill.data, id:bid }
 
         if(bill.data.promocode){
             const reqCode = await fetch(`${process.env.URL}/api/codes/${bill.data.promocode}`,{
