@@ -374,7 +374,7 @@ return`
                                       </a>
                                     </td> 
                                     <td align="center" valign="top" style="padding:0;Margin:0;padding-right:40px">
-                                      <a href="https://www.instagram.com/koiimakeup/" target="_blank">
+                                      <a href="https://www.instagram.com/koimakeup_/" target="_blank">
                                         <img title="Instagram" src="https://ktvrhz.stripocdn.email/content/assets/img/social-icons/logo-black/instagram-logo-black.png" alt="Inst" width="32" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic">
                                       </a>
                                     </td>
