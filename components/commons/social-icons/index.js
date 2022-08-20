@@ -22,7 +22,7 @@ export default function Social({color='white', iconSize=32, showWhatsapp=true}){
                 </a>
             </li>
             <li>
-                <a href='https://www.instagram.com/koiimakeup/' target="_blank" rel="noreferrer">
+                <a href='https://www.instagram.com/koimakeup_/' target="_blank" rel="noreferrer">
                     <Image 
                         src={color === 'white' ? instagramIcon : instagramIconGray}
                         alt="visita nuestro perfil de Instagram"
@@ -31,7 +31,7 @@ export default function Social({color='white', iconSize=32, showWhatsapp=true}){
                 </a>
             </li>
             <li>
-                <a href='https://www.tiktok.com/@koi_makeup' target="_blank" rel="noreferrer">
+                <a href='https://www.tiktok.com/@koimakeup_' target="_blank" rel="noreferrer">
                     <Image 
                         src={color === 'white' ? tiktokIcon : tiktokIconGray}
                         alt="visita nuestro perfil de Tiktok"
