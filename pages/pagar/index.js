@@ -107,10 +107,14 @@ export default function PagarPage(){
             let {status} = result.transaction
             openDisplayBlockWindow()
 
-            if( status === TRANSACTION_STATUS.ok) handlerPayApproved(result)
-            if( status === TRANSACTION_STATUS.pending) handlerPending(result)
-            if( status === TRANSACTION_STATUS.fail ){
-                updateStatus({bid:reference,status:TRANSACTION_STATUS.fail})
+            if( status === TRANSACTION_STATUS.ok){
+                handlerPayApproved(result)
+            } 
+            else if( status === TRANSACTION_STATUS.pending){
+                handlerPending(result)
+            } 
+            else{
+                updateStatus({bid:reference,status})
                     .then( () => {
                         closeDisplayBlockWindow()
                         openToast({title:'Transacción rechazada',msg:'por favor usa otro medio de pago'})
