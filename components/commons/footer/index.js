@@ -1,11 +1,15 @@
+import { useState, Suspense  } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import BtnDropDown from 'components/commons/button-drop-down'
 import Social from 'components/commons/social-icons'
-import InstagramFeed from 'components/commons/Instagram-feed'
 import whatsappIcon from 'public/images/logos/whatsapp-black.svg'
 import style from './style'
-import { useState } from 'react'
+
+const InstagramFeedDefer = dynamic(() => import('../Instagram-feed'), {
+    suspense: true,
+})
 
 export default function Footer(){
     const [ showContact, setShowContact] = useState(false)
@@ -22,7 +26,9 @@ export default function Footer(){
     return <footer>
                 <section className="degradado">
                     <div className='wraper-degradado'>
-                       <InstagramFeed />
+                        <Suspense fallback={`Loading...`}>
+                            <InstagramFeedDefer />
+                        </Suspense>
                     </div>
                 </section>
                 <div style={{position:'relative'}}>
@@ -105,7 +111,7 @@ export default function Footer(){
                                 <Social color='gray'iconSize={22} showWhatsapp={false}/>
                             </div>
                             <div className='heart'>
-                                Hecho en Cali - Colombia con 🧡
+                                Koi Makeup - Cali, Colombia. Con 🧡
                             </div>
                     </div>
                 </div>

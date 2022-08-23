@@ -1,11 +1,11 @@
-import { useEffect } from 'react'
-import { useCommerce } from 'components/CommerceContext'
+import { useEffect, Suspense } from 'react'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
+import { useCommerce } from 'components/CommerceContext'
 import { getProdustsHome, formatTimestampSSR } from 'firebaseApi/firestoreADMIN/products'
 import { getCategories } from 'firebaseApi/firestoreADMIN/category'
 import CategorySlider from 'components/commons/categorySlider'
 import ProductsGrid from 'components/commons/ProductsGrid'
-import Footer from 'components/commons/footer'
 import welcomeImage from 'public/images/welcome-big.jpg'
 import pic1 from 'public/images/pic.jpg'
 import pic2 from 'public/images/pic2.jpg'
@@ -13,6 +13,10 @@ import salePic from 'public/images/sale.jpg'
 import styleHome from 'styles/style-home'
 import useLocalCategories from 'hooks/useLocalCategories'
 
+
+const FooterDefer = dynamic(() => import('../components/commons/footer'), {
+  suspense: true
+})
 
 
 export default function Home({categories, products}) {
@@ -71,7 +75,9 @@ export default function Home({categories, products}) {
           </div>
         </section>
 
-        <Footer />
+        <Suspense fallback={`Cargando...`} >
+          <FooterDefer />
+        </Suspense>
       </main>
       
 

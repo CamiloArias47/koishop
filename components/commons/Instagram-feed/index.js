@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { getInstagramToken } from "firebaseApi/firestoreDB/instagram-token"
+import  useLocalInstagramPosts  from "hooks/useLocalInstagramPost"
 
 import Image from "next/image"
 
@@ -8,6 +9,7 @@ import style from './style'
 export default function InstagramFeed(){
 
     const [instagramPosts, setInstagramPosts] = useState([])
+    const { getPosts, savePosts, expiredLastGetTime } = useLocalInstagramPosts()
 
     useEffect( () => {
         const getLastPost = async () => {
@@ -18,11 +20,18 @@ export default function InstagramFeed(){
 
                 let showPosts = posts.data.slice(0,6)
                 setInstagramPosts(showPosts)
+                savePosts({data:showPosts})
             }
-
         }
 
-        getLastPost()
+        const instPost = getPosts()
+        const expired = expiredLastGetTime()
+        if(instPost.data && !expired){
+            setInstagramPosts(instPost.data)
+        }
+        else{
+            getLastPost()
+        }
     },[])
 
     return(
