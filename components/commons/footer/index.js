@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import BtnDropDown from 'components/commons/button-drop-down'
 import Social from 'components/commons/social-icons'
+import InstagramFeed from 'components/commons/Instagram-feed'
 import whatsappIcon from 'public/images/logos/whatsapp-black.svg'
 import style from './style'
 import { useState } from 'react'
@@ -21,7 +22,7 @@ export default function Footer(){
     return <footer>
                 <section className="degradado">
                     <div className='wraper-degradado'>
-                        
+                       <InstagramFeed />
                     </div>
                 </section>
                 <div style={{position:'relative'}}>
