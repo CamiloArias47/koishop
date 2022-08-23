@@ -13,9 +13,9 @@ export default function InstagramFeed(){
             <div className="instagram-feed">
                 {
                     instagramPosts.map( post => {
-                        let img = post.media_type === 'VIDEO' ? post.thumbnail_url : post.media_url
-                        let { id, caption, permalink} = post
-                        return <InstagramPost key={id} caption={caption} img={img} permalink={permalink}/>
+                        let { id, caption, permalink, media_type} = post
+                        let img = media_type === 'VIDEO' ? post.thumbnail_url : post.media_url
+                        return <InstagramPost key={id} caption={caption} img={img} permalink={permalink} mediatype={media_type}/>
                     })
                 }
             </div>

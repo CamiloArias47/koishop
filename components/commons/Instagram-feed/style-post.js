@@ -46,6 +46,13 @@ export default css`
     font-weight:600;
 }
 
+:global(.instagram-post__video-icon){
+    position: absolute;
+    z-index: 1;
+    right: 8px;
+    top: 8px;
+}
+
 @media (min-width:768px){
     .instagram-post{
     }

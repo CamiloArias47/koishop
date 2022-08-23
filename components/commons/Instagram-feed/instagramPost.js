@@ -1,8 +1,9 @@
 import Image from "next/image"
 import koiLogo from 'public/images/logos/koi192.png'
+import { VideoComponent } from "components/icons"
 import style from "./style-post"
 
-export default function InstagramPost({id,caption,img, permalink}){
+export default function InstagramPost({id,caption,img, permalink, mediatype}){
     return(
         <a href={permalink} target="_blank" rel="noreferrer" className="instagram-post" key={id}>
             <div className="instagram-post__header">
@@ -18,6 +19,9 @@ export default function InstagramPost({id,caption,img, permalink}){
                 <span className="instagram-post__profile-name">koimakeup_</span>
             </div>
             <div className="instagram-post__image">
+                {
+                    mediatype === 'VIDEO' ? <VideoComponent className="instagram-post__video-icon"/> : null
+                }
                 <Image 
                     alt={caption} 
                     src={img} 
