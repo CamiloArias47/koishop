@@ -4,6 +4,8 @@ module.exports = {
     domains: ['picsum.photos',
               'lh3.googleusercontent.com',
               'graph.facebook.com',
-              'firebasestorage.googleapis.com'],
+              'firebasestorage.googleapis.com',
+              'scontent.cdninstagram.com'
+             ],
   },
 }
