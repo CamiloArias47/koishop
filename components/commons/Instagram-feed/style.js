@@ -6,7 +6,12 @@ export default css`
     margin:auto;
     margin-bottom: 3rem;
     overflow-x:scroll;
+    scroll-behavior:smooth;
     scroll-snap-type: x mandatory;
+}
+
+.instagram-slider::-webkit-scrollbar {
+  display: none;
 }
 
 .instagram-feed{
@@ -22,7 +27,14 @@ export default css`
 }
 
 @media (min-width:1020px){
-    .instagram-feed{
+    .instagram-slider{
+        width:80%;
+    }
+}
+
+@media (min-width:1200px){
+    .instagram-slider{
+        width:80%;
     }
 }
 `

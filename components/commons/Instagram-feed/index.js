@@ -1,5 +1,5 @@
-import Image from "next/image"
 import  useInstagramPosts  from "hooks/useInstagramPost"
+import { useEffect } from "react"
 import InstagramPost from "./instagramPost"
 
 import style from './style'
@@ -7,6 +7,34 @@ import style from './style'
 export default function InstagramFeed(){
 
     const instagramPosts = useInstagramPosts()
+
+    useEffect(() =>{
+        const moveSlider = () => {
+            const slider = document.querySelector('.instagram-slider')
+            let {scrollWidth} = slider
+    
+            setInterval( () => {
+                let { scrollLeft, offsetWidth } = slider
+                scrollWidth = slider.scrollWidth
+                if((scrollLeft+offsetWidth)-250 >= scrollWidth-250){
+                    slider.scrollBy({
+                        left: -scrollWidth,
+                        behaviour: 'smooth'
+                      })
+                }
+                else{
+                    slider.scrollBy({
+                        left: 250,
+                        behaviour: 'smooth'
+                      })
+                }
+            }, 4000)
+        }
+        setTimeout( () => {
+            moveSlider()
+        }, 3000)
+    },[])
+
 
     return(
         <div className="instagram-slider">
