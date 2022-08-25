@@ -92,7 +92,12 @@ const Navbar = ()=>{
 
     return (
         <nav>
-            <Hamburger toggled={displaySidebarLeft} onToggle={toggled => openHamburger(toggled)} />
+            <div className="left-block">
+                <Hamburger toggled={displaySidebarLeft} onToggle={toggled => openHamburger(toggled)}/>
+                <span className="navbar-categories">
+                   <Link href="/"><a>Koi Makeup</a></Link>
+                </span>
+            </div>
             <div className="logo-container">
                 <Link href="/">
                     <a>
@@ -100,6 +105,7 @@ const Navbar = ()=>{
                             src={koiBagBig}
                             className="logo"
                             alt="Home"
+                            layout="responsive"
                             width="42"
                             height="42"
                         />

@@ -31,9 +31,12 @@ export default css`
     list-style-type: none;
 }
 
-@media (min-width: 760px){
+@media (min-width: 768px){
     .sidebar{
         width: 50%;
+    }
+    .slidebar-container{
+        top: 70px;
     }
 }
 

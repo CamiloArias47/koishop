@@ -150,5 +150,9 @@ export default css`
         position:relative;
         width:33.33%;
     }
+
+    .info-page__product-main{
+        padding: 6rem 3rem;
+    }
 }
 `
