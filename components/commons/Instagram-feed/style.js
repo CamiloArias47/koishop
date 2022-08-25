@@ -34,7 +34,7 @@ export default css`
 
 @media (min-width:1200px){
     .instagram-slider{
-        width:80%;
+        width:990px;
     }
 }
 `

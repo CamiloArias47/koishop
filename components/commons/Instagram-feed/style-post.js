@@ -9,6 +9,7 @@ export default css`
     border-radius: 8px;
     overflow: hidden;
     scroll-snap-align:start;
+    background-color: ${ colors.white };
 }
 
 .instagram-post__header{

@@ -11,11 +11,10 @@ export default function InstagramFeed(){
     useEffect(() =>{
         const moveSlider = () => {
             const slider = document.querySelector('.instagram-slider')
-            let {scrollWidth} = slider
     
             setInterval( () => {
                 let { scrollLeft, offsetWidth } = slider
-                scrollWidth = slider.scrollWidth
+                let scrollWidth = slider.scrollWidth
                 if((scrollLeft+offsetWidth)-250 >= scrollWidth-250){
                     slider.scrollBy({
                         left: -scrollWidth,
@@ -30,9 +29,8 @@ export default function InstagramFeed(){
                 }
             }, 4000)
         }
-        setTimeout( () => {
-            moveSlider()
-        }, 3000)
+
+        moveSlider()
     },[])
 
 

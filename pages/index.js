@@ -7,11 +7,13 @@ import { getCategories } from 'firebaseApi/firestoreADMIN/category'
 import CategorySlider from 'components/commons/categorySlider'
 import ProductsGrid from 'components/commons/ProductsGrid'
 import welcomeImage from 'public/images/welcome-big.jpg'
+import ruborImg from 'public/images/rubor.png'
 import pic1 from 'public/images/pic.jpg'
 import pic2 from 'public/images/pic2.jpg'
 import salePic from 'public/images/sale.jpg'
 import styleHome from 'styles/style-home'
 import useLocalCategories from 'hooks/useLocalCategories'
+import Link from 'next/link'
 
 
 const FooterDefer = dynamic(() => import('../components/commons/footer'), {
@@ -39,15 +41,29 @@ export default function Home({categories, products}) {
         
 
         <section className="welcome-page">
-          <Image 
-            src={welcomeImage}
-            alt="Welcome to Koi"
-            placeholder="blur"
-            priority
-            layout="responsive"
-          />
+          <div className='welcome-page__main-image'>
+            <Image 
+              src={welcomeImage}
+              alt="Welcome to Koi"
+              placeholder="blur"
+              priority
+              layout="responsive"
+            />
+          </div>
 
           <div className="info-page">
+            <div className="info-page__product-main">
+                <div className="info-page__title">
+                  <h1>Nuevo</h1>
+                  <h1>Love Blush</h1>
+                  <Link href="/producto/Balaca-conejo">
+                    <a className='btn btn-promo'> Comprar ahora</a>
+                  </Link>
+                </div>
+                <div className="info-page__image">
+                  <Image src={ruborImg} alt="Nuevo rubor" placeholder="blur"/>
+                </div>
+            </div>
             <div className="image-promo">
               <Image src={salePic} alt="promo imagen" placeholder="blur"/>
             </div>
