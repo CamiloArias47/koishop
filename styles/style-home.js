@@ -13,6 +13,7 @@ export default css`
 .welcome-page{
     display: flex;
     flex-direction: column;
+    width:100%;
 }
 
 .info-page{

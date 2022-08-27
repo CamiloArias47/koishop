@@ -61,9 +61,24 @@ nav .logo-container :global(.logo){
     cursor:pointer;
 }
 
+:global(.car-close__btn--true){
+    display: block;
+}
+
+:global(.car-close__btn--false){
+    display: none;
+}
 
 .shoppingbag-btn{
     position: relative;
+}
+
+.shoppingbag-btn--false{
+    display: block;
+}
+
+.shoppingbag-btn--true{
+    display: none;
 }
 
 .counter-shoppingbag{ 
@@ -81,15 +96,39 @@ nav .logo-container :global(.logo){
     }
     .navbar-categories{
         display: block;
-        padding-left: 3rem;
         font-size: 1.2rem;
         font-weight: 600;
         color: ${ fontColor.important };
+    }
+    .navbar-categories ul{
+        display:flex;
+        list-style-type:none;
+        margin:0;
+        padding:0;
+    }
+    .navbar-categories ul li{
+        padding-left:.6rem;
+    }
+    .btn-categories{
+        background-color: transparent;
+        border: none;
+        font-size: 1.2rem;
+        color: #353535;
+        cursor: pointer;
+        font-weight: 600;
+        font-family: inherit;
     }
     nav .logo-container > a{
         width: 62px;
         height: 62px;
         display: block;
+    }
+    .shoppingbag-btn{
+        display:block;
+    }
+
+    ::global(.car-close__btn){
+        display:none;
     }
 }
 

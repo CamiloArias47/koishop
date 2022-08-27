@@ -9,7 +9,7 @@ import  Link  from 'next/link'
 import Image from 'next/image'
 import Hamburger from "hamburger-react"
 import UserLoadingIcon from 'components/icons/UserLoading-Icon'
-import CloseIcon from 'components/icons/Close-Icon'
+import {CloseIcon} from 'components/icons'
 import {ShoppingBagIcon} from 'components/icons'
 import UserIcon from 'components/icons/User-Icon'
 import koiBagBig from 'public/images/logos/koi-bag-big.png'
@@ -45,7 +45,7 @@ const Navbar = ()=>{
     },[])
 
     const openRightSidebar = (cb = function(){} ) => {
-        if(displaySidebarRight){
+        if(displaySidebarRight && screen.width < 768){
             closeSidebar()
         }  
         else{
@@ -75,6 +75,16 @@ const Navbar = ()=>{
         } 
     }
 
+    const openCategories = () => {
+        if(!displaySidebarLeft){
+            setSidebarView(SIDEBAR_VIEWS.HAMBURGER)  
+            openSidebarFromLeft()      
+        } 
+        else{
+            closeSidebar()
+        } 
+    }
+
     const openModalUi = () =>{
         openModal()
         closeSidebar()
@@ -95,7 +105,14 @@ const Navbar = ()=>{
             <div className="left-block">
                 <Hamburger toggled={displaySidebarLeft} onToggle={toggled => openHamburger(toggled)}/>
                 <span className="navbar-categories">
-                   <Link href="/"><a>Koi Makeup</a></Link>
+                    <ul>
+                        <li>
+                            <button onClick={openCategories} className="btn-categories">Categorias</button>
+                        </li>
+                        <li>
+                            <Link href="/"><a>Koi Makeup</a></Link>
+                        </li>
+                    </ul>
                 </span>
             </div>
             <div className="logo-container">
@@ -115,16 +132,13 @@ const Navbar = ()=>{
             <div className="right-block">
                 { iconUser }
                 <div onClick={handlerClickCar} className="car-close-container">
-                    {
-                        displaySidebarRight 
-                        ? <CloseIcon width="42" height="42"/>
-                        : <div className="shoppingbag-btn">
+                          <CloseIcon width="42" height="42" className={`car-close__btn car-close__btn--${displaySidebarRight}`}/>
+                          <div className={`shoppingbag-btn shoppingbag-btn--${displaySidebarRight}`}>
                             <ShoppingBagIcon width="42" height="42"/> 
                             <span className="counter-shoppingbag">
                                 {totalProductsInCart === 0 ? '' : totalProductsInCart}
                             </span>
                           </div>
-                    }
                 </div>
             </div>
 
