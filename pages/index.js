@@ -10,7 +10,7 @@ import welcomeImage from 'public/images/welcome-big.jpg'
 import ruborImg from 'public/images/rubor.png'
 import pic1 from 'public/images/pic.jpg'
 import pic2 from 'public/images/pic2.jpg'
-import salePic from 'public/images/sale.jpg'
+import paletaImg from 'public/images/paleta-pina-colada.png'
 import styleHome from 'styles/style-home'
 import useLocalCategories from 'hooks/useLocalCategories'
 import Link from 'next/link'
@@ -64,8 +64,22 @@ export default function Home({categories, products}) {
                   <Image src={ruborImg} alt="Nuevo rubor" placeholder="blur"/>
                 </div>
             </div>
-            <div className="image-promo">
-              <Image src={salePic} alt="promo imagen" placeholder="blur"/>
+            <div className='info-page-card info-page-card--main'>
+              <div className='info-card__content'>
+                  <div className='info-card__main-text'>
+                    <h1 className='main-text__first'>
+                      15%
+                      <span>Descuento</span>
+                    </h1>
+                    <h1 className='main-text__second'>
+                      Piña Colada 
+                      <span> Paleta De Sombras</span>
+                    </h1>
+                  </div>
+              </div>
+              <div className="image-promo">
+                <Image src={paletaImg} alt="paleta piña colada" placeholder="blur"/>
+              </div>
             </div>
             <div className="info-page-card">
               <Image src={pic1} alt="promo imagen" placeholder="blur"/>
