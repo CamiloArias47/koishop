@@ -1,3 +1,4 @@
+import instagramImg from 'public/images/logos/Instagram-gray.svg'
 import css from 'styled-jsx/css'
 import { colors } from 'styles/theme'
 
@@ -25,6 +26,10 @@ export default css`
 }
 
 .instagram-post__image{
+    background-image: url(${instagramImg.src});
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 26px;
     position:relative;
     width:100%;
     height:76%;
