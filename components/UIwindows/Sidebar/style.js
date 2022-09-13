@@ -1,5 +1,5 @@
 import css from 'styled-jsx/css'
-import {colors, shadow} from 'styles/theme'
+import { colors, shadow} from 'styles/theme'
 
 export default css`
 .slidebar-container{
@@ -31,9 +31,33 @@ export default css`
     list-style-type: none;
 }
 
-@media (min-width: 760px){
+.close-btn{
+    display:none;
+}
+
+@media (min-width: 768px){
     .sidebar{
         width: 50%;
+    }
+    .slidebar-container{
+        top: 70px;
+    }
+    .close-btn{
+        display:block;
+        z-index: 1;
+        position: absolute;
+        background-color:transparent;
+        border:none;
+        cursor: pointer;
+    }
+    .close-btn :global(svg:hover){
+        color:${ colors.primary };
+    }
+    .close-btn--right{
+        right: 50%;
+    }
+    .close-btn--left{
+        left: 50%;
     }
 }
 
@@ -53,11 +77,23 @@ export default css`
         background-color: darkgrey;
         border-radius: 20px;
     }
+    .close-btn--right{
+        right: 40%;
+    }
+    .close-btn--left{
+        left: 40%;
+    }
 }
 
 @media (min-width: 1200px){
     .sidebar{
         width: 24%;
+    }
+    .close-btn--right{
+        right: 24%;
+    }
+    .close-btn--left{
+        left: 24%;
     }
 }
 `

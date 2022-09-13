@@ -1,48 +1,50 @@
-import { useEffect, useState } from "react"
-import { getInstagramToken } from "firebaseApi/firestoreDB/instagram-token"
-
-import Image from "next/image"
+import  useInstagramPosts  from "hooks/useInstagramPost"
+import { useEffect } from "react"
+import InstagramPost from "./instagramPost"
 
 import style from './style'
 
 export default function InstagramFeed(){
 
-    const [instagramPosts, setInstagramPosts] = useState([])
+    const instagramPosts = useInstagramPosts()
 
-    useEffect( () => {
-        const getLastPost = async () => {
-            const token = await getInstagramToken()
-            if(token.access_token){
-                const resPosts = await fetch(`https://graph.instagram.com/me/media?fields=id,media_type,media_url,permalink,thumbnail_url,username,timestamp,caption&access_token=${token.access_token}`)
-                const posts = await resPosts.json()
-
-                let showPosts = posts.data.slice(0,6)
-                setInstagramPosts(showPosts)
-            }
-
+    useEffect(() =>{
+        const moveSlider = () => {
+            const slider = document.querySelector('.instagram-slider')
+    
+            setInterval( () => {
+                let { scrollLeft, offsetWidth } = slider
+                let scrollWidth = slider.scrollWidth
+                if((scrollLeft+offsetWidth)-250 >= scrollWidth-250){
+                    slider.scrollBy({
+                        left: -scrollWidth,
+                        behaviour: 'smooth'
+                      })
+                }
+                else{
+                    slider.scrollBy({
+                        left: 250,
+                        behaviour: 'smooth'
+                      })
+                }
+            }, 4000)
         }
 
-        getLastPost()
+        moveSlider()
     },[])
 
+
     return(
-        <div className="instagram-feed">
-            {
-                instagramPosts.map( post => {
-                    let img = post.media_type === 'VIDEO' ? post.thumbnail_url : post.media_url
-                    let { id, caption } = post
-                    return(
-                        <div className="instagram-post" key={id}>
-                            <Image 
-                                alt={caption} 
-                                src={img} 
-                                layout="fill"
-                                className="instagram-image"
-                            />
-                        </div>
-                    )
-                })
-            }
+        <div className="instagram-slider">
+            <div className="instagram-feed">
+                {
+                    instagramPosts.map( post => {
+                        let { id, caption, permalink, media_type} = post
+                        let img = media_type === 'VIDEO' ? post.thumbnail_url : post.media_url
+                        return <InstagramPost key={id} caption={caption} img={img} permalink={permalink} mediatype={media_type}/>
+                    })
+                }
+            </div>
             <style jsx>{style}</style>
         </div>
     )

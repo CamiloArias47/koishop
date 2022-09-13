@@ -50,7 +50,7 @@ export default css`
 
 .category-title{
     padding-top: .2rem;
-    font-size: .8rem;
+    font-size: .9rem;
     color: dimgray;
 }
 

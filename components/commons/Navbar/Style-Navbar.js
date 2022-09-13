@@ -1,5 +1,5 @@
 import css from 'styled-jsx/css'
-import { colors } from 'styles/theme'
+import { colors, fontColor } from 'styles/theme'
 
 export default css`
 nav{
@@ -17,9 +17,22 @@ nav{
     padding: 5px;
 }
 
-nav .logo-container{
-    margin-left:37px;
-} 
+.right-block,
+.left-block{
+    width:45%;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-categories{
+    display:none;
+}
+
+nav .logo-container > a{
+    width: 42px;
+    height: 42px;
+    display: block;
+}
 
 nav .logo-container :global(.logo){
     padding:3px !important;
@@ -28,7 +41,8 @@ nav .logo-container :global(.logo){
 .right-block{
     display:flex;
     flex-direction:row;
-    align-items: center;
+    justify-content: flex-end;
+    align-items:center;
 }
 
 .right-block :global(svg:hover){
@@ -47,9 +61,24 @@ nav .logo-container :global(.logo){
     cursor:pointer;
 }
 
+:global(.car-close__btn--true){
+    display: block;
+}
+
+:global(.car-close__btn--false){
+    display: none;
+}
 
 .shoppingbag-btn{
     position: relative;
+}
+
+.shoppingbag-btn--false{
+    display: block;
+}
+
+.shoppingbag-btn--true{
+    display: none;
 }
 
 .counter-shoppingbag{ 
@@ -59,6 +88,48 @@ nav .logo-container :global(.logo){
     font-weight: 600;
     font-size: 1rem;
     color: ${colors.red};
+}
+
+@media (min-width: 768px){
+    :global(.hamburger-react){
+        display: none;
+    }
+    .navbar-categories{
+        display: block;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: ${ fontColor.important };
+    }
+    .navbar-categories ul{
+        display:flex;
+        list-style-type:none;
+        margin:0;
+        padding:0;
+    }
+    .navbar-categories ul li{
+        padding-left:.6rem;
+    }
+    .btn-categories{
+        background-color: transparent;
+        border: none;
+        font-size: 1.2rem;
+        color: #353535;
+        cursor: pointer;
+        font-weight: 600;
+        font-family: inherit;
+    }
+    nav .logo-container > a{
+        width: 62px;
+        height: 62px;
+        display: block;
+    }
+    .shoppingbag-btn{
+        display:block;
+    }
+
+    ::global(.car-close__btn){
+        display:none;
+    }
 }
 
 @media (min-width: 1020px){
