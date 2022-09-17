@@ -122,7 +122,7 @@ export default css`
 }
 
 .image-promo{
-    width: 40%;
+    width: 50%;
     padding: 1rem 0;
     transform: rotate(8deg);
 }

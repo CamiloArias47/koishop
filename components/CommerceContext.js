@@ -182,7 +182,8 @@ export const useSaveCart = () => {
                 id: pcart.id,
                 amount: pcart.buyAmount,
                 name: pcart.name,
-                pricex1: pcart.price
+                pricex1: pcart.price,
+                color: pcart.buyColor
             }
         })
 
