@@ -9,8 +9,8 @@ export function useCart(){
     const { setProductCart, setProductsCart } = useCommerce()
     const { canIUseLocalStorage } = useLocalStorage()
     
-    const addProduct = ({id, name, price, buyAmount, photo, stock}) => {
-        const productToAdd = {id, name, price, buyAmount, photo, stock}
+    const addProduct = ({id, name, price, buyAmount, photo, stock, buyColor}) => {
+        const productToAdd = {id, name, price, buyAmount, photo, stock, buyColor}
         const miCart = window.localStorage;
         if(canIUseLocalStorage() ){
             let products = miCart.getItem('cart')

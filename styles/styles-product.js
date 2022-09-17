@@ -43,7 +43,19 @@ h1{
 
 .form-add{
     display: flex;
+    flex-direction:column;
     padding-bottom: 3rem;
+}
+
+.form-add__top{
+    width:100%;
+    display:flex;
+    flex-flow: row wrap;
+}
+
+.form-add__bottom{
+    display:flex;
+    margin-top:2rem;
 }
 
 .form-group{

@@ -15,14 +15,16 @@ import Footer from 'components/commons/footer'
 import { config } from 'components/commons/Head'
 import { ShoppingBagIcon, Spinner } from 'components/icons'
 import ImagePreview from 'components/commons/Product/Product-image-preview'
+import ColorOptions from 'components/commons/Product/colors'
 
-import { colors } from 'styles/theme'
+import { colors as systemColors} from 'styles/theme'
 import style from 'styles/styles-product'
 
 
 const ProductPage = (props) => {
   const [ buyAmount, setBuyAmount ] = useState(1)
   const [ adding, setAdding ] = useState(false)
+  const [ buyColor, setColor ] = useState('')
   const [ mainpicture, setMainpicture ] = useState(props.product.photo)
   const { addProduct } = useCart()
   const { useGetLocalCategories } = useLocalCategories()
@@ -31,9 +33,9 @@ const ProductPage = (props) => {
           openSidebarFromRight
          } = useUI()
   
-  const { id, name, photo, pictures, description, price, category, subcategory, amount, timestamp} = props.product
+  let { id, name, photo, pictures, description, price, category, subcategory, amount, colors, timestamp} = props.product
   const formatedPrice = formatPrice(price)
-
+  
   useEffect( () => {
     if(amount <= 0){
       setBuyAmount(0)
@@ -55,13 +57,22 @@ const ProductPage = (props) => {
 
     let validateBuy = validateAmountToBuy(validateAmoutData)
 
+    if(colors && buyColor === ''){
+      openToast({msg:"Debes elegír un color"})
+      return false
+    }
+
     if(validateBuy > 0){
       setAdding(true)
-      addProduct({id, name, price, buyAmount, photo, stock:amount})
+      addProduct({id, name, price, buyAmount, photo, stock:amount, buyColor})
       setSidebarView(SIDEBAR_VIEWS.CART_VIEW)
       openSidebarFromRight()
       setAdding(false)
     }
+  }
+
+  const handlerColor = color => {
+    setColor(color)
   }
 
   const validateAmountToBuy =  ({amountToBuy}) => {
@@ -84,14 +95,26 @@ const ProductPage = (props) => {
   }
 
   const iconBtn = adding 
-                ? <Spinner width="38" height="38" color={colors.primaryDark} /> 
+                ? <Spinner width="38" height="38" color={systemColors.primaryDark} /> 
                 : <ShoppingBagIcon width="32" height="32" color="#fff"/> 
   
   const changeMainImage = (url) => {
     setMainpicture(url)
   }
 
-return <>
+  if(colors){
+    colors = colors.map( color => {
+      color = JSON.parse(color)
+      return <ColorOptions 
+              key={color.name+'-'+color.color} 
+              color={color}
+              activeColor={buyColor}
+              selectColor={handlerColor}
+              />
+    }) 
+  } 
+
+  return <>
         <section className="product-page-section wraper">
             <NextSeo
               title={name+' | '+config.title}
@@ -135,22 +158,29 @@ return <>
               <p className="product-description">{description}</p>
               { (amount > 0 ) ?
                 <form className="form-add" onSubmit={handlerAddCart}>
-                  <div className="form-group">
-                    <label htmlFor="cantidad-buy">Cantidad</label>
-                    <input 
-                      type="number" 
-                      title="cantidad" 
-                      id="cantidad-buy"  
-                      className="input input-basic" 
-                      value={buyAmount}
-                      min="1"
-                      onChange={handlerAmount}
-                      required/>
+                  {
+                    colors 
+                      ? <div className='form-add__top'>{colors}</div> 
+                      : null
+                  }
+                  <div className='form-add__bottom'>
+                    <div className="form-group">
+                      <label htmlFor="cantidad-buy">Cantidad</label>
+                      <input 
+                        type="number" 
+                        title="cantidad" 
+                        id="cantidad-buy"  
+                        className="input input-basic" 
+                        value={buyAmount}
+                        min="1"
+                        onChange={handlerAmount}
+                        required/>
+                    </div>
+                    <button className="btn btn-primary" disabled={adding}>
+                      agregar 
+                      {iconBtn}
+                    </button>
                   </div>
-                  <button className="btn btn-primary" disabled={adding}>
-                    agregar 
-                    {iconBtn}
-                  </button>
                 </form>
                 : 
                 <span className='no-stock-info'>
