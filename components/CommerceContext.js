@@ -233,17 +233,31 @@ export const useSaveCart = () => {
 
     const validateAmount = async () => {
         const {cart} = context
-        let consults = []
-        cart.forEach( item => consults.push( getProduct(item.id) ))
+        let consults = cart.map( item => getProduct(item.id) )
 
         return Promise.all(consults)
             .then(results => {
                 let noStock = []
-                console.log(results)
                 results.forEach( product => {
                     let cartCompare = cart.find( itemCart => itemCart.id === product.id)
-                    let {buyAmount} = cartCompare
-                    if(buyAmount > product.amount) noStock.push( {buyAmount, ...product} )
+                    let {buyAmount, buyColor} = cartCompare
+
+                    if(buyAmount > product.amount){
+                        noStock.push( {type:'no-stock', buyAmount, ...product} ) 
+                        return
+                    } 
+
+                    if(buyColor){
+                        let ProductsByColor = product.colors.map(color => JSON.parse(color))
+                        let colorChoosed = ProductsByColor.find(productOfColor => productOfColor.name === buyColor)
+                        if(buyAmount > colorChoosed.amount) noStock.push({ 
+                            type:'color', 
+                            colorName: colorChoosed.name,
+                            colorAmount: colorChoosed.amount, 
+                            buyAmount, ...product
+                        })
+                    }
+
                 } )
 
                 if(noStock.length === 0) return true

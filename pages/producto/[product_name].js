@@ -34,7 +34,11 @@ const ProductPage = (props) => {
          } = useUI()
   
   let { id, name, photo, pictures, description, price, category, subcategory, amount, colors, timestamp} = props.product
+  let colorSelector = null
+
   const formatedPrice = formatPrice(price)
+
+  if(colors) colors = colors.map( color => JSON.parse(color))
   
   useEffect( () => {
     if(amount <= 0){
@@ -72,6 +76,11 @@ const ProductPage = (props) => {
   }
 
   const handlerColor = color => {
+    let colorSelected = colors.find( colr => colr.name === color)
+    if(buyAmount > colorSelected.amount){
+      openToast({msg:`No quedan unidades disponibles para el color: ${color}`})
+      return false
+    } 
     setColor(color)
   }
 
@@ -103,15 +112,14 @@ const ProductPage = (props) => {
   }
 
   if(colors){
-    colors = colors.map( color => {
-      color = JSON.parse(color)
-      return <ColorOptions 
-              key={color.name+'-'+color.color} 
-              color={color}
-              activeColor={buyColor}
-              selectColor={handlerColor}
-              />
-    }) 
+    colorSelector = colors.map( color => {
+                          return <ColorOptions 
+                                    key={color.name+'-'+color.color} 
+                                    color={color}
+                                    activeColor={buyColor}
+                                    selectColor={handlerColor}
+                                  />
+                        })
   } 
 
   return <>
@@ -159,9 +167,9 @@ const ProductPage = (props) => {
               { (amount > 0 ) ?
                 <form className="form-add" onSubmit={handlerAddCart}>
                   {
-                    colors 
-                      ? <div className='form-add__top'>{colors}</div> 
-                      : null
+                    colorSelector 
+                      ? <div className='form-add__top'>{colorSelector}</div> 
+                      : null 
                   }
                   <div className='form-add__bottom'>
                     <div className="form-group">

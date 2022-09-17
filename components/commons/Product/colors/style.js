@@ -15,6 +15,10 @@ export default css`
     border:2px solid ${ colors.primary };
     border-radius:14px;
 }
+.product-colors--nostock{
+   opacity: .3;
+   cursor: auto;
+}
 .product-colors__ship{
     width:23px;
     height:23px;

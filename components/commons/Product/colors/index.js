@@ -10,9 +10,11 @@ export default function ColorOptions({color, selectColor, activeColor}){
         selectColor(color.name)
     }
 
+    const classStyle = color.amount === 0 ? 'product-colors product-colors--nostock' : 'product-colors'
+
     return(
         <button 
-            className={activeColor === color.name ? 'product-colors product-colors--active' : 'product-colors'} 
+            className={activeColor === color.name ? 'product-colors product-colors--active' : classStyle} 
             onClick={handlerClick}
         >
             <span>{color.name}</span>
