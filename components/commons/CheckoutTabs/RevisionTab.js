@@ -42,6 +42,7 @@ export default function RevisionTab({handlerNext, uid}){
                         if( err.type === 'no stock') handlerNoStock(err.noStock)
                     }
                 }
+                
                 closeDisplayBlockWindow()
             })
     }

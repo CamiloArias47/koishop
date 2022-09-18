@@ -10,7 +10,7 @@ export default function ColorOptions({color, selectColor, activeColor}){
         selectColor(color.name)
     }
 
-    const classStyle = color.amount === 0 ? 'product-colors product-colors--nostock' : 'product-colors'
+    const classStyle = color.amount <= 0 ? 'product-colors product-colors--nostock' : 'product-colors'
 
     return(
         <button 
