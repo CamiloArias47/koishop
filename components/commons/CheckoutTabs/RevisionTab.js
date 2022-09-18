@@ -42,6 +42,7 @@ export default function RevisionTab({handlerNext, uid}){
                         if( err.type === 'no stock') handlerNoStock(err.noStock)
                     }
                 }
+                
                 closeDisplayBlockWindow()
             })
     }
@@ -53,11 +54,13 @@ export default function RevisionTab({handlerNext, uid}){
 
     const handlerNoStock = (productsNoStock) =>{
         productsNoStock.forEach( product => {
-            let {id, name, price, photo, amount} = product
+            let {type, id, name, price, photo, amount, colorAmount, colorName} = product
             let msg = ""
 
             if(amount <= 0){
-                msg = `Han comprado la última unidad disponible de ${name}`
+                msg = type === 'no-stock'
+                    ? `Han comprado la última unidad disponible de ${name}`
+                    : `Han comprado la última unidad del color que elegiste de ${name}`
                 quitProduct(id)
             }
 
@@ -67,8 +70,13 @@ export default function RevisionTab({handlerNext, uid}){
             } 
 
             if(amount > 1){
-                msg = `Solo quedan ${amount} unidades disponibles de ${name}`
-                addProduct({id, name, price, buyAmount:amount, photo, stock:amount})
+                msg = type === 'no-stock' 
+                    ? `Solo quedan ${amount} unidades disponibles de ${name}`
+                    : `Solo quedan ${colorAmount} unidades disponibles de ${name}, en el color ${colorName}`
+
+                let newAmountToBuy = type === 'no-stock' ? amount : colorAmount
+
+                addProduct({id, name, price, buyAmount:newAmountToBuy, photo, stock:amount})
             }
 
             openToast({msg})

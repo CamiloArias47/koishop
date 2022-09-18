@@ -34,7 +34,11 @@ const ProductPage = (props) => {
          } = useUI()
   
   let { id, name, photo, pictures, description, price, category, subcategory, amount, colors, timestamp} = props.product
+  let colorSelector = null
+
   const formatedPrice = formatPrice(price)
+
+  if(colors) colors = colors.map( color => JSON.parse(color))
   
   useEffect( () => {
     if(amount <= 0){
@@ -47,6 +51,7 @@ const ProductPage = (props) => {
   const handlerAmount = (event) => {
     const amountToBuy = event.target.value
     const totalToBuy = validateAmountToBuy({amountToBuy})
+    if(totalToBuy <= 0) return false
     setBuyAmount(totalToBuy)
   }
 
@@ -72,10 +77,22 @@ const ProductPage = (props) => {
   }
 
   const handlerColor = color => {
+    let colorSelected = colors.find( colr => colr.name === color)
+    if(buyAmount > colorSelected.amount){
+      let msg = ''
+      let newAmount = colorSelected.amount
+      if(colorSelected.amount <= 0 ) msg = `No quedan unidades disponibles del color: ${color}`
+      if(colorSelected.amount > 0 ) msg = `Solo quedan ${colorSelected.amount} unidades disponibles del color: ${color}`
+      openToast({msg})
+
+      if(colorSelected.amount <= 0 ) return false
+      setBuyAmount(newAmount)
+    } 
     setColor(color)
   }
 
   const validateAmountToBuy =  ({amountToBuy}) => {
+    amountToBuy = parseInt(amountToBuy)
     let totalToBuy = amountToBuy
     let gramatic = amount > 1 ? 'disponibles' : 'disponible'
     let msg
@@ -83,6 +100,15 @@ const ProductPage = (props) => {
     if(amount > 0){
        totalToBuy = (amountToBuy > amount) ? amount : amountToBuy 
        msg = `En este momento solo tenemos ${gramatic} ${amount} ${name}`
+       if( colors ){
+        let colorUsed = colors.find(color => color.name === buyColor)
+
+        if(amountToBuy > colorUsed?.amount){
+          totalToBuy = (amountToBuy > colorUsed.amount) ? colorUsed.amount : amountToBuy 
+          msg = `solo quedan ${colorUsed.amount} unidades del color ${buyColor}`
+          openToast({msg})
+        } 
+       }
     }
     else{
       totalToBuy = 0
@@ -103,15 +129,14 @@ const ProductPage = (props) => {
   }
 
   if(colors){
-    colors = colors.map( color => {
-      color = JSON.parse(color)
-      return <ColorOptions 
-              key={color.name+'-'+color.color} 
-              color={color}
-              activeColor={buyColor}
-              selectColor={handlerColor}
-              />
-    }) 
+    colorSelector = colors.map( color => {
+                          return <ColorOptions 
+                                    key={color.name+'-'+color.color} 
+                                    color={color}
+                                    activeColor={buyColor}
+                                    selectColor={handlerColor}
+                                  />
+                        })
   } 
 
   return <>
@@ -159,9 +184,9 @@ const ProductPage = (props) => {
               { (amount > 0 ) ?
                 <form className="form-add" onSubmit={handlerAddCart}>
                   {
-                    colors 
-                      ? <div className='form-add__top'>{colors}</div> 
-                      : null
+                    colorSelector 
+                      ? <div className='form-add__top'>{colorSelector}</div> 
+                      : null 
                   }
                   <div className='form-add__bottom'>
                     <div className="form-group">

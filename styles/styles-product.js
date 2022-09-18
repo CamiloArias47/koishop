@@ -78,6 +78,7 @@ h1{
     font-size: 2rem;
     text-align: center;
     color: ${fontColor.primary};
+    padding: 0rem;
 }
 .btn-primary{
    font-size:1.4rem;

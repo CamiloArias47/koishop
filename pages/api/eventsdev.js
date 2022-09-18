@@ -33,38 +33,38 @@ export default async (request, response) => {
   
   // let data = {
   //   "transaction": {
-  //     "id": "114028-1641953792-17900",
+  //     "id": "114028-1663460994-26487",
   //     "status": "APPROVED",
   //     "currency": "COP",
-  //     "reference": "6phHHle2Qmq3qgfyB1Ho",
-  //     "created_at": "2022-01-12T02:16:32.854Z",
+  //     "reference": "HLO1odhWpt8Yxhs1lWl6",
+  //     "created_at": "2022-09-18T00:29:54.961Z",
   //     "billing_data": null,
-  //     "finalized_at": "2022-01-12T02:16:33.000Z",
-  //     "redirect_url": "https://koishop.vercel.app/success",
+  //     "finalized_at": "2022-09-18T00:29:55.277Z",
+  //     "redirect_url": "https://koimakeup.com/user/pedidos/success",
   //     "customer_data": {
-  //       "legal_id": "11111111",
-  //       "full_name": "ANDRES CAMILO ARIAS MARTINEZ",
-  //       "phone_number": "+573991111111",
+  //       "legal_id": "1143850015",
+  //       "full_name": "Camilo Arias",
+  //       "phone_number": "3188492936",
   //       "legal_id_type": "CC"
   //     },
-  //     "customer_email": "andres.camilo.arias@correounivalle.edu.co",
+  //     "customer_email": "camillo47@gmail.com",
   //     "payment_method": {
   //       "type": "NEQUI",
   //       "extra": {
-  //         "transaction_id": "SANDBOX-1641953793Twbxsd",
-  //         "external_identifier": "1641953793Y8o5lt"
+  //         "transaction_id": "SANDBOX-1663460995yiOMjS",
+  //         "external_identifier": "1663460995RvTZY3"
   //       },
   //       "phone_number": "3991111111"
   //     },
   //     "status_message": null,
-  //     "amount_in_cents": 2000000,
+  //     "amount_in_cents": 10850000,
   //     "payment_link_id": null,
   //     "shipping_address": {
-  //       "city": "Jamundi",
-  //       "region": "Cauca",
+  //       "city": "Cali",
+  //       "region": "Valle del Cauca",
   //       "country": "CO",
-  //       "phone_number": "33333333",
-  //       "address_line_1": "caloto 34"
+  //       "phone_number": "3188492936",
+  //       "address_line_1": "av 7b oeste #19-142"
   //     },
   //     "payment_source_id": null,
   //     "payment_method_type": "NEQUI"
@@ -73,15 +73,15 @@ export default async (request, response) => {
   // let event ="transaction.updated"
   // let environment = "test"
   // let signature = {
-  //     "checksum": "ac238e5ef5d914cb98ea8a1bf674cf5f6e9a29112440714d6fea5284cbe2f88f",
-  //     "properties": [
-  //       "transaction.id",
-  //       "transaction.status",
-  //       "transaction.amount_in_cents"
-  //     ]
-  //   }
-  // let timestamp = 1641953793 
-  // let sent_at = "2022-01-12T02:16:33.091Z"
+  //   "checksum": "cd1c4ebd16db2e38c13a43e5183b83b2916a1ac0e92456744ded37a0b9cb2ea7",
+  //   "properties": [
+  //     "transaction.id",
+  //     "transaction.status",
+  //     "transaction.amount_in_cents"
+  //   ]
+  // }
+  // let timestamp = 1663460995 
+  // let sent_at = "2022-09-18T00:29:55.326Z"
 
    const webhook = {
     event,
@@ -229,7 +229,21 @@ async function updateBillStatus({event, status, reference, totalPaid}){
                             })
 
                             let newAmount = data.productObj.amount - data.amountBuy;
-                            let update = t.update(data.productRef, { amount: newAmount });
+                            let updateData = { amount: newAmount }
+
+                            if (data.productSell.color != ''){
+                              let productColors = data.productObj.colors.map( colors => JSON.parse(colors))
+                              let colorBuyedIndex = productColors.findIndex( color => color.name === data.productSell.color)
+
+                              let colorBuyedData = productColors[colorBuyedIndex]
+                              let newColorAmount = colorBuyedData.amount - data.amountBuy
+                              colorBuyedData.amount = newColorAmount
+                              productColors[colorBuyedIndex] = colorBuyedData
+                              let newColors = productColors.map( color => JSON.stringify(color))
+                              updateData.colors = newColors
+                            }
+                            
+                            let update = t.update(data.productRef, updateData );
                             
                             return update
                           })
@@ -244,6 +258,7 @@ async function updateBillStatus({event, status, reference, totalPaid}){
           });
           return {status: true, msg:'documentos actualizados', prouctsdata, discountPromo, aplyDiscount, subtotal, billCode};
         } catch (e) {
+          console.log({e})
           return {status: false, msg:'fallo actualizacion', e};
         }
         
