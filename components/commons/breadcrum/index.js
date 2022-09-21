@@ -14,7 +14,7 @@ export default function BreadCrum({links}){
                  </li>
                 { links.map( (link, index) => {
 
-                        let name = link.replace('-',' ') 
+                        let name = link.replaceAll('-',' ') 
 
                         const route = (index === 0) 
                                         ?  `/categoria/${link}`

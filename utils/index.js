@@ -38,7 +38,7 @@ export function createProductPath(name){
 }
 
 export function cleanGionsInName(name){
-    return name.replace('-',' ')
+    return name.replaceAll('-',' ')
 }
 
 export function enviroment(){

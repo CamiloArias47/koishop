@@ -185,7 +185,7 @@ export async function getStaticProps(context){
   
   category.isSub = existSubCat
   category.id = categoryName
-  category.name =  categoryName.replace('-',' ')
+  category.name =  categoryName.replaceAll('-',' ')
 
   const consultProducts = {
     category : existSubCat ? subcategoryName : category.id, 
