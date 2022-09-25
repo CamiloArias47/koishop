@@ -38,6 +38,8 @@ const ProductPage = (props) => {
 
   const formatedPrice = formatPrice(price)
 
+  const descriptionHtml = { __html: description }
+
   if(colors) colors = colors.map( color => JSON.parse(color))
   
   useEffect( () => {
@@ -180,7 +182,7 @@ const ProductPage = (props) => {
             <div className="product-details">
               <h1>{ name }</h1>
               <span className="product-price">{formatedPrice}</span>
-              <p className="product-description">{description}</p>
+              <p className="product-description" dangerouslySetInnerHTML={descriptionHtml} />
               { (amount > 0 ) ?
                 <form className="form-add" onSubmit={handlerAddCart}>
                   {
