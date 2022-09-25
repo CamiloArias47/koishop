@@ -7,7 +7,8 @@
     "devnet": "next dev -H 181.143.84.226",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "@sendgrid/mail": "7.7.0",
@@ -25,6 +26,7 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "cypress": "10.8.0",
     "eslint": "7.30.0",
     "eslint-config-next": "11.0.1"
   }
