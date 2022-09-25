@@ -8,7 +8,7 @@ let firebaseConfig
 if(env === 'PRODUCTION'){
   firebaseConfig = {
     apiKey: "AIzaSyBn-I-KH8IlbrGeE8KmwMeSAs2A-IiWGqo",
-    authDomain: "koishop-45ca8.firebaseapp.com",
+    authDomain: "koimakeup.com",
     projectId: "koishop-45ca8",
     storageBucket: "koishop-45ca8.appspot.com",
     messagingSenderId: "674591095011",
