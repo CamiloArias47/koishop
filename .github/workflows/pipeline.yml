@@ -9,7 +9,7 @@ on:
 
 jobs:
   stop_simultaneus_pipelines:
-    runs_on: ubuntu-22.04
+    runs-on: ubuntu-22.04
     steps:
       - name: stop simultaneus pipelines
         uses: styfle/cancel-workflow-action@0.9.1
