@@ -24,7 +24,7 @@ jobs:
       WOMPISECRETTEST: ${{ secrets.WOMPISECRETTEST }}
       ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
       FIREBASE_client_email: ${{ secrets.FIREBASE_client_email }}
-      FIREBASE_client_email: ${{ secrets.FIREBASE_client_id }}
+      FIREBASE_client_id: ${{ secrets.FIREBASE_client_id }}
       FIREBASE_auth_uri: ${{ secrets.FIREBASE_auth_uri }}
       FIREBASE_token_uri: ${{ secrets.FIREBASE_token_uri }}
       FIREBASE_auth_provider_x509_cert_url: ${{ secrets.FIREBASE_auth_provider_x509_cert_url }}
