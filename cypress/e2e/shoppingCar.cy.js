@@ -13,7 +13,7 @@ describe('Add product to cart and go to buy', () => {
     })
 
     it('Show buy Wompy Modal', () => {
-        cy.wait(2000)
+        cy.wait(4000)
         
         cy.get('.products-section').scrollIntoView()
           .should('be.visible')
