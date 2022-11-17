@@ -4,6 +4,7 @@ import {
     MODAL_VIEWS
 } from "components/UIcontext"
 import { AuthFacebookGooogle } from 'components/commons/Login/AuthFacebookGoogle' 
+import { setUser } from 'firebaseApi/firestoreDB/user'
 import { register, verifyEmail } from 'firebaseApi/client'
 import Success from './Success'
 import style from 'styles/style-modal-forms'
@@ -34,6 +35,7 @@ export const Register = () =>{
         if(err.code !== undefined) setErr({})
     }
 
+
     const handleSubmit = event => {
         event.preventDefault()
 
@@ -45,6 +47,17 @@ export const Register = () =>{
         setState(STATES.LOADING)
 
         register({email:mail,password})
+            .then(user => {
+                const userData = {
+                    uid : user.uid, 
+                    displayName : user.displayName, 
+                    email : user.email, 
+                    phoneNumber : user.phoneNumber, 
+                    emailVerified : user.emailVerified, 
+                    photoURL : user.photoURL
+                }
+                return setUser({user:userData})
+            })
             .then(user => {
                 if(!user.emailVerified){
                     verifyEmail().then( () => {

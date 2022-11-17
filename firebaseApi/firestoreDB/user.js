@@ -15,7 +15,6 @@ export const getUser = async (uid) => {
 
 export const setUser = async ({user}) => {
   const {uid, displayName, email, phoneNumber, emailVerified, photoURL} = user
-
   const resp = await setDoc(doc(db, "users", uid), {
     name : displayName,
     email,
@@ -23,15 +22,19 @@ export const setUser = async ({user}) => {
     phoneNumber,
     photoURL,
   });
+  return user
 }
 
 
 export const updateUCedula = async ({uid, ucedula})=>{
-  const userRef = doc(db, "users", uid);
-
-  await updateDoc(userRef, {ucedula});
-
-  return {uid,ucedula}
+  try{
+    const userRef = doc(db, "users", uid);
+    await updateDoc(userRef, {ucedula});
+    return {uid,ucedula}
+  }
+  catch(e){
+    return {error:e}
+  }
 }
 
 export const updatePhone = async ({uid, phoneNumber})=>{

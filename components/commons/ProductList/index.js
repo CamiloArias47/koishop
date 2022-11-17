@@ -38,7 +38,7 @@ export default function ProductList({name, id, price, photo, buyAmount, stock}){
                     unoptimized={process.env.ENVIRONMENT !== "PRODUCTION"}
                 />
               </div>
-              <b>{name}</b>
+              <b className="product-name">{name}</b>
             </td>
             <td className="price-td">
                 {formatPrice(price)}

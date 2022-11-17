@@ -1,15 +1,11 @@
-import { useState, Suspense  } from 'react'
+import { useState  } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
 import BtnDropDown from 'components/commons/button-drop-down'
 import Social from 'components/commons/social-icons'
 import whatsappIcon from 'public/images/logos/whatsapp-black.svg'
 import style from './style'
-
-const InstagramFeedDefer = dynamic(() => import('../Instagram-feed'), {
-    suspense: true,
-})
+import InstagramFeed from '../Instagram-feed'
 
 export default function Footer(){
     const [ showContact, setShowContact] = useState(false)
@@ -26,9 +22,7 @@ export default function Footer(){
     return <footer>
                 <section className="degradado">
                     <div className='wraper-degradado'>
-                        <Suspense fallback={`Loading...`}>
-                            <InstagramFeedDefer />
-                        </Suspense>
+                        <InstagramFeed/>
                     </div>
                 </section>
                 <div style={{position:'relative'}}>
