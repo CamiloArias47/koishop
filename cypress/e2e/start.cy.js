@@ -4,6 +4,7 @@ describe('Home page open', () => {
     })
 
     it('is left menu', () => {
+        cy.wait(2000)
         cy.get('.btn-categories')
           .should('have.text', 'Categorias')
         cy.get('.btn-categories', { delay: 200 }).click()
