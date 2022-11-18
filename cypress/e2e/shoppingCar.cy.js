@@ -53,7 +53,7 @@ describe('Add product to cart and go to buy', () => {
         cy.wait(2000) 
 
         cy.get('.btn-buy').click()
-        cy.wait(4000)
+        cy.wait(5000)
 
         cy.get('.waybox-iframe').should('be.visible')
     }) 

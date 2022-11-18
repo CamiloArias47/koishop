@@ -34,3 +34,5 @@ yarn-error.log*
 .vercel
 
 firebaseApi/koishop-dev-firebase-adminsdk.json
+cypress/videos/
+cypress/screenshots/
