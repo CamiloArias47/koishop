@@ -15,8 +15,9 @@ describe('Add product to cart and go to buy', () => {
     it('Show buy Wompy Modal', () => {
         cy.wait(4000)
         
-        cy.get('.products-section').scrollIntoView()
-          .should('be.visible')
+        cy.get('.products-section')
+
+        cy.get('.products-section').scrollIntoView().should('be.visible')
 
         cy.get('.cards-grid .product-card').first().click()
 
