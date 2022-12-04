@@ -1,3 +1,5 @@
+[![E2E Pipeline](https://github.com/CamiloArias47/koishop/actions/workflows/pipeline.yml/badge.svg)](https://github.com/CamiloArias47/koishop/actions/workflows/pipeline.yml)
+
 ![KOI MAKEUP](https://raw.githubusercontent.com/CamiloArias47/koishop/main/public/images/welcomeImage.jpg)
 
 Koi Makeup is an ecommerce

@@ -1,3 +1,8 @@
+export const ENVIROMENTS = {
+    prod: 'PRODUCTION',
+    dev: 'development'
+}
+
 export function replaceAll(string, search, replace) {
     return string.split(search).join(replace);
 }
@@ -49,7 +54,7 @@ export function enviroment(){
     }
 
     if(typeof window !== 'undefined'){
-        env = (window.location.hostname === 'koimakeup.com') ? 'PRODUCTION' : 'development'
+        env = (window.location.hostname === 'koimakeup.com') ? ENVIROMENTS.prod : ENVIROMENTS.dev
     }
 
     return env

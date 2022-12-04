@@ -1,0 +1,78 @@
+name: E2E Pipeline
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+
+env:
+  WOMPIPUBKEY: ${{ secrets.WOMPIPUBKEY }}
+  URL: ${{ secrets.URL }}
+  WOMPISECRETTEST: ${{ secrets.WOMPISECRETTEST }}
+  ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+  FIREBASE_client_email: ${{ secrets.FIREBASE_client_email }}
+  FIREBASE_client_id: ${{ secrets.FIREBASE_client_id }}
+  FIREBASE_auth_uri: ${{ secrets.FIREBASE_auth_uri }}
+  FIREBASE_token_uri: ${{ secrets.FIREBASE_token_uri }}
+  FIREBASE_auth_provider_x509_cert_url: ${{ secrets.FIREBASE_auth_provider_x509_cert_url }}
+  FIREBASE_client_x509_cert_url: ${{ secrets.FIREBASE_client_x509_cert_url }}
+  FIREBASE_private_key_id: ${{ secrets.FIREBASE_private_key_id }}
+  FIREBASE_private_key: ${{ secrets.FIREBASE_private_key }}
+  FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+  SITE_NAME: ${{ secrets.SITE_NAME }}
+  SENDGRID_APIKEY: ${{ secrets.SENDGRID_APIKEY }}
+  FIRABESE_TYPE: ${{ secrets.FIRABESE_TYPE }}
+
+jobs:
+  stop_simultaneus_pipelines:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: stop simultaneus pipelines
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          cache: 'npm'
+          node-version: '16'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: .next
+          path: .next
+
+  e2e:
+    needs: build
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          cache: 'npm'
+          node-version: '16'
+      - name: Install dependencies
+        run: npm ci
+      - uses: actions/download-artifact@v2
+        with:
+          name: .next
+          path: .next
+      - name: E2E tests
+        uses: cypress-io/github-action@v2
+        with:
+          command: npm run cypress:headless-ci
+          start: npm run dev
+          wait-on: http://localhost:3000
