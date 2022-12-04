@@ -20,6 +20,8 @@ describe('Add product to cart and go to buy', () => {
         cy.get('.products-section').scrollIntoView().should('be.visible')
 
         cy.get('.cards-grid .product-card').first().click()
+        cy.location('pathname', { timeout: 20000 })
+          .should('eq', '/producto/Testing-Product-name')
 
         //seleccionar color agregar color 
         //cy.get('.form-add__top button').first().click()
@@ -50,9 +52,9 @@ describe('Add product to cart and go to buy', () => {
         cy.get('#barrio').type('Sprinfield')   
         cy.get('#referenciaDireccion').type('vecino Flanders') 
         cy.get('.btn-buy').click() 
-        cy.wait(2000) 
-
-        cy.get('.btn-buy').click()
+        cy.wait(5000)
+        
+        cy.get('.container-btn-buy > .btn-buy', { timeout: 10000 }).click()
         cy.wait(5000)
 
         cy.get('.waybox-iframe').should('be.visible')
