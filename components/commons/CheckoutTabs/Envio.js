@@ -5,12 +5,11 @@ import { getAddressesBy } from 'firebaseApi/firestoreDB/addresses'
 import DeliveryDeatils from './EnvioDetails'
 import {Loadingtext} from 'components/icons'
 import { departments } from 'utils/departments'
+import { deliveryCosts } from 'utils/delivery-cost'
 
 import style from './style'
 
 export default function EnvioTab({handlerNext}){
-    
-    const [addressChose, setAddressChose] = useState({})
     const [selectorState, setSelectorState] = useState('loading')
     const [cities, setCities ] = useState([])
     const namesRef = useRef(null)
@@ -35,6 +34,9 @@ export default function EnvioTab({handlerNext}){
            ciudadWrong,
            direccionWrong,
            barrioWrong,
+           addresses,
+           addressFromSelector,
+           deliveryCost,
            setNames,
            setCedula,
            setPhone,
@@ -51,11 +53,11 @@ export default function EnvioTab({handlerNext}){
            setCiudadWrong,
            setDireccionWrong,
            setBarrioWrong,
-           addresses,
            setAddresses,
            setAddressFromSelector,
            clearAddressOfDb,
-           setRender} = useBuyForm()
+           setRender,
+           setDeliveryCost} = useBuyForm()
 
     const { validateAndSave, setAddressOf_DB } = useDeliveryActions()
 
@@ -72,7 +74,6 @@ export default function EnvioTab({handlerNext}){
         getAddressesBy(uid).then( uAddress => {
             const setSelect = uAddress.length === 0 ? 'nothing' : uAddress[0].id
             setAddresses(uAddress)
-            setAddressChose(uAddress[0])
             setSelectorState(setSelect)
             if(uAddress.length >= 1){
                 setAddressOf_DB(uAddress[0])
@@ -80,6 +81,15 @@ export default function EnvioTab({handlerNext}){
             }
         })
     }, [uid])
+
+    useEffect(()=>{
+        if(city && department){
+           const citiesOfDepartment = deliveryCosts.find(depto => depto.departamento === department)
+           const cityDeliveryCost = citiesOfDepartment.ciudades.find(currentCity => currentCity.name === city)
+           console.log({cityDeliveryCost})
+           setDeliveryCost(cityDeliveryCost.delivery)
+        }
+    },[city])
 
     const handlerForm = e =>{
         e.preventDefault()
@@ -128,8 +138,7 @@ export default function EnvioTab({handlerNext}){
         const selected = event.target.value
         setSelectorState(selected)
         if(selected !== 'agregar'){
-            const addresSelected = addresses.find(direction => direction.id == selected)
-            setAddressChose(addresSelected)
+            const addresSelected = addresses.find(direction => direction.id === selected)
             setAddressOf_DB(addresSelected)
             setAddressFromSelector(true)
         }
@@ -210,7 +219,7 @@ export default function EnvioTab({handlerNext}){
          selectOrForm = addresses.length > 0 ? selector : formEnvio
     }
 
-    const detailsEnvio = (addressChose !== undefined) ? <DeliveryDeatils currentAddress={addressChose}/> : ''
+    const detailsEnvio = addressFromSelector ? <DeliveryDeatils/> : ''
 
 
     if(selectorState === 'nothing') {
@@ -246,7 +255,7 @@ export default function EnvioTab({handlerNext}){
                     { selectOrForm }
                     { showToUser }
                     <p>
-                        dejar que el usuario seleccione una empresa de envio o definir una y dejasr el precio fijo 
+                        Costo del envio: { deliveryCost }
                     </p>
                 </div>
 
