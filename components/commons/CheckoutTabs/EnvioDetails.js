@@ -1,16 +1,14 @@
-export default function DeliveryDeatils({currentAddress}){
+import { useBuyForm } from "components/BuyformContext"
+
+export default function DeliveryDeatils(){
     const {address,
            addresscomplement,
            city, 
            department,
-           //id,
-           //identification,
-           //lastnames,
-           //names,
            neighborhood,
-           //phone,
-           nextToAddress,
-           uid} = currentAddress
+           nextToAddress
+        } = useBuyForm()
+        
     return(
         <div>
             <div><b>Departamento: </b>{department}</div>

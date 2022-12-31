@@ -30,6 +30,7 @@ const initialState = {
     direccionWrong: false,
     barrioWrong: false,
     addressFromSelector:false,
+    deliveryCost:''
 }
 
 export const BuyFormContext = React.createContext(initialState)
@@ -126,6 +127,9 @@ function reducer(state, action){
         }
         case 'addressId' : {
             return{...state, addressId : action.payload}
+        }
+        case 'deliveryCost' : {
+            return { ...state, deliveryCost: action.payload }
         }
         
         
@@ -272,6 +276,12 @@ export const BuyFormProvider = ({...props}) => {
         [dispatch]
     )
 
+    const setDeliveryCost = useCallback(
+        payload => {
+            dispatch({type:'deliveryCost', payload}) },
+        [dispatch]
+    )
+
 
     const value= useMemo(
         ()=>({
@@ -299,7 +309,8 @@ export const BuyFormProvider = ({...props}) => {
             setAddressOfDB,
             setAddressFromSelector,
             setAddressId,
-            clearAddressOfDb
+            clearAddressOfDb,
+            setDeliveryCost
         }),
         [state]
     )
