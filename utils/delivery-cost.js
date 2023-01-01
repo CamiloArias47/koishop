@@ -4435,7 +4435,7 @@ export const deliveryCosts = [
             },
             {
                 name:"Cali",
-                delivery:13000
+                delivery:8000
             },
             {
                 name:"Calima",
