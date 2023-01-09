@@ -13,10 +13,17 @@ export default function CheckoutTab({handlerNext, uid}){
     const [statusCodeTex, setStatusCodeTex] = useState('')
 
     const { reference } = useBuyForm()
-    const { subtotalToPay,
-            priceBeforeDiscount,
-            setDiscount,
-            discountValue } = useCommerce()
+
+    const { 
+        totalToPay,
+        subtotalToPay,
+        priceBeforeDiscount,
+        setDiscount,
+        discountValue,
+        deliveryCost,
+        setTotalToPay
+     } = useCommerce()
+
     const {
             openDisplayBlockWindow,
             closeDisplayBlockWindow
@@ -24,14 +31,11 @@ export default function CheckoutTab({handlerNext, uid}){
     
     //user un efecto cuando cambie discountValue
     useEffect( () => {
-        console.log('limpiar codigo')
         setDiscount({discount:0, type:'no discount',code:''})
     },[])
 
     useEffect( () => {
-            console.log('establecer codigo en firestore')
             const codetoToUpdate = discountValue === 0 ? '':code
-    
             const dataToDiscount = {
                 bid:reference, 
                 code:codetoToUpdate, 
@@ -47,6 +51,7 @@ export default function CheckoutTab({handlerNext, uid}){
         setCodeItsFine(undefined)
         setStatusCodeTex('')
         setDiscount({discount:0, type:'no discount',code})
+        setTotalToPay()
     }
 
     const handlerSubmit = e => {
@@ -57,7 +62,6 @@ export default function CheckoutTab({handlerNext, uid}){
     const handlerCode = e => {
         e.preventDefault()
         if(code){
-
             const bodyData = {
                 uid, 
                 priceToPay : priceBeforeDiscount,
@@ -89,10 +93,11 @@ export default function CheckoutTab({handlerNext, uid}){
                         
                         codeText = data.motive
                     }
-
+                    
                     setCodeItsFine( codeFine )
                     setStatusCodeTex( codeText )
                     setDiscount( discountData )
+                    setTotalToPay()
 
                     closeDisplayBlockWindow()
                 })
@@ -135,12 +140,26 @@ export default function CheckoutTab({handlerNext, uid}){
                 </div>
 
                 <div className="checkout-resume">
-                    <div><b>{(priceBeforeDiscount > subtotalToPay)?'Total':''}</b></div>
-                    <div>{priceWithDIscount}</div>
-                    <div><b>{(priceBeforeDiscount > subtotalToPay)?'Descuentos':''}</b></div>
-                    <div>{(priceBeforeDiscount > subtotalToPay)?formatPrice(discountValue):''}</div>
-                    <div className="total-to-pay"><b>Total a pagar:</b></div>
-                    <div className="total-to-pay">{formatPrice(subtotalToPay)}</div>    
+                    <div>
+                        <span><b>{(priceBeforeDiscount > subtotalToPay)?'Productos':''}</b></span>
+                        <span className="checkout-resume--price">{priceWithDIscount}</span>
+                    </div>
+                    <div>
+                        <span><b>{(priceBeforeDiscount > subtotalToPay)?'Descuentos':''}</b></span>
+                        <span className="checkout-resume--price">{(priceBeforeDiscount > subtotalToPay)? '-' + formatPrice(discountValue):''}</span>
+                    </div>
+                    <div>
+                        <span><b>Subtotal:</b></span>
+                        <span className="checkout-resume--price">{formatPrice(subtotalToPay)}</span> 
+                    </div>
+                    <div>
+                        <span><b>Envio:</b></span>
+                        <span className="checkout-resume--price">{formatPrice(deliveryCost)}</span>   
+                    </div> 
+                    <div className="total-to-pay">
+                        <span><b>Total a pagar:</b></span>
+                        <spam className="checkout-resume--price">{formatPrice(totalToPay)}</spam>    
+                    </div>
                 </div>
 
                 <div className="container-btn-buy">

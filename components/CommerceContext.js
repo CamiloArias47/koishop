@@ -10,9 +10,11 @@ const initialState = {
     cart:[],
     totalProductsInCart:0,
     subtotalToPay:0,
+    totalToPay:0,
     priceBeforeDiscount:0,
     discountValue:0,
-    discountCode:''
+    discountCode:'',
+    deliveryCost:''
 }
 
 export const TRANSACTION_STATUS = {
@@ -121,6 +123,13 @@ function commerceReducer(state, action){
                 discountCode
             }
         }
+        case 'deliveryCost' : {
+            return { ...state, deliveryCost: action.payload }
+        }
+        case 'calculateTotalToPay' : {
+            const total = state.subtotalToPay + state.deliveryCost
+            return { ...state, totalToPay: total}
+        }
     }
 }
 
@@ -147,13 +156,26 @@ export const CommerceProvider = ({...props}) =>{
         [dispatch]
     )
 
+    const setDeliveryCost = useCallback(
+        payload => {
+            dispatch({type:'deliveryCost', payload}) },
+        [dispatch]
+    )
+
+    const setTotalToPay = useCallback(
+        () => { dispatch({type:'calculateTotalToPay'}) },
+        [dispatch]
+    )
+
     const value= useMemo(
         ()=>({
             ...state,
             setCategories,
             setProductsCart,
             setProductCart,
-            setDiscount
+            setDiscount,
+            setDeliveryCost,
+            setTotalToPay
         }),
         [state]
     )

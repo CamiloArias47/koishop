@@ -58,7 +58,7 @@ export default function PagarPage(){
             openToast
          } = useUI() 
 
-    const { subtotalToPay, discountCode } = useCommerce()
+    const {totalToPay, discountCode } = useCommerce()
     const { saveCart } = useSaveCart()
     const { useGetLocalCategories } = useLocalCategories()
 
@@ -76,7 +76,7 @@ export default function PagarPage(){
     const showWompyModal = () => {
         let configWompi = {
             currency: 'COP',
-            amountInCents: subtotalToPay+'00',
+            amountInCents: totalToPay+'00',
             reference: reference,
             publicKey: dev ? 'pub_test_XdVuxWTudRKlUmJf5zwVO71K2I3pQRsO' : 'pub_prod_bOQshOzmaqsaYQ8tzsHPUP7G3K2A1EqN',
             redirectUrl: 'https://koimakeup.com/user/pedidos/success', // Opcional

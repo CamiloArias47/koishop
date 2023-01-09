@@ -1,10 +1,12 @@
 import { useEffect, useState, useRef } from 'react'
 import { useUI } from "components/UIcontext"
 import { useBuyForm, useDeliveryActions } from "components/BuyformContext"
+import { useCommerce } from "components/CommerceContext"
 import { getAddressesBy } from 'firebaseApi/firestoreDB/addresses'
 import DeliveryDeatils from './EnvioDetails'
 import {Loadingtext} from 'components/icons'
 import { departments } from 'utils/departments'
+import { formatPrice } from 'utils'
 import { deliveryCosts } from 'utils/delivery-cost'
 
 import style from './style'
@@ -36,7 +38,6 @@ export default function EnvioTab({handlerNext}){
            barrioWrong,
            addresses,
            addressFromSelector,
-           deliveryCost,
            setNames,
            setCedula,
            setPhone,
@@ -56,8 +57,14 @@ export default function EnvioTab({handlerNext}){
            setAddresses,
            setAddressFromSelector,
            clearAddressOfDb,
-           setRender,
-           setDeliveryCost} = useBuyForm()
+           setRender
+    } = useBuyForm()
+
+    const {
+        deliveryCost,
+        setDeliveryCost,
+        setTotalToPay
+    } = useCommerce()
 
     const { validateAndSave, setAddressOf_DB } = useDeliveryActions()
 
@@ -85,9 +92,9 @@ export default function EnvioTab({handlerNext}){
     useEffect(()=>{
         if(city && department){
            const citiesOfDepartment = deliveryCosts.find(depto => depto.departamento === department)
-           const cityDeliveryCost = citiesOfDepartment.ciudades.find(currentCity => currentCity.name === city)
-           console.log({cityDeliveryCost})
+           const cityDeliveryCost = citiesOfDepartment.ciudades?.find(currentCity => currentCity.name === city)
            setDeliveryCost(cityDeliveryCost.delivery)
+           setTotalToPay()
         }
     },[city])
 
@@ -153,6 +160,7 @@ export default function EnvioTab({handlerNext}){
         openDisplayBlockWindow()
 
         validateAndSave()
+            .then( () => setTotalToPay() )
             .then( () => handlerNext() )
             .catch( err => {
                 console.error({err})
@@ -255,7 +263,7 @@ export default function EnvioTab({handlerNext}){
                     { selectOrForm }
                     { showToUser }
                     <p>
-                        Costo del envio: { deliveryCost }
+                        Costo del envio: { formatPrice(deliveryCost) }
                     </p>
                 </div>
 

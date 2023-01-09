@@ -34,17 +34,40 @@ export default css`
     width:30%;
 }
 .checkout-resume{
-    display:flex;
-    flex-flow:row wrap;
     padding-top:2rem;
+    width:100%;
 }
 .checkout-resume div{
-    width:50%;
+    display:flex;
+    flex-flow:row wrap;
     padding-bottom: .5rem;
+}
+.checkout-resume div span{
+    width:50%;
+}
+.checkout-resume div span.checkout-resume--price{
+    width:50%;
+    text-align:right;
 }
 .checkout-resume .total-to-pay{
     font-weight: 600;
     font-size: 1.2rem;
     border-top: 1px solid ${colors.gray};
+}
+.checkout-resume .total-to-pay .checkout-resume--price{
+    width: 50%;
+    text-align: right;
+}
+
+@media (min-width: 768px){
+    .checkout-resume div span{
+        width:35%;
+    }
+    .checkout-resume div span.checkout-resume--price{
+        width:20%;
+    }
+    .checkout-resume .total-to-pay .checkout-resume--price{
+        width: 20%;
+    }
 }
 `
