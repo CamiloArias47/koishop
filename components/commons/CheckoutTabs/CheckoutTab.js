@@ -140,16 +140,26 @@ export default function CheckoutTab({handlerNext, uid}){
                 </div>
 
                 <div className="checkout-resume">
-                    <div><b>{(priceBeforeDiscount > subtotalToPay)?'Productos':''}</b></div>
-                    <div>{priceWithDIscount}</div>
-                    <div><b>{(priceBeforeDiscount > subtotalToPay)?'Descuentos':''}</b></div>
-                    <div>{(priceBeforeDiscount > subtotalToPay)? '-' + formatPrice(discountValue):''}</div>
-                    <div><b>Subtotal:</b></div>
-                    <div>{formatPrice(subtotalToPay)}</div> 
-                    <div><b>Envio:</b></div>
-                    <div>{formatPrice(deliveryCost)}</div>    
-                    <div className="total-to-pay"><b>Total a pagar:</b></div>
-                    <div className="total-to-pay">{formatPrice(totalToPay)}</div>    
+                    <div>
+                        <span><b>{(priceBeforeDiscount > subtotalToPay)?'Productos':''}</b></span>
+                        <span className="checkout-resume--price">{priceWithDIscount}</span>
+                    </div>
+                    <div>
+                        <span><b>{(priceBeforeDiscount > subtotalToPay)?'Descuentos':''}</b></span>
+                        <span className="checkout-resume--price">{(priceBeforeDiscount > subtotalToPay)? '-' + formatPrice(discountValue):''}</span>
+                    </div>
+                    <div>
+                        <span><b>Subtotal:</b></span>
+                        <span className="checkout-resume--price">{formatPrice(subtotalToPay)}</span> 
+                    </div>
+                    <div>
+                        <span><b>Envio:</b></span>
+                        <span className="checkout-resume--price">{formatPrice(deliveryCost)}</span>   
+                    </div> 
+                    <div className="total-to-pay">
+                        <span><b>Total a pagar:</b></span>
+                        <spam className="checkout-resume--price">{formatPrice(totalToPay)}</spam>    
+                    </div>
                 </div>
 
                 <div className="container-btn-buy">
