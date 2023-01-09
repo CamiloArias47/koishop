@@ -9,7 +9,7 @@ describe('Add product to cart and go to buy', () => {
         cy.request('DELETE', 'http://localhost:3000/api/testing')
 
         //Create user, category and products
-        cy.request('POST', 'http://localhost:3000/api/testing')
+       cy.request('POST', 'http://localhost:3000/api/testing')
     })
 
     it('Show buy Wompy Modal', () => {
@@ -18,14 +18,23 @@ describe('Add product to cart and go to buy', () => {
         cy.get('.products-section')
 
         cy.get('.products-section').scrollIntoView().should('be.visible')
-
+        // add a product with color option to shopping cart
         cy.get('.cards-grid .product-card').first().click()
         cy.location('pathname', { timeout: 20000 })
-          .should('eq', '/producto/Testing-Product-name')
-
-        //seleccionar color agregar color 
-        //cy.get('.form-add__top button').first().click()
+        .should('eq', '/producto/Testing-Product-Color')
+        cy.get('.form-add__top > :nth-child(1)').click()
         cy.get('.form-add__bottom button').click()
+        cy.get('.slidebar-container .close-btn ').click()
+        
+        //go to home, to add another product
+        cy.get('.logo').click()
+        cy.get('.products-section').scrollIntoView().should('be.visible')
+        cy.get('.cards-grid .product-card:nth-child(2) > a > .product-card-details').click()
+        cy.location('pathname', { timeout: 20000 })
+        .should('eq', '/producto/Testing-Product-name')
+        cy.get('.form-add__bottom button').click()
+        
+        //Go to buy
         cy.get('.cart-container .btn-primary').click()
         cy.wait(2000)
 

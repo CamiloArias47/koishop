@@ -7,6 +7,8 @@ import { ENVIROMENTS } from "utils"
 export const saveTestingProduct = async () => {
     if( process.env.ENVIRONMENT === ENVIROMENTS.dev ){
 
+        const batch = firestore.batch();
+
         const category = {
             photo:"https://firebasestorage.googleapis.com/v0/b/koishop-dev.appspot.com/o/categories%2Fcat4.jpg?alt=media&token=57880966-95f0-4f65-86bc-46fe6f030ce9",
             subcategories:['subcategory1', 'subcategory2', 'subcategory3']
@@ -27,11 +29,35 @@ export const saveTestingProduct = async () => {
             timestamp: admin.FieldValue.serverTimestamp()
         }
 
-        await firestore.collection('categories').doc('Test-Category').set(category)
+        const testingProduct2 = {
+            amount: 20,
+            category: 'Test-Category',
+            colors: [
+                '{"name":"Tono 1","color":"#F0CCC4","amount":5}',
+                '{"name":"Tono 2","color":"#CEBAB6","amount":5}',
+                '{"name":"Tono 3","color":"#D2998E","amount":5}',
+                '{"name":"Tono 4","color":"#F0CCC4","amount":0}'
+            ],
+            description: "<h1>producto de prueba</h1> Lorem Ipsum</h3> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make",
+            name: "Testing Product Color",
+            photo: "https://firebasestorage.googleapis.com/v0/b/koishop-dev.appspot.com/o/products%2FTEST.jpg?alt=media&token=5a5288ba-75d2-4315-a427-61a425362cf6",
+            //pictures: ["rutas.jpg", "rutas.png"],
+            price: 2000,
+            subcategory: 'subcategory1',
+            timestamp: admin.FieldValue.serverTimestamp()
+        }
 
-        const res = await firestore.collection('products').add(testingProduct)
+        const categoryRef = firestore.collection('categories').doc('Test-Category')
+        batch.set(categoryRef, category);
 
-        return res.id
+        const simpleProductref = firestore.collection('products').doc('testProduct1')
+        batch.set(simpleProductref,testingProduct)
+
+        const simpleProduct2ref = firestore.collection('products').doc('testProduct2')
+        batch.set(simpleProduct2ref,testingProduct2)
+
+        const res = await batch.commit();
+        return res
     }
 }
 
