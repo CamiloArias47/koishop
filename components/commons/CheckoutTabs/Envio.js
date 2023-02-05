@@ -7,7 +7,7 @@ import DeliveryDeatils from './EnvioDetails'
 import {Loadingtext} from 'components/icons'
 import { departments } from 'utils/departments'
 import { formatPrice } from 'utils'
-import { deliveryCosts } from 'utils/delivery-cost'
+import { getDeliveryByCity } from './delivery-cost'
 
 import style from './style'
 
@@ -91,9 +91,8 @@ export default function EnvioTab({handlerNext}){
 
     useEffect(()=>{
         if(city && department){
-           const citiesOfDepartment = deliveryCosts.find(depto => depto.departamento === department)
-           const cityDeliveryCost = citiesOfDepartment.ciudades?.find(currentCity => currentCity.name === city)
-           setDeliveryCost(cityDeliveryCost.delivery)
+           const cityDeliveryCost = getDeliveryByCity(city, department)
+           setDeliveryCost(cityDeliveryCost)
            setTotalToPay()
         }
     },[city])

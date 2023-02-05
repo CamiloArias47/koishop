@@ -6,22 +6,25 @@ import {formatPrice} from "utils"
 import style from "./styleDiscountCode"
 import {SuccessAnimation} from "components/icons"
 import { useUI } from "components/UIcontext"
+import { getDeliveryByCity } from './delivery-cost'
 
 export default function CheckoutTab({handlerNext, uid}){
     const [code, setCode ] = useState('')
     const [codeItsFine, setCodeItsFine ] = useState(undefined)
     const [statusCodeTex, setStatusCodeTex] = useState('')
 
-    const { reference } = useBuyForm()
+    const { reference, department, city } = useBuyForm()
 
     const { 
         totalToPay,
         subtotalToPay,
         priceBeforeDiscount,
+        discountCode,
         setDiscount,
         discountValue,
         deliveryCost,
-        setTotalToPay
+        setTotalToPay,
+        setDeliveryCost
      } = useCommerce()
 
     const {
@@ -50,7 +53,13 @@ export default function CheckoutTab({handlerNext, uid}){
         setCode(e.target.value)
         setCodeItsFine(undefined)
         setStatusCodeTex('')
-        setDiscount({discount:0, type:'no discount',code})
+        if(discountCode === "free-delivery"){
+            const cityDeliveryCost = getDeliveryByCity(city, department)
+            setDeliveryCost(cityDeliveryCost)
+        }
+        else{
+            setDiscount({discount:0, type:'no discount',code})
+        }
         setTotalToPay()
     }
 
@@ -158,7 +167,7 @@ export default function CheckoutTab({handlerNext, uid}){
                     </div> 
                     <div className="total-to-pay">
                         <span><b>Total a pagar:</b></span>
-                        <spam className="checkout-resume--price">{formatPrice(totalToPay)}</spam>    
+                        <span className="checkout-resume--price">{formatPrice(totalToPay)}</span>    
                     </div>
                 </div>
 
