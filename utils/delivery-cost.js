@@ -1,3 +1,4 @@
+export const defaultDeliveryValue = 13000
 export const deliveryCosts = [
     {  
         "id":0,
