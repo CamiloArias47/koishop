@@ -84,6 +84,11 @@ export default function Footer(){
                                             Política de privacidad
                                         </Link>
                                     </li>
+                                    <li>
+                                        <Link href="/creditos">
+                                            Créditos
+                                        </Link>
+                                    </li>
                                 </ul>
                             </div>
                             <div className='quienes-somos'> 

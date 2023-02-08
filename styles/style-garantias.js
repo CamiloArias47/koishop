@@ -11,6 +11,11 @@ export default css`
 h1, h2, h3{
     color: ${ fontColor.important };
 }
+
+a{
+    color: ${ fontColor.primary };
+}
+
 @media (min-width : 768px){
     .container{
         width:80%;
