@@ -8,6 +8,7 @@ import { replaceAll, formatPrice } from "utils"
 import { useCart } from 'hooks/useCart'
 import { useUI, SIDEBAR_VIEWS } from 'components/UIcontext'
 import useLocalCategories from 'hooks/useLocalCategories'
+import useImagePreloader from 'hooks/useImagePreloader'
 
 
 import BreadCrum from 'components/commons/breadcrum'
@@ -49,6 +50,7 @@ const ProductPage = (props) => {
   },[])
 
   useGetLocalCategories()
+  useImagePreloader(pictures)
 
   const handlerAmount = (event) => {
     const amountToBuy = event.target.value
