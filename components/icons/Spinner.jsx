@@ -1,16 +1,16 @@
 const DEFAULT_PROPS = {
-  width:38, 
-  height:38, 
-  color:"#9e7070"
+  width: 38,
+  height: 38,
+  color: '#9e7070'
 }
 
-export default function Spinner(props = DEFAULT_PROPS) {
-    return (
+export default function Spinner (props = DEFAULT_PROPS) {
+  return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         style={{
-          margin: "auto",
-          background: "0 0",
+          margin: 'auto',
+          background: '0 0'
         }}
         width={props.width}
         height={props.height}
@@ -209,5 +209,5 @@ export default function Spinner(props = DEFAULT_PROPS) {
           />
         </rect>
       </svg>
-    )
-  }
+  )
+}

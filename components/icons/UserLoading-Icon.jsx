@@ -1,7 +1,7 @@
-import ContentLoader from "react-content-loader"
+import ContentLoader from 'react-content-loader'
 
 const UserLoadingIcon = (props) => (
-  <ContentLoader 
+  <ContentLoader
     speed={1.5}
     width={42}
     height={42}
@@ -11,7 +11,7 @@ const UserLoadingIcon = (props) => (
     uniqueKey="userloadingicon"
     {...props}
   >
-    <circle cx="102" cy="117" r="13" /> 
+    <circle cx="102" cy="117" r="13" />
     <circle cx="21" cy="21" r="20" />
   </ContentLoader>
 )

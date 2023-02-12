@@ -1,11 +1,11 @@
-import {formatPrice } from 'utils'
+import { formatPrice } from 'utils'
 
-export default function mailOrderConfirmed({reference, name, date, paymetod, department, city, address, products, total, envio='$0', discount, subtotal}){ 
-    let productos = ''
-    let descuento = ''
+export default function mailOrderConfirmed ({ reference, name, date, paymetod, department, city, address, products, total, envio = '$0', discount, subtotal }) {
+  let productos = ''
+  let descuento = ''
 
-    products.forEach(prod => {
-        productos = productos + `
+  products.forEach(prod => {
+    productos = productos + `
         <tr class="para-repetir"> 
         <td class="esdev-adapt-off primerito" align="left" style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px"> 
           <table cellpadding="0" cellspacing="0" class="esdev-mso-table" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:560px"> 
@@ -76,7 +76,7 @@ export default function mailOrderConfirmed({reference, name, date, paymetod, dep
                               <tr> 
                                 <td align="right" style="padding:0;Margin:0">
                                   <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
-                                    ${formatPrice(prod.pricex1*prod.amount)}
+                                    ${formatPrice(prod.pricex1 * prod.amount)}
                                   </p>
                                 </td> 
                               </tr> 
@@ -89,13 +89,13 @@ export default function mailOrderConfirmed({reference, name, date, paymetod, dep
           </table>
         </td> 
         </tr>`
-    });
+  })
 
-    if(discount > 0){
-        descuento = `Descuento:&nbsp;<strong>-${formatPrice(discount)}</strong><br>`
-    }
+  if (discount > 0) {
+    descuento = `Descuento:&nbsp;<strong>-${formatPrice(discount)}</strong><br>`
+  }
 
-    let totalPagado = `<tr class="total??"> 
+  const totalPagado = `<tr class="total??"> 
     <td align="left" style="padding:0;Margin:0;padding-top:10px;padding-left:20px;padding-right:20px"> 
     <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
         <tr> 
@@ -118,7 +118,7 @@ export default function mailOrderConfirmed({reference, name, date, paymetod, dep
     </td> 
     </tr> `
 
-return`
+  return `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" style="font-family:arial, 'helvetica neue', helvetica, sans-serif">
     <head> 

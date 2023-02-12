@@ -1,6 +1,6 @@
-import * as React from "react"
+import * as React from 'react'
 
-function KoiKIcon(props) {
+function KoiKIcon (props) {
   return (
     <svg
       width={93.047}

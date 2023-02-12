@@ -1,6 +1,6 @@
-function RowIcon(props) {
+function RowIcon (props) {
   const { height, width, className } = props
-    return (
+  return (
       <svg
         height={height}
         viewBox="0 0 21 21"
@@ -18,7 +18,7 @@ function RowIcon(props) {
           {...props}
         />
       </svg>
-    )
-  }
-  
-  export default RowIcon
+  )
+}
+
+export default RowIcon

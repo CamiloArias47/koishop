@@ -1,5 +1,5 @@
-function UserIcon(props) {
-    return (
+function UserIcon (props) {
+  return (
       <svg
         height={21}
         viewBox="0 0 21 21"
@@ -20,8 +20,7 @@ function UserIcon(props) {
           <path d="M8.5 2.5a3 3 0 013 3v2a3 3 0 01-6 0v-2a3 3 0 013-3z" />
         </g>
       </svg>
-    )
-  }
-  
-  export default UserIcon
-  
+  )
+}
+
+export default UserIcon

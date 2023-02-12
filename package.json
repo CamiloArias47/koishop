@@ -15,7 +15,7 @@
     "@sendgrid/mail": "7.7.0",
     "crypto-js": "4.1.1",
     "firebase": "9.10.0",
-    "firebase-admin": "11.0.1",
+    "firebase-admin": "11.5.0",
     "hamburger-react": "2.5.0",
     "intersection-observer": "0.12.2",
     "just-throttle": "4.1.1",
@@ -28,7 +28,12 @@
   },
   "devDependencies": {
     "cypress": "10.8.0",
-    "eslint": "7.30.0",
-    "eslint-config-next": "11.0.1"
+    "eslint": "8.34.0",
+    "eslint-config-next": "13.1.6",
+    "eslint-config-standard": "17.0.0",
+    "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-n": "15.6.1",
+    "eslint-plugin-promise": "6.1.1",
+    "eslint-plugin-react": "7.32.2"
   }
 }
