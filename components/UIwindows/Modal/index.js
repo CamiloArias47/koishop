@@ -1,18 +1,17 @@
 import { useUI } from 'components/UIcontext'
 import style from './style'
 
-import {CloseIcon} from 'components/icons'
+import { CloseIcon } from 'components/icons'
 
-export const Modal = ({ children })=>{
+export const Modal = ({ children }) => {
+  const { closeModal } = useUI()
 
-    const { closeModal } = useUI()
+  const closeM = () => {
+    document.getElementsByTagName('html')[0].style.overflow = 'auto'
+    closeModal()
+  }
 
-    const closeM = () =>{
-        document.getElementsByTagName("html")[0].style.overflow = "auto";
-        closeModal()
-    }
-
-    return(
+  return (
         <div className="modal-container">
             <div className="modal">
                 <button className="close-icon" onClick={closeM}>
@@ -20,8 +19,8 @@ export const Modal = ({ children })=>{
                 </button>
                 { children }
             </div>
-            
+
             <style jsx>{style}</style>
         </div>
-    )
+  )
 }

@@ -5,10 +5,10 @@ export default css`
     .addresscard{
         display:flex;
         flex-direction:column;
-        border: 2px solid ${ colors.primary };
+        border: 2px solid ${colors.primary};
         border-radius: 15px;
         padding: .5rem;
-        background: ${ colors.primaryUltraDim};
+        background: ${colors.primaryUltraDim};
     }
     .addresscard_header{
         display:flex;

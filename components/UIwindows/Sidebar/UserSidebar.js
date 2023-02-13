@@ -4,36 +4,35 @@ import { useRouter } from 'next/router'
 import style from './style-user'
 
 export const UserSidebar = () => {
+  const { closeSidebar } = useUI()
+  const router = useRouter()
 
-    const { closeSidebar } = useUI()
-    const router = useRouter()
+  const singOut = () => {
+    logout().then(() => {
+      closeSidebar()
+      router.push('/')
+    })
+      .catch(error => {
+        console.log({ error })
+      })
+  }
 
-    const singOut = () => {
-        logout().then( ()=>{
-            closeSidebar()
-            router.push('/')
-        })
-        .catch( error => {
-            console.log({error})
-        })
-    }
+  const handlerClick = route => {
+    closeSidebar()
+    router.push(route)
+  }
 
-    const handlerClick = route => {
-        closeSidebar()
-        router.push(route)
-    }
-
-    return(
+  return (
         <div className="user-view-sidebar">
             <ul className='ul-user-sidebar'>
                 <li>
-                    <a onClick={()=>{handlerClick('/user')} }>Mi Cuenta</a>
+                    <a onClick={() => { handlerClick('/user') } }>Mi Cuenta</a>
                 </li>
                 <li>
-                    <a onClick={()=>{handlerClick('/user/pedidos')} }>Mis Pedidos</a>
+                    <a onClick={() => { handlerClick('/user/pedidos') } }>Mis Pedidos</a>
                 </li>
                 <li className='hidde-in-desktop'>
-                    <a onClick={()=>{handlerClick('/user/password')} }>Cambiar contraseña</a>
+                    <a onClick={() => { handlerClick('/user/password') } }>Cambiar contraseña</a>
                 </li>
                 <li>
                     <a onClick={singOut}>Cerrar sesión</a>
@@ -41,5 +40,5 @@ export const UserSidebar = () => {
             </ul>
             <style jsx>{style}</style>
         </div>
-    )
+  )
 }

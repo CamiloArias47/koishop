@@ -7,7 +7,7 @@ ul.subcategory-list{
     padding: 0;
 }
 ul.subcategory-list :global(li){
-    color: ${ fontColor.general };
+    color: ${fontColor.general};
     padding: 6px 0;
 }
 `

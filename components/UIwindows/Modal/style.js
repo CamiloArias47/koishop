@@ -1,5 +1,5 @@
 import css from 'styled-jsx/css'
-import { glass, colors } from 'styles/theme'
+import { glass } from 'styles/theme'
 
 export default css`
 .modal-container{

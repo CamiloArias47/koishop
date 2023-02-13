@@ -1,6 +1,6 @@
-import { useState } from "react"
-import { AuthFacebookGooogle } from './AuthFacebookGoogle' 
-import { useUI, MODAL_VIEWS } from "components/UIcontext"
+import { useState } from 'react'
+import { AuthFacebookGooogle } from './AuthFacebookGoogle'
+import { useUI, MODAL_VIEWS } from 'components/UIcontext'
 import { login } from 'firebaseApi/client'
 import { VerifyEmail } from './VerifyMail'
 import { Reset } from './ResetPass'
@@ -8,56 +8,53 @@ import { Spinner } from 'components/icons'
 import { colors } from 'styles/theme'
 import { ErrorInline } from 'components/commons/ErrorMesage/InlineError'
 
-
 import style from 'styles/style-modal-forms'
 
 const MODAL_STATE = {
-    REQUESTING : 'waiting...',
-    LOGIN_VIEW : 'login-view',
-    VERIFY_VIEW : 'verify-view',
-    RESET_VIEW : 'reset-view',
-    ERROR: '😡',
-    LOGEDIN : '😉'
+  REQUESTING: 'waiting...',
+  LOGIN_VIEW: 'login-view',
+  VERIFY_VIEW: 'verify-view',
+  RESET_VIEW: 'reset-view',
+  ERROR: '😡',
+  LOGEDIN: '😉'
 }
 
 export const Login = () => {
-    const { setModalView, closeModal } = useUI()
-    const [ mail, setMail ] = useState('')
-    const [ password, setPassword ] = useState('')
-    const [ stateLogin, setStateLogin ] = useState(MODAL_STATE.LOGIN_VIEW)
+  const { setModalView, closeModal } = useUI()
+  const [mail, setMail] = useState('')
+  const [password, setPassword] = useState('')
+  const [stateLogin, setStateLogin] = useState(MODAL_STATE.LOGIN_VIEW)
 
-    const handlerChange = (event)=>{
-        let { value, name } = event.target
-        if(name === 'mail') setMail(value)
-        else setPassword(value)
-    }
+  const handlerChange = (event) => {
+    const { value, name } = event.target
+    if (name === 'mail') setMail(value)
+    else setPassword(value)
+  }
 
-    const handlerSubmit = event => {
-        event.preventDefault()
-        setStateLogin(MODAL_STATE.REQUESTING)
-        login({email:mail,password})
-            .then( user => {
-                if(!user.emailVerified){
-                    setStateLogin(MODAL_STATE.VERIFY_VIEW)
-                }
-                else{
-                    closeModal()
-                }
-            })
-            .catch(error =>{
-                setStateLogin(error)
-            })
-            
-    }
+  const handlerSubmit = event => {
+    event.preventDefault()
+    setStateLogin(MODAL_STATE.REQUESTING)
+    login({ email: mail, password })
+      .then(user => {
+        if (!user.emailVerified) {
+          setStateLogin(MODAL_STATE.VERIFY_VIEW)
+        } else {
+          closeModal()
+        }
+      })
+      .catch(error => {
+        setStateLogin(error)
+      })
+  }
 
-    if(stateLogin === MODAL_STATE.VERIFY_VIEW) return <VerifyEmail />
-    if(stateLogin === MODAL_STATE.RESET_VIEW) return <Reset email={mail}/>
+  if (stateLogin === MODAL_STATE.VERIFY_VIEW) return <VerifyEmail />
+  if (stateLogin === MODAL_STATE.RESET_VIEW) return <Reset email={mail}/>
 
-    const showSpinner = stateLogin === MODAL_STATE.REQUESTING ? <Spinner width="38" height="38" color={colors.primaryDark} /> : null 
-    const deshabilitar = stateLogin === MODAL_STATE.REQUESTING ? true : false 
-    const messageError =  stateLogin.code !== undefined ? <ErrorInline code={stateLogin.code} /> : null 
+  const showSpinner = stateLogin === MODAL_STATE.REQUESTING ? <Spinner width="38" height="38" color={colors.primaryDark} /> : null
+  const deshabilitar = stateLogin === MODAL_STATE.REQUESTING
+  const messageError = stateLogin.code !== undefined ? <ErrorInline code={stateLogin.code} /> : null
 
-    return(
+  return (
         <div className="login-container">
             <h1>Iniciar sesión</h1>
             <form onSubmit={handlerSubmit}>
@@ -69,7 +66,7 @@ export const Login = () => {
                 </button>
             </form>
 
-            <p onClick={ ()=>{setStateLogin(MODAL_STATE.RESET_VIEW)} } className="reset-pass-link">
+            <p onClick={ () => { setStateLogin(MODAL_STATE.RESET_VIEW) } } className="reset-pass-link">
                 ¿olvidaste tu contraseña cierto?
             </p>
 
@@ -79,8 +76,7 @@ export const Login = () => {
                 <button className="btn btn-info" onClick={() => setModalView(MODAL_VIEWS.REGISTER_VIEW) }>Regístrate</button>
             </div>
 
-
             <style jsx>{style}</style>
         </div>
-    )
+  )
 }

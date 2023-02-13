@@ -1,6 +1,5 @@
 import css from 'styled-jsx/css'
-import { fontColor } from 'styles/theme'
-import { glass, shadow } from 'styles/theme'
+import { fontColor, glass, shadow } from 'styles/theme'
 
 export default css`
 .toast-frame{

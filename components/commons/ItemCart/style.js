@@ -1,4 +1,4 @@
-import {css} from 'styled-jsx/css'
+import { css } from 'styled-jsx/css'
 import { fontColor, colors } from 'styles/theme'
 
 export default css`

@@ -1,8 +1,8 @@
 import UserMenu from './UserMenu'
 import style from './style'
 
-export default function UserLayout({ children }){
-    return(
+export default function UserLayout ({ children }) {
+  return (
         <div className="user-layout">
             <div className="menu-left">
                 <UserMenu/>
@@ -13,5 +13,5 @@ export default function UserLayout({ children }){
 
             <style jsx>{style}</style>
         </div>
-    )
+  )
 }

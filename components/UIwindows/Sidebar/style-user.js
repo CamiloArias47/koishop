@@ -13,7 +13,7 @@ export default css`
     font-size:1.5rem;
     font-weight:400;
     border-left: 2px solid transparent;
-    border-bottom: 1px solid ${ colors.dimGray };
+    border-bottom: 1px solid ${colors.dimGray};
 }
 
 .category-sidebar :global(li:hover),
@@ -21,7 +21,7 @@ export default css`
 .ul-user-sidebar li:hover{
     border-left: 2px solid ${colors.primary};
     color: ${colors.primary};
-    background-color: ${ colors.primaryUltraDim };
+    background-color: ${colors.primaryUltraDim};
 }
 
 .category-sidebar :global(.category-item){
@@ -30,11 +30,11 @@ export default css`
 }
 
 .category-sidebar :global(.subcategory-list){
-    background-color: ${ colors.primaryUltraDim };
+    background-color: ${colors.primaryUltraDim};
 }
 
 .social-wraper{
-    background-color: ${ colors.primary };
+    background-color: ${colors.primary};
     width: 110%;
     margin-left: -1rem;
     margin-right: -1rem;

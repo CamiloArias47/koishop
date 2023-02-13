@@ -4,28 +4,26 @@ import { HomeIcon } from 'components/icons'
 
 import style from './style'
 
-export default function BreadCrum({links}){
-
-    return <ul className="breadcrum">
+export default function BreadCrum ({ links }) {
+  return <ul className="breadcrum">
                  <li>
                      <Link href="/">
                          <a><HomeIcon width="22" height="22"/></a>
                      </Link>
                  </li>
-                { links.map( (link, index) => {
+                { links.map((link, index) => {
+                  const name = link.replaceAll('-', ' ')
 
-                        let name = link.replaceAll('-',' ') 
+                  const route = (index === 0)
+                    ? `/categoria/${link}`
+                    : `/categoria/${links[0]}/${link}`
 
-                        const route = (index === 0) 
-                                        ?  `/categoria/${link}`
-                                        : `/categoria/${links[0]}/${link}`
-
-                        return <li key={link}>
+                  return <li key={link}>
                                     <Link href={route}>
                                         <a>{name}</a>
                                     </Link>
                                 </li>
-                    }) 
+                })
                 }
 
                  <style jsx>{style}</style>

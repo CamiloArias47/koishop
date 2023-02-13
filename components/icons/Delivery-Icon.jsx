@@ -1,4 +1,4 @@
-function DeliveryIcon(props) {
+function DeliveryIcon (props) {
   return (
     <svg
       id="prefix__Layer_1"
@@ -13,7 +13,7 @@ function DeliveryIcon(props) {
     >
       <style type="text/css" id="style2">
         {
-          ".prefix__st0{fill:#b6cae0}.prefix__st1{fill:#005c90}.prefix__st2{fill:#fff}.prefix__st5{fill:#97b5cc}"
+          '.prefix__st0{fill:#b6cae0}.prefix__st1{fill:#005c90}.prefix__st2{fill:#fff}.prefix__st5{fill:#97b5cc}'
         }
       </style>
       <g id="prefix__g400" transform="translate(-1111.2 -534.2)">

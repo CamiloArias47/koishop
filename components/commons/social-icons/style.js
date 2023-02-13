@@ -1,12 +1,12 @@
 import css from 'styled-jsx/css'
-import  { colors } from 'styles/theme'
+import { colors } from 'styles/theme'
 
 export default css`
 span{
     display:block;
     font-size: 1.5rem;
     font-weight: 500;
-    color: ${ colors.white };
+    color: ${colors.white};
     padding-bottom: 0.5rem;
 }
 

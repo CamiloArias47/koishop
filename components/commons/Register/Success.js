@@ -1,8 +1,8 @@
 import style from './style'
 import { SuccessAnimation } from 'components/icons'
 
-export default function Success() {
-    return(
+export default function Success () {
+  return (
         <div className="success-register">
 
             <SuccessAnimation />
@@ -14,5 +14,5 @@ export default function Success() {
 
             <style jsx>{style}</style>
         </div>
-    )
+  )
 }

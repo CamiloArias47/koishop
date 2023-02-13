@@ -15,29 +15,25 @@ const FooterDefer = dynamic(() => import('../components/commons/footer'), {
   suspense: true
 })
 
-
-export default function Home({categories, products}) {
-
+export default function Home ({ categories, products }) {
   const { setCategories } = useCommerce()
   const { useSaveLocalCategory } = useLocalCategories()
 
-  useEffect( ()=>{
+  useEffect(() => {
     setCategories(categories)
-  },[])
+  }, [])
 
   useSaveLocalCategory(categories)
-  
+
   return (
     <div>
       <main className="main">
-        
 
         <CategorySlider/>
-        
 
         <section className="welcome-page">
           <div className='welcome-page__main-image'>
-            <Image 
+            <Image
               src={welcomeImage}
               alt="Welcome to Koi"
               placeholder="blur"
@@ -47,7 +43,7 @@ export default function Home({categories, products}) {
           </div>
           <PromoSection/>
         </section>
-        
+
         <section className="products-container">
           <div className="products-section">
             <h2>Destacados</h2>
@@ -55,29 +51,25 @@ export default function Home({categories, products}) {
           </div>
         </section>
 
-        <Suspense fallback={`Cargando...`} >
+        <Suspense fallback={'Cargando...'} >
           <FooterDefer />
         </Suspense>
       </main>
-      
 
       <style jsx>{styleHome}</style>
     </div>
   )
 }
 
-
-
-export async function getServerSideProps(context) {
-  const { req, res } = context
-
+export async function getServerSideProps (context) {
   const categories = await getCategories()
   let products = await getProdustsHome()
-  products = formatTimestampSSR({products})
+  products = formatTimestampSSR({ products })
 
-  return { props: { 
-              categories, 
-              products
-            } 
-          }
+  return {
+    props: {
+      categories,
+      products
+    }
+  }
 }

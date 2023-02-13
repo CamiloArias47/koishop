@@ -1,8 +1,8 @@
 import style from 'styles/style-garantias'
 import Footer from 'components/commons/footer'
 
-export default function Creditos({site = 'koi Makeup', siteName = 'Koi Makeup'}){
-    return(
+export default function Creditos ({ site = 'koi Makeup', siteName = 'Koi Makeup' }) {
+  return (
         <>
             <div className="container">
                 En { siteName } hemos usados recursos fotográficos de <a href="https://www.freepik.es/" rel="noreferrer" target="_blank">Freepik</a>
@@ -17,14 +17,14 @@ export default function Creditos({site = 'koi Makeup', siteName = 'Koi Makeup'})
             <style jsx>{ style }</style>
             <Footer />
         </>
-    )
+  )
 }
 
-export async function getStaticProps() {
-    return {
-        props: {
-            site: process.env.URL,
-            siteName : process.env.SITE_NAME
-        }, 
+export async function getStaticProps () {
+  return {
+    props: {
+      site: process.env.URL,
+      siteName: process.env.SITE_NAME
     }
+  }
 }

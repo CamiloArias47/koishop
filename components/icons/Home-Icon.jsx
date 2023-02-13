@@ -1,6 +1,4 @@
-import * as React from "react"
-
-function HomeIcon(props) {
+function HomeIcon (props) {
   return (
     <svg
     height={21}

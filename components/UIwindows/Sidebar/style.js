@@ -1,5 +1,5 @@
 import css from 'styled-jsx/css'
-import { colors, shadow} from 'styles/theme'
+import { colors, shadow } from 'styles/theme'
 
 export default css`
 .slidebar-container{
@@ -51,7 +51,7 @@ export default css`
         cursor: pointer;
     }
     .close-btn :global(svg:hover){
-        color:${ colors.primary };
+        color:${colors.primary};
     }
     .close-btn--right{
         right: 50%;

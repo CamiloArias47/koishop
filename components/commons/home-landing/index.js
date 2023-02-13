@@ -7,8 +7,8 @@ import paletaImg from 'public/images/paleta-pina-colada.png'
 
 import style from './style'
 
-export default function PromoSection(){
-    return(
+export default function PromoSection () {
+  return (
         <div className="info-page">
             <div className="info-page__product-main">
                 <div className="info-page__title">
@@ -30,7 +30,7 @@ export default function PromoSection(){
                       <span>Descuento</span>
                     </h1>
                     <h1 className='main-text__second'>
-                      Piña Colada 
+                      Piña Colada
                       <span> Paleta De Sombras</span>
                     </h1>
                   </div>
@@ -55,5 +55,5 @@ export default function PromoSection(){
             </div>
             <style jsx>{ style }</style>
         </div>
-    )
+  )
 }

@@ -28,10 +28,10 @@ export default css`
     aspect-ratio: 1;
 }
 .preview__element :global(img){
-    border: 3px solid ${ colors.dimGray } !important;
+    border: 3px solid ${colors.dimGray} !important;
 }
 .preview__element.active :global(img){
-    border: 3px solid ${ colors.primary } !important;
+    border: 3px solid ${colors.primary} !important;
 }
 
 @media (min-width: 1020px){

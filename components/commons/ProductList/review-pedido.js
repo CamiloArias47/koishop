@@ -1,11 +1,11 @@
-import { formatPrice } from "utils"
+import { formatPrice } from 'utils'
 import style from './style'
 import styleGlobalsTable from 'styles/global-table'
 
-export default function ProductListReview({name, price, buyAmount}){
-    buyAmount = Number(buyAmount)
+export default function ProductListReview ({ name, price, buyAmount }) {
+  buyAmount = Number(buyAmount)
 
-    return(
+  return (
         <tr>
             <td className="product-column">
               <b>{name}</b>
@@ -17,11 +17,11 @@ export default function ProductListReview({name, price, buyAmount}){
                     {buyAmount}
             </td>
             <td>
-                {formatPrice(price*buyAmount)}
+                {formatPrice(price * buyAmount)}
             </td>
 
             <style jsx>{style}</style>
             <style jsx>{styleGlobalsTable}</style>
         </tr>
-    )
+  )
 }

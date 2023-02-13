@@ -1,4 +1,4 @@
-import { colors } from "styles/theme"
+import { colors } from 'styles/theme'
 
 const BillIcon = (props) => (
   <svg width={32} height={32} xmlns="http://www.w3.org/2000/svg" {...props}>

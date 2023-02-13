@@ -11,7 +11,7 @@ footer{
 
 .degradado{
     width:100%;
-    color: ${ fontColor.important };
+    color: ${fontColor.important};
     background: rgb(255,255,255);
     background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(207,150,150,0.7987570028011204) 61%, rgba(207,150,150,1) 100%);
 }
@@ -41,7 +41,7 @@ footer{
     display:flex;
     font-size: 1rem;
     font-weight: 500;
-    color: ${ fontColor.important };
+    color: ${fontColor.important};
     padding-bottom: 0.5rem;
     align-items: center;
     justify-content: space-between;
@@ -64,8 +64,8 @@ footer{
     height:0;
     overflow: hidden;
     transition: height .6s ease;
-    color : ${ fontColor.general };
-    border-bottom:1px solid ${ colors.primaryUltraDim };
+    color : ${fontColor.general};
+    border-bottom:1px solid ${colors.primaryUltraDim};
 }
 
 .wraper-info-footer ul.show-height{
@@ -102,7 +102,7 @@ footer{
 .whatsapp-li a span{
     padding-left:.2rem;
     padding-bottom:0;
-    color : ${ fontColor.general };
+    color : ${fontColor.general};
 }
 
 .sociales span{
