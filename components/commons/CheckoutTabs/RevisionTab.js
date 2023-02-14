@@ -37,13 +37,8 @@ export default function RevisionTab ({ handlerNext, uid }) {
       .then(() => saveCart(uid))
       .then(() => handlerNext())
       .catch(err => {
-        if (typeof err === 'object') {
-          if (err.type) {
-            if (err.type === 'referencia pagada') handlerAskForNewPay()
-            if (err.type === 'no stock') handlerNoStock(err.noStock)
-          }
-        }
-
+        if (err?.message === 'ref payed') handlerAskForNewPay()
+        if (err?.message === 'no stock') handlerNoStock(err.cause)
         closeDisplayBlockWindow()
       })
   }
@@ -86,10 +81,9 @@ export default function RevisionTab ({ handlerNext, uid }) {
 
   const butonNext = cart.length === 0
     ? ''
-    : <button
-                            className="btn btn-primary btn-buy" onClick={saveDetailsBill} >
-                                Hacer compra
-                          </button>
+    : <button className="btn btn-primary btn-buy" onClick={saveDetailsBill} >
+        Hacer compra
+      </button>
 
   // valida si existe un id de factura y su fecha
   validateBillId()

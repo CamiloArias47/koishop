@@ -21,6 +21,7 @@ const WOMPI_STATES = {
 
 export default async (request, response) => {
   const { body } = request
+  /* eslint camelcase: ["error", {ignoreDestructuring: true}] */
   const {
     event,
     data,
@@ -88,6 +89,7 @@ export default async (request, response) => {
     environment,
     signature,
     timestamp,
+    // eslint-disable-next-line camelcase
     sent_at
   }
 
@@ -130,7 +132,7 @@ function validate ({ signature, data, timestamp }) {
   const secret = DEV ? process.env.WOMPISECRETTEST : process.env.WOMPISECRET
 
   return new Promise((resolve, reject) => {
-    signature.properties.map(prop => {
+    signature.properties.forEach(prop => {
       const properties = prop.split('.')
       concat = concat + data[properties[0]][properties[1]]
     })

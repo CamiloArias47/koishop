@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { firestore } from 'firebaseApi/admin'
 import fetch from 'node-fetch'
 

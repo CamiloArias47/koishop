@@ -162,8 +162,7 @@ export default function EnvioTab ({ handlerNext }) {
     validateAndSave()
       .then(() => setTotalToPay())
       .then(() => handlerNext())
-      .catch(err => {
-        console.error({ err })
+      .catch(() => {
         closeDisplayBlockWindow()
       })
   }

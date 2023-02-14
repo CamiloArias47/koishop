@@ -31,7 +31,7 @@ export default async (request, response) => {
         response.json(res)
       })
       .catch(fail => {
-        const res = { ...data, exist: true, status: false, motive: fail.motive }
+        const res = { ...data, exist: true, status: false, motive: fail.cause }
         response.json(res)
       })
   } else {
@@ -42,7 +42,7 @@ export default async (request, response) => {
 function validate ({ code, uid, priceToPay, bid }) {
   const validateUses = new Promise((resolve, reject) => {
     if (code.uses > 0 && code.used >= code.uses) {
-      reject({ status: false, motive: 'El código ya no esta disponible' })
+      reject(new Error('No code available', { cause: 'El código ya no esta disponible' }))
     }
     resolve(true)
   })
@@ -50,10 +50,8 @@ function validate ({ code, uid, priceToPay, bid }) {
   const validateDate = new Promise((resolve, reject) => {
     const now = new Date()
     const until = code.duration.toDate()
-    // const untilR = new Date(new Date(until).setHours(until.getHours() - 5));
-
     if (now.getTime() > until.getTime()) {
-      reject({ status: false, motive: 'El código ya ha vencido' })
+      reject(new Error('code expired', { cause: 'El código ya ha vencido' }))
     }
 
     resolve(true)
@@ -61,7 +59,10 @@ function validate ({ code, uid, priceToPay, bid }) {
 
   const validateMinBuy = new Promise((resolve, reject) => {
     if (priceToPay < code.minbuy) {
-      reject({ status: false, motive: `El valor de la compra debe ser mayor a: ${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0, minimumFractionDigits: 0 }).format(code.minbuy)} ` })
+      const format = { style: 'currency', currency: 'COP', maximumFractionDigits: 0, minimumFractionDigits: 0 }
+      const minBuyValue = new Intl.NumberFormat('es-CO', format).format(code.minbuy)
+      const cause = `El valor de la compra debe ser mayor a: ${minBuyValue}`
+      reject(new Error('min buy', { cause }))
     }
     resolve(true)
   })
@@ -71,7 +72,9 @@ function validate ({ code, uid, priceToPay, bid }) {
     if (!code.reuse) {
       if (code.usedby) {
         const usedbyUser = code.usedby.find(u => u.uid === uid)
-        if (usedbyUser) throw { status: false, motive: 'Este código no se puede usar más de una vez' }
+        if (usedbyUser) {
+          throw new Error('code used', { cause: 'Este código no se puede usar más de una vez' })
+        }
       }
 
       const billRef = firestore.collection('bill')
@@ -79,14 +82,15 @@ function validate ({ code, uid, priceToPay, bid }) {
         .where('uid', '==', uid)
         .where('promocode', '==', code.id)
         .get()
+
       if (!billsResults.empty) {
         if (billsResults.size > 1) {
-          throw { status: false, motive: 'Este código ya se aplicó más de una vez' }
+          throw new Error('code used yet', { cause: 'Este código ya se aplicó más de una vez' })
         }
 
         if (billsResults.size === 1) {
           billsResults.forEach(bill => {
-            if (bill.id !== bid) throw { status: false, motive: 'Este código ya se aplicó en otra compra' }
+            if (bill.id !== bid) throw new Error('code used in other checkout', { cause: 'Este código ya se aplicó en otra compra' })
           })
         }
       }

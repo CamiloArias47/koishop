@@ -402,7 +402,7 @@ export const useDeliveryActions = () => {
       const vldtBill = validateBill()
 
       if (!vldtBill || !vldtAddress) {
-        reject({ msg: 'verifica que los campos obligatorios esten completos' })
+        reject(new Error('incomplete fields', { cause: 'verifica que los campos obligatorios esten completos' }))
         return false
       }
       resolve(true)

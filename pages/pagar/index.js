@@ -101,7 +101,8 @@ export default function PagarPage () {
         country: 'CO'
       }
     }
-
+    /* global WidgetCheckout */
+    /* eslint no-undef: "error" */
     const checkout = new WidgetCheckout(configWompi)
 
     checkout.open(result => {
@@ -211,9 +212,8 @@ export default function PagarPage () {
     if (checkoutStep === CHECKOUT_STEP.revision) {
       saveCart(uid).then(() => setCheckoutStep(moveTo))
       closeDisplayBlockWindow()
-    }
-    // si estoy en envio y me muevo a otro lado guardar los datos en la base de datos
-    else if (checkoutStep === CHECKOUT_STEP.envio) {
+    } else if (checkoutStep === CHECKOUT_STEP.envio) {
+      // si estoy en envio y me muevo a otro lado guardar los datos en la base de datos
       validateAndSave().then(() => setCheckoutStep(moveTo))
       closeDisplayBlockWindow()
     } else {

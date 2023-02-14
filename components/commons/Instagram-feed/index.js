@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import useInstagramPosts from 'hooks/useInstagramPost'
 import { useEffect } from 'react'
 import InstagramPost from './instagramPost'

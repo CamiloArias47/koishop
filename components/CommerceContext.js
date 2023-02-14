@@ -243,7 +243,7 @@ export const useSaveCart = () => {
         getBill(reference)
           .then(result => {
             if (result.status === 'APPROVED') {
-              reject({ type: 'referencia pagada' })
+              reject(new Error('ref payed', { cause: 'referencia pagada' }))
             } else {
               resolve(true)
             }
@@ -286,7 +286,7 @@ export const useSaveCart = () => {
         })
 
         if (noStock.length === 0) return true
-        throw { type: 'no stock', noStock }
+        throw new Error('no stock', { cause: noStock })
       })
   }
 

@@ -232,7 +232,9 @@ export async function getStaticPaths () {
 
 export async function getStaticProps (context) {
   const { params } = context
+  // eslint-disable-next-line camelcase
   let { product_name } = params
+  // eslint-disable-next-line camelcase
   product_name = replaceAll(product_name, '-', ' ')
 
   const products = await firestore
