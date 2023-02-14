@@ -6,9 +6,9 @@ export default css`
     display: flex;
     flex-direction: column;
     padding: .5rem;
-    border: 2px solid ${ colors.primary }; 
+    border: 2px solid ${colors.primary}; 
     border-radius: 15px;
-    background: ${ colors.primaryUltraDim};
+    background: ${colors.primaryUltraDim};
 }
 .billcard_header{
     display: flex;

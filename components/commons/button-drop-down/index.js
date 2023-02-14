@@ -1,11 +1,11 @@
 import { RowIcon } from 'components/icons'
 import style from './style'
 
-export default function BtnDropDown( { handlerClick = ()=>{}, show, ...props } ){
-    return(
+export default function BtnDropDown ({ handlerClick = () => {}, show, ...props }) {
+  return (
         <>
-            <button 
-                onClick={ handlerClick } 
+            <button
+                onClick={ handlerClick }
                 className={ show ? 'row-up' : ''}
                 {...props}
             >
@@ -13,5 +13,5 @@ export default function BtnDropDown( { handlerClick = ()=>{}, show, ...props } )
             </button>
             <style jsx>{ style }</style>
         </>
-    )
+  )
 }

@@ -1,7 +1,5 @@
-import * as React from "react"
-
-function ShoppingBagIcon(props) {
-  let color = props.color !== undefined ? props.color : "#353535"
+function ShoppingBagIcon (props) {
+  const color = props.color !== undefined ? props.color : '#353535'
   return (
     <svg
       viewBox="0 0 321.2 321.2"

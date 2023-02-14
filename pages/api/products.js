@@ -1,18 +1,17 @@
-import { firestore } from "firebaseApi/admin"
+import { firestore } from 'firebaseApi/admin'
 
 export default (request, response) => {
-  
   firestore
-    .collectionGroup("products")
+    .collectionGroup('products')
     .get()
     .then((res) => {
-        let products = []
-         res.forEach( prod => {
-            products.push({...prod.data() , id:prod.id})
-         })
-        response.json(products)
+      const products = []
+      res.forEach(prod => {
+        products.push({ ...prod.data(), id: prod.id })
+      })
+      response.json(products)
     })
-    .catch(error => {
+    .catch(() => {
       response.status(404).end()
     })
 }

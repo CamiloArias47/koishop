@@ -4,10 +4,10 @@ import { fontColor } from 'styles/theme'
 export default css`
 .new-buy-wraper{
     text-align:center;
-    color : ${ fontColor.general };
+    color : ${fontColor.general};
 }
 .new-buy-wraper h1{
-    color:${ fontColor.important };
+    color:${fontColor.important};
 }
 .new-buy-wraper p{
     font-size:1.3rem;

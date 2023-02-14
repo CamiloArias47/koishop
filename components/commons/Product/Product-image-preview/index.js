@@ -2,24 +2,23 @@ import { useState } from 'react'
 import Image from 'next/image'
 import style from './style'
 
-export default function ImagePreview({pics, name, changeImage, current}){
+export default function ImagePreview ({ pics, name, changeImage, current }) {
+  const [selected, setSelected] = useState(pics[0])
 
-    const [selected, setSelected] = useState(pics[0])
-    
-    const selectImageHandler = (pic) => {
-        setSelected(pic)
-        changeImage(pic)
-    }
+  const selectImageHandler = (pic) => {
+    setSelected(pic)
+    changeImage(pic)
+  }
 
-    return(
+  return (
         <div className='preview'>
             {
-                pics.map( pic => {
-                    return <button 
-                            key={pic} 
-                            className={selected === pic ? "preview__element active" : "preview__element" } 
+                pics.map(pic => {
+                  return <button
+                            key={pic}
+                            className={selected === pic ? 'preview__element active' : 'preview__element' }
                             onClick={() => { selectImageHandler(pic) }}>
-                                <Image 
+                                <Image
                                     src={pic}
                                     alt={name}
                                     width={42}
@@ -31,5 +30,5 @@ export default function ImagePreview({pics, name, changeImage, current}){
             }
             <style jsx>{ style }</style>
         </div>
-    )
+  )
 }

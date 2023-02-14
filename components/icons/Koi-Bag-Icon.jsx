@@ -1,6 +1,4 @@
-import * as React from "react"
-
-function KoiBagIcon(props) {
+function KoiBagIcon (props) {
   return (
     <svg
       width={93.047}
@@ -24,7 +22,7 @@ function KoiBagIcon(props) {
       <text
         style={{
           lineHeight: 1.25,
-          InkscapeFontSpecification: "now",
+          InkscapeFontSpecification: 'now'
         }}
         x={123.537}
         y={163.469}
@@ -39,10 +37,10 @@ function KoiBagIcon(props) {
           x={124.537}
           y={163.469}
           style={{
-            InkscapeFontSpecification: "now",
+            InkscapeFontSpecification: 'now'
           }}
         >
-          {"KOI"}
+          {'KOI'}
         </tspan>
       </text>
     </svg>

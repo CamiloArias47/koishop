@@ -10,11 +10,11 @@ export default css`
     border-radius: 8px;
     overflow: hidden;
     scroll-snap-align:start;
-    background-color: ${ colors.white };
+    background-color: ${colors.white};
 }
 
 .instagram-post__header{
-    background-color: ${ colors.white };
+    background-color: ${colors.white};
     display:flex;
     align-items:center;
 }
@@ -40,7 +40,7 @@ export default css`
 }
 
 .instagram-post__footer{
-    background-color:${ colors.white };
+    background-color:${colors.white};
     padding: 1rem;
     font-size: .8rem;
     text-overflow: ellipsis;

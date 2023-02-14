@@ -3,29 +3,29 @@ import { useEffect, useState } from 'react'
 function preloadImage (src) {
   return new Promise((resolve, reject) => {
     const img = new Image()
-    img.onload = function() {
+    img.onload = function () {
       resolve(img)
     }
-    img.onerror = img.onabort = function() {
+    img.onerror = img.onabort = function () {
       reject(src)
     }
     img.src = src
   })
 }
 
-export default function useImagePreloader(imageList) {
+export default function useImagePreloader (imageList) {
   const [imagesPreloaded, setImagesPreloaded] = useState(false)
 
   useEffect(() => {
     let isCancelled = false
 
-    async function effect() {
+    async function effect () {
       if (isCancelled) {
         return
       }
 
-      const imagesPromiseList =  imageList.map( url => preloadImage(url) )
-  
+      const imagesPromiseList = imageList.map(url => preloadImage(url))
+
       await Promise.all(imagesPromiseList)
 
       if (isCancelled) {
@@ -35,7 +35,7 @@ export default function useImagePreloader(imageList) {
       setImagesPreloaded(true)
     }
 
-    if( imageList?.length > 0 ) effect()
+    if (imageList?.length > 0) effect()
 
     return () => {
       isCancelled = true

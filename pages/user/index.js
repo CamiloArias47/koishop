@@ -8,16 +8,15 @@ import AddressCard from 'components/commons/Address-card'
 
 import style from 'styles/style-user-page'
 
+function UserPage () {
+  const [addresses, setAddresses] = useState([])
+  const { uid, userName, phoneNumber, ucedula } = useUI()
 
-function UserPage() {
-    const [ addresses, setAddresses ] = useState([])
-    const { uid, userName, phoneNumber, ucedula } = useUI()
+  useEffect(() => {
+    getAddressesBy(uid).then(setAddresses)
+  }, [uid])
 
-    useEffect( () => {
-        getAddressesBy(uid).then( setAddresses )
-    }, [uid])
-
-    return(
+  return (
         <UserLayout>
             <h1>Mi cuenta</h1>
             <h3>Información de la cuenta</h3>
@@ -29,13 +28,13 @@ function UserPage() {
             <h3>Libreta de direcciones</h3>
             <div className='addresslist'>
                 {
-                    addresses.map( adrs => <AddressCard direction={adrs} key={adrs.id}/>)
+                    addresses.map(adrs => <AddressCard direction={adrs} key={adrs.id}/>)
                 }
             </div>
 
             <style jsx>{ style }</style>
         </UserLayout>
-    ) 
+  )
 }
 
 export default withAuth(UserPage)

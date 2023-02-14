@@ -1,5 +1,5 @@
 import css from 'styled-jsx/css'
-import { colors, fontColor, scrollRules } from 'styles/theme'
+import { colors, fontColor } from 'styles/theme'
 
 export default css`
 .cart-container{

@@ -1,5 +1,5 @@
 import css from 'styled-jsx/css'
-import {TRANSACTION_STATUS} from 'components/CommerceContext'
+import { TRANSACTION_STATUS } from 'components/CommerceContext'
 import { colors, fontColor } from 'styles/theme'
 
 export default css`
@@ -27,7 +27,7 @@ h1{
 }
 
 .ticket{
-    background-color: ${ colors.primaryUltraDim };
+    background-color: ${colors.primaryUltraDim};
     padding: 1rem;
     position:relative;
     overflow:hidden;
@@ -96,19 +96,19 @@ h1{
 
 .status.${TRANSACTION_STATUS.ok}:after{
     content: ' ✔';
-    color:${colors.greenDark };
+    color:${colors.greenDark};
 }
 .status.${TRANSACTION_STATUS.fail}:after{
     content: ' ❌';
-    color:${colors.alert };
+    color:${colors.alert};
 }
 .status.${TRANSACTION_STATUS.incomplete}:after{
     content: ' ❕';
-    color:${colors.alert };
+    color:${colors.alert};
 }
 .status.${TRANSACTION_STATUS.pending}:after{
     content: ' ⏳';
-    color:${colors.alert };
+    color:${colors.alert};
 }
 
 .address-details :global(ul),

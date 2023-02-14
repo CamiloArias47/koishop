@@ -1,6 +1,4 @@
-import * as React from "react"
-
-function CarIcon(props) {
+function CarIcon (props) {
   return (
     <svg
       height={21}

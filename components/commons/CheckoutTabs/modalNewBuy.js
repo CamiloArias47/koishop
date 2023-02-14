@@ -1,37 +1,37 @@
-import style from "./style-modal-new-buy"
+import style from './style-modal-new-buy'
 import useBill from 'hooks/useBill'
 import { useRouter } from 'next/router'
-import { useCart } from "hooks/useCart"
-import { useUI } from "components/UIcontext"
-import { useBuyForm } from "components/BuyformContext"
+import { useCart } from 'hooks/useCart'
+import { useUI } from 'components/UIcontext'
+import { useBuyForm } from 'components/BuyformContext'
 
-export default function ModalNewBuy(){
-    const { deleteBill, deleteBillTime, deleteLocalCode } = useBill()
-    const router = useRouter()
-    const { quitAllProducts } = useCart()
-    const { closeModal } = useUI()
-    const { setReference } = useBuyForm()
-    
-    const clearBill = () => {
-        deleteBill()
-        deleteBillTime()
-        deleteLocalCode()
-        setReference(undefined)
-    }
+export default function ModalNewBuy () {
+  const { deleteBill, deleteBillTime, deleteLocalCode } = useBill()
+  const router = useRouter()
+  const { quitAllProducts } = useCart()
+  const { closeModal } = useUI()
+  const { setReference } = useBuyForm()
 
-    const handlerNo = () => {
-        clearBill()
-        quitAllProducts()
-        router.push('/')
-        closeModal()
-    }
+  const clearBill = () => {
+    deleteBill()
+    deleteBillTime()
+    deleteLocalCode()
+    setReference(undefined)
+  }
 
-    const handlerYes = () => {
-        clearBill()
-        closeModal()
-    }
+  const handlerNo = () => {
+    clearBill()
+    quitAllProducts()
+    router.push('/')
+    closeModal()
+  }
 
-    return(
+  const handlerYes = () => {
+    clearBill()
+    closeModal()
+  }
+
+  return (
         <div className="new-buy-wraper">
             <h1>Ya has comprado esta referencia</h1>
             <p>¿Deseas comprarlo nuevamente?</p>
@@ -41,5 +41,5 @@ export default function ModalNewBuy(){
             </div>
             <style jsx>{style}</style>
         </div>
-    )
+  )
 }

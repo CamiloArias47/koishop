@@ -1,18 +1,18 @@
-import { useState } from "react"
+import { useState } from 'react'
 import { resetPassword } from 'firebaseApi/client'
 import { ErrorInline } from 'components/commons/ErrorMesage/InlineError'
-import { SuccessAnimation } from "components/icons"
-import style from "./style"
+import { SuccessAnimation } from 'components/icons'
+import style from './style'
 
 const STATE_RESET = {
-    NONE: 0,
-    REQUESTING: 1,
-    SUCCESS: 3,
-    FAIL: 4
+  NONE: 0,
+  REQUESTING: 1,
+  SUCCESS: 3,
+  FAIL: 4
 }
 
-const SendedMail = ()=>{
-    return (
+const SendedMail = () => {
+  return (
         <div className="modal">
             <SuccessAnimation/>
             <h1>¡Enviado!</h1>
@@ -20,37 +20,37 @@ const SendedMail = ()=>{
 
             <style jsx>{style}</style>
         </div>
-    )
+  )
 }
 
-export const Reset = ({email})=>{
-    const [ mail, setMail ] = useState(email)
-    const [ state, setState ] = useState(STATE_RESET.NONE)
+export const Reset = ({ email }) => {
+  const [mail, setMail] = useState(email)
+  const [state, setState] = useState(STATE_RESET.NONE)
 
-    const handlerChange = event =>{
-        const { name, value } = event.target
-        setMail(value)
-    }
+  const handlerChange = event => {
+    const { value } = event.target
+    setMail(value)
+  }
 
-    const handlerSubmit = event=>{
-        event.preventDefault()
+  const handlerSubmit = event => {
+    event.preventDefault()
 
-        resetPassword(mail)
-            .then( ()=>{
-                setState(STATE_RESET.SUCCESS)
-            })
-            .catch(error =>{
-                setState(error)
-            })
-    }
+    resetPassword(mail)
+      .then(() => {
+        setState(STATE_RESET.SUCCESS)
+      })
+      .catch(error => {
+        setState(error)
+      })
+  }
 
-    if(state === STATE_RESET.SUCCESS) return <SendedMail/>
+  if (state === STATE_RESET.SUCCESS) return <SendedMail/>
 
-    const erroMessage = state.code !== undefined
-        ? <ErrorInline code={ state.code} defaultText="No se envio el correo de verificación, intentalo en unos minutos por favor."/>
-        : null
+  const erroMessage = state.code !== undefined
+    ? <ErrorInline code={ state.code} defaultText="No se envio el correo de verificación, intentalo en unos minutos por favor."/>
+    : null
 
-    return(
+  return (
         <div className="modal">
             <h1>Restablecer contraseña</h1>
             <form onSubmit={handlerSubmit}>
@@ -64,5 +64,5 @@ export const Reset = ({email})=>{
 
             <style jsx>{style}</style>
         </div>
-    )
+  )
 }

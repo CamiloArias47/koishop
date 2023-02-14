@@ -1,5 +1,5 @@
-function CloseIcon(props) {
-    return (
+function CloseIcon (props) {
+  return (
       <svg
         height={21}
         viewBox="0 0 21 21"
@@ -17,7 +17,7 @@ function CloseIcon(props) {
           <path d="M15.5 15.5l-10-10zM15.5 5.5l-10 10" />
         </g>
       </svg>
-    )
-  }
-  
-  export default CloseIcon
+  )
+}
+
+export default CloseIcon

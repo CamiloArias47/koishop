@@ -1,4 +1,4 @@
-function BoxIcon(props) {
+function BoxIcon (props) {
   return (
     <svg
       height={21}

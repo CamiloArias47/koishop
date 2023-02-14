@@ -1,30 +1,29 @@
-import { DefaultSeo } from "next-seo"
-import NextHead from "next/head"
+import { DefaultSeo } from 'next-seo'
+import NextHead from 'next/head'
 
 export const config = {
-        "title": "Koi Maquillaje",
-        "description": "Koi tienda de maquillaje",
-        "openGraph": {
-          "title": "Koi Maquillaje",
-          "description": "Koi tienda de maquillaje",
-          "type": "website",
-          "locale": "es",
-          "url": "",
-          "site_name": "Koi Maquillaje",
-          "images": [
-            {
-              "url": "/card.png",
-              "width": 800,
-              "height": 600,
-              "alt": "Koi"
-            }
-          ]
-        }
+  title: 'Koi Maquillaje',
+  description: 'Koi tienda de maquillaje',
+  openGraph: {
+    title: 'Koi Maquillaje',
+    description: 'Koi tienda de maquillaje',
+    type: 'website',
+    locale: 'es',
+    url: '',
+    site_name: 'Koi Maquillaje',
+    images: [
+      {
+        url: '/card.png',
+        width: 800,
+        height: 600,
+        alt: 'Koi'
+      }
+    ]
+  }
 }
 
-const Head = ()=>{
-
-    return (
+const Head = () => {
+  return (
         <>
          <DefaultSeo {...config}/>
          <NextHead>
@@ -33,7 +32,7 @@ const Head = ()=>{
             <link rel="icon" href="/favicon.png" />
          </NextHead>
         </>
-    )
+  )
 }
 
 export default Head

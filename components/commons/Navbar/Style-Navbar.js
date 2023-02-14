@@ -98,7 +98,7 @@ nav .logo-container :global(.logo){
         display: block;
         font-size: 1.2rem;
         font-weight: 600;
-        color: ${ fontColor.important };
+        color: ${fontColor.important};
     }
     .navbar-categories ul{
         display:flex;

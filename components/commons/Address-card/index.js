@@ -1,20 +1,20 @@
-import {HomeIcon} from 'components/icons'
+import { HomeIcon } from 'components/icons'
 import style from './style'
 
-export default function AddressCard({direction}){
-    const { 
-        address,
-        department,
-        city,
-        addresscomplement,
-        neighborhood,
-        nextToAddress
-    } = direction
+export default function AddressCard ({ direction }) {
+  const {
+    address,
+    department,
+    city,
+    addresscomplement,
+    neighborhood,
+    nextToAddress
+  } = direction
 
-    return (
+  return (
         <div className="addresscard">
             <div className="addresscard_header">
-                <HomeIcon/> 
+                <HomeIcon/>
                 <span className='addresscard_direction'>{ address }</span>
             </div>
             <span>{ department } - { city }</span>
@@ -23,5 +23,5 @@ export default function AddressCard({direction}){
             <span>{ nextToAddress }</span>
             <style jsx>{ style }</style>
         </div>
-    )
+  )
 }

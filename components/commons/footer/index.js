@@ -1,4 +1,4 @@
-import { useState  } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import BtnDropDown from 'components/commons/button-drop-down'
@@ -7,25 +7,25 @@ import whatsappIcon from 'public/images/logos/whatsapp-black.svg'
 import style from './style'
 import InstagramFeed from '../Instagram-feed'
 
-export default function Footer(){
-    const [ showContact, setShowContact] = useState(false)
-    const [ showHowAreWe, setShowHowAreWe] = useState(false)
-    const [ showHelp, setShowHelp] = useState(false)
+export default function Footer () {
+  const [showContact, setShowContact] = useState(false)
+  const [showHowAreWe, setShowHowAreWe] = useState(false)
+  const [showHelp, setShowHelp] = useState(false)
 
-    const handlerShow = event => {
-        const btn = event.target.dataset.btn
-        if (btn === 'contact') setShowContact( prev => !prev)
-        if (btn === 'howarewe') setShowHowAreWe( prev => !prev)
-        if (btn === 'help') setShowHelp( prev => !prev)
-    }
+  const handlerShow = event => {
+    const btn = event.target.dataset.btn
+    if (btn === 'contact') setShowContact(prev => !prev)
+    if (btn === 'howarewe') setShowHowAreWe(prev => !prev)
+    if (btn === 'help') setShowHelp(prev => !prev)
+  }
 
-    return <footer>
+  return <footer>
                 <section className="degradado">
                     <div className='wraper-degradado'>
                         <InstagramFeed/>
                     </div>
                 </section>
-                <div style={{position:'relative'}}>
+                <div style={{ position: 'relative' }}>
                     <div className="custom-shape-divider-top-1626050420">
                         <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                             <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" className="shape-fill"></path>
@@ -38,17 +38,17 @@ export default function Footer(){
                     <div className='wraper-info-footer'>
                             <div className='contact'>
                                 <span>
-                                    CONTACTO 
-                                    <BtnDropDown 
-                                        handlerClick={handlerShow} 
-                                        show={ showContact } 
+                                    CONTACTO
+                                    <BtnDropDown
+                                        handlerClick={handlerShow}
+                                        show={ showContact }
                                         data-btn="contact"
                                     />
                                 </span>
                                 <ul className={ showContact ? 'show-height' : ''}>
                                     <li className='whatsapp-li'>
                                         <a href='https://wa.me/573153828317' target="_blank" rel="noreferrer">
-                                            <Image src={whatsappIcon} width="22" height="22"/> 
+                                            <Image src={whatsappIcon} width="22" height="22"/>
                                             <span>315 3828317</span>
                                         </a>
                                     </li>
@@ -58,12 +58,12 @@ export default function Footer(){
                                     </li>
                                 </ul>
                             </div>
-                            <div className='ayuda'> 
+                            <div className='ayuda'>
                                 <span>
                                     AYUDA
-                                    <BtnDropDown 
-                                        handlerClick={handlerShow} 
-                                        show={ showHelp } 
+                                    <BtnDropDown
+                                        handlerClick={handlerShow}
+                                        show={ showHelp }
                                         data-btn="help"
                                     />
                                 </span>
@@ -91,12 +91,12 @@ export default function Footer(){
                                     </li>
                                 </ul>
                             </div>
-                            <div className='quienes-somos'> 
+                            <div className='quienes-somos'>
                                 <span>
                                     QUIENES SOMOS
-                                    <BtnDropDown 
-                                        handlerClick={handlerShow} 
-                                        show={ showHowAreWe } 
+                                    <BtnDropDown
+                                        handlerClick={handlerShow}
+                                        show={ showHowAreWe }
                                         data-btn="howarewe"
                                     />
                                 </span>
@@ -104,7 +104,7 @@ export default function Footer(){
                                     <li>Conócenos</li>
                                 </ul>
                             </div>
-                            
+
                             <div className='sociales'>
                                 <span>SIGUENOS</span>
                                 <Social color='gray'iconSize={22} showWhatsapp={false}/>

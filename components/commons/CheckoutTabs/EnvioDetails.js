@@ -1,15 +1,16 @@
-import { useBuyForm } from "components/BuyformContext"
+import { useBuyForm } from 'components/BuyformContext'
 
-export default function DeliveryDeatils(){
-    const {address,
-           addresscomplement,
-           city, 
-           department,
-           neighborhood,
-           nextToAddress
-        } = useBuyForm()
-        
-    return(
+export default function DeliveryDeatils () {
+  const {
+    address,
+    addresscomplement,
+    city,
+    department,
+    neighborhood,
+    nextToAddress
+  } = useBuyForm()
+
+  return (
         <div>
             <div><b>Departamento: </b>{department}</div>
             <div><b>Ciudad: </b>{city}</div>
@@ -18,5 +19,5 @@ export default function DeliveryDeatils(){
             <div><b>Complemento: </b>{addresscomplement}</div>
             <div><b>Punto de referencia: </b>{nextToAddress}</div>
         </div>
-    )
+  )
 }

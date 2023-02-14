@@ -12,7 +12,7 @@ export default css`
     background-color: transparent;
 }
 .product-colors--active{
-    border:2px solid ${ colors.primary };
+    border:2px solid ${colors.primary};
     border-radius:14px;
 }
 .product-colors--nostock{
